@@ -1,0 +1,55 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Market Place </title>')%>
+
+
+<div class="container">
+  <div class="row card py-2">
+    <div class="col-lg-12 text-end">
+      <a id="SaveIntoExcel" class="btn btn-primary">Export</a>
+    </div>
+    <div class="col-lg-12">
+      <div class="table-responsive">
+        <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
+          <thead>
+            <tr class="fw-semibold fs-6 text-muted">
+              <th>SNO</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Design Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% originalproduct.map((item,index)=>{ %>
+            <tr>
+              <td><%- index + 1 -%></td>
+              <td><%- item.title.slice(0,20)+'...' -%></td>
+              <td><%- item.description.slice(0,20)+'...' -%></td>
+              <td><%- item.designPrice -%></td>
+              <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a href="/product-preview/<%- item._id -%>" class="btn btn-icon btn-primary">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $("#kt_datatable_zero_configuration").DataTable();
+
+  $(document).ready(function() {
+    $('#SaveIntoExcel').click(function() {
+      $('#kt_datatable_zero_configuration').tableExport({
+        type: 'excel'
+      });
+    })
+  })
+</script>

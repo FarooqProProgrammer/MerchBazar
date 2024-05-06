@@ -1,0 +1,123 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Contact Page </title>')%>
+
+
+
+<section class="main-banner bg-primary">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1 class="text-white text-uppercase">banner</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="contact">
+
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-5 mb-5 mb-lg-0">
+        <h3 class="text-black mb-3">Let’s talk with us</h3>
+        <p>Lorem ipsum dolor sit amet consectetur. A amet ullamcorper felis
+          in. Eu mi
+          enim facilisis proin pellentesque orci urna pulvinar. Vitae ante
+          enim tellus
+          pellentesque massa platea mattis. Quisque nibh tellus fames et
+          pulvinar amet
+          nullam eget felis.</p>
+      </div>
+      <div class="col-lg-6 ms-auto">
+        <form action="<%- baseUrl -%>api/contact-post" id="contact-form" class="contact-form bg-gradient" method="post">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="text" placeholder="Full name" name="fullname" id="name" class="form-control">
+          <p id="FullNameError" class="fs-6"></p>
+          <input type="email" placeholder="Email" class="form-control" name="Email" id="email">
+          <p id="EmailNameError" class="fs-6"></p>
+          <input type="text" placeholder="Phone number" class="form-control" name="PhoneNo" id="phone">
+          <p id="PhoneError" class="fs-6"></p>
+          <textarea name="Message" id="msg" cols="30" rows="10" class="form-control" placeholder="Text message"></textarea>
+          <p id="MessageError" class="fs-6"></p>
+          <button type="submit" id="submitForm" class="my-btn primary w-100">Send
+            Message</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .error {
+    color: white !important;
+    position: relative;
+  }
+</style>
+
+<script>
+  $(document).ready(function() {
+
+    $('#submitForm').on('click', function(event) {
+      event.preventDefault();
+
+
+      var fullName = $('#name').val();
+      var email = $('#email').val();
+      var phone = $('#phone').val();
+      var msg = $('#msg').val();
+
+
+      if (fullName == '') {
+        $('#FullNameError').text('Please Enter Your Full Name');
+        $('#FullNameError').addClass('text-white');
+        return
+      } else {
+        $('#FullNameError').empty('');
+      }
+
+      if (email == '') {
+        $('#EmailNameError').text('Please Enter Your Email');
+        $('#EmailNameError').addClass('text-white');
+        return
+      } else {
+        $('#EmailNameError').empty('');
+      }
+
+      if (phone == '') {
+        $('#PhoneError').text('Please Enter Your Email');
+        $('#PhoneError').addClass('text-white');
+        return
+      } else {
+        $('#PhoneError').empty('');
+      }
+
+      if (msg == '') {
+        $('#MessageError').text('Please Enter Your Email');
+        $('#MessageError').addClass('text-white');
+        return
+      } else {
+        $('#MessageError').empty('');
+      }
+
+
+
+
+      $('#contact-form').submit()
+      Toastify({
+        text: "Contact Form Saved Success",
+        duration: 3000,
+        destination: "https://github.com/apvarun/toastify-js",
+        newWindow: true,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function() {}
+      }).showToast();
+    })
+
+  })
+</script>

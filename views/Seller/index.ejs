@@ -1,0 +1,153 @@
+<% layout('layouts/adminLayout') -%>
+  <%-block('title','<title> Cart Page </title>')%>
+
+  
+    <div class='main-wrapper'>
+      <div id='site'>
+        <div id='fb-root'></div>
+        <noscript>
+          <div class='no-js-warning'>
+            You have Javascript disabled. Javascript is required for this site to function properly.
+            Please enable Javascript and return here.
+          </div>
+        </noscript>
+        <div id='content'>
+          <div class='flash x'>
+          </div>
+          <section class='contain m-account contain--wide-1'>
+
+            <div class='page-head'>
+              <h1 class='h__h1'>
+                My Account
+              </h1>
+              <div class='page-head__actions'>
+
+              </div>
+            </div>
+            <div class='content-table jsMAccountContent'>
+              <div class='content-table__head jsNavCtrl'>
+                <h2 class='h__h2--primary h--no-s h--icon'>
+                  <span class="teepublicon teepublicon--dark-default teepublicon-background--transparent"><svg
+                      xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" width="28" height="28" focusable="false"
+                      aria-hidden="true">
+                      <path fill-rule="evenodd"
+                        d="m34.517 11.889.686-4.163c.332-2.013-1.211-3.946-3.215-3.706-2.338.28-4.964 1.097-6.735 3.44a19.603 19.603 0 0 0-3.294-.277c-4.751 0-9.071 1.695-12.283 4.464-3.819-4.188-8.057.242-3.153 3.601C4.92 17.718 4 20.605 4 23.69c0 3.093.926 5.988 2.537 8.463-.139.323-.25.664-.332 1.02l-.854 3.753c-.708 3.11 1.212 6.21 4.288 6.925 3.075.716 6.142-1.225 6.85-4.334l.02-.094.197.058c1.647.482 3.218.942 5.044.942 1.477 0 2.415-.222 3.361-.446.27-.063.541-.127.825-.186.82 2.948 3.797 4.755 6.781 4.06 3.015-.7 4.918-3.694 4.327-6.74l5.15-2.605A3.305 3.305 0 0 0 44 31.553V23.69c0-1.824-1.462-3.302-3.265-3.302h-1.176c-.728-3.296-2.524-6.235-5.042-8.5ZM22.182 15.01a9.372 9.372 0 0 0-3.033.215c-1.162.277-1.936.734-2.396 1.082a3.85 3.85 0 0 0-.474.418 1.704 1.704 0 0 0-.076.085 2.104 2.104 0 0 1-2.934.445c-.947-.694-1.143-2.022-.473-2.992a2.13 2.13 0 0 1 .127-.165l.013-.017c.07-.084.16-.19.277-.313.231-.246.56-.558.997-.89.879-.665 2.18-1.398 3.967-1.824a13.565 13.565 0 0 1 4.399-.31c.558.052 1.014.132 1.342.202a8.526 8.526 0 0 1 .584.147h.003a2.147 2.147 0 0 1 1.404 2.677 2.115 2.115 0 0 1-2.633 1.425l-.031-.01a7.651 7.651 0 0 0-1.063-.176Zm10.545 7.845c1.38 0 2.5-1.343 2.5-3s-1.12-3-2.5-3c-1.381 0-2.5 1.343-2.5 3s1.119 3 2.5 3Z"
+                        clip-rule="evenodd"></path>
+                    </svg></span>
+                  <span>My Sales</span>
+                </h2>
+
+                <span
+                  class="teepublicon teepublicon--dark-default teepublicon-background--transparent m-account-nav__ctrl"><svg
+                    xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50 50" width="16" height="16" focusable="false"
+                    aria-hidden="true">
+                    <path
+                      d="M10.032 6.295 28.742 25l-18.71 18.705a1.058 1.058 0 0 0 0 1.496l4.49 4.49a1.059 1.059 0 0 0 1.497 0l23.949-23.943a1.058 1.058 0 0 0 0-1.496l-4.49-4.49-.002-.001L16.019.31a1.058 1.058 0 0 0-1.496 0l-4.49 4.489a1.058 1.058 0 0 0 0 1.496Z">
+                    </path>
+                  </svg></span>
+              </div>
+              <div class='content-table__body m-account__body'>
+               
+                <%-  include partial/sidebar -%>
+      
+                <div class='content-table__content'>
+                  <div class='content-table__section m-account__sales'>
+                    <div class='h__h3'>Estimated Earnings</div>
+                    <div class='m-account__sales-info'>
+                      <div class='m-account__sales-info-container'>
+                        <div class='m-account__sales-info-container--header'>
+                          <span class='h h--5'>Next Payment</span>
+                          <p class='text-light-1 text-note--small'>Feb Earnings</p>
+                        </div>
+                        <div class='callout callout--l1 callout--full-width callout--1'>
+                          $0.00
+                        </div>
+                      </div>
+
+                      <div class='m-account__sales-info-container'>
+                        <div class='m-account__sales-info-container--header'>
+                          <span class='h h--5'>This Month</span>
+                          <p class='text-light-1 text-note--small'>Feb Earnings</p>
+                        </div>
+                        <div class='callout callout--l1 callout--full-width callout--1'>
+                          $0.00
+                        </div>
+                      </div>
+
+                      <div class='m-account__sales-info-container'>
+                        <div class='m-account__sales-info-container--header'>
+                          <span class='h h--5'>Total Earned</span>
+                          <p class='text-light-1 text-note--small'>Lifetime</p>
+                        </div>
+                        <div class='callout callout--l1 callout--full-width callout--1'>
+                          $0.00
+                        </div>
+                      </div>
+
+                      <div class='m-account__sales-info-container'>
+                        <div class='m-account__sales-info-container--header'>
+                          <span class='h h--5'>Items Sold</span>
+                          <p class='text-light-1 text-note--small'>Lifetime</p>
+                        </div>
+                        <div class='callout callout--l1 callout--full-width'>
+                          0
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class='content-table__secion m-account__sales'>
+                    <a href="#" class="link tp-btn--medium btn c-link__button link--default">Withdraw</a>
+                  </div>
+                  <div class='content-table__section m-account__sales'>
+                    <div class='alert-box--cool'>
+                      <span class='strong'>
+                        IMPORTANT NOTE:
+                      </span>
+                      It may take
+                      <span class='strong'>
+                        up to 48 hours for your earnings to update on your account
+                      </span>
+                      after you made a sale or on pay days (the 15th of each month).
+                    </div>
+                  </div>
+                  <hr class='hr hr--no-s'>
+                  <div class='content-table__section m-account__sales'>
+                    <div class='h__h3'>Earnings Report</div>
+                    <h4 class='h h--5 strong'>Artist Earnings Report</h4>
+                    <p class='text-height'>
+                      Generates an accurate, real-time sales and earnings report.
+                    </p>
+                    <a href="#"
+                      class="link tp-btn--medium gtmArtistCommissionDownload btn c-link__button link--default tp-btn--icon"><span
+                        class="teepublicon teepublicon--light-default teepublicon-background--transparent"><svg
+                          xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50 50" width="16" height="16"
+                          focusable="false" aria-hidden="true">
+                          <path
+                            d="M43.873 13.888c.86 0 1.318 1.011.753 1.658L25.74 37.14a1 1 0 0 1-1.506 0L5.35 15.546c-.565-.646-.106-1.658.753-1.658h8.847a1 1 0 0 0 1-1V1a1 1 0 0 1 1-1h16.076a1 1 0 0 1 1 1v11.888a1 1 0 0 0 1 1h8.847ZM1 42a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h48a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H1Z">
+                          </path>
+                        </svg></span>
+                      <span class='link__content'>
+                        My Artist Earnings Report
+
+                      </span>
+
+                    </a>
+                  </div>
+                  <div>
+                    <!-- <form action="/api/logout" method="get">
+                      <button type="submit" style="cursor: pointer;" class="btn btn-lg rounded-0 ms-5 btn-primary">Logout</button>
+                    </form> -->
+                  </div>  
+                </div>
+
+               
+              </div>
+            </div>
+          </section>
+
+
+
+        </div>
+      </div>
+    </div>

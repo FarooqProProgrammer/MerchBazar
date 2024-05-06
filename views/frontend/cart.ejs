@@ -1,0 +1,252 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Cart Page </title>')%>
+
+
+<script>
+  var cartValue = JSON.parse(localStorage.getItem('cart'))
+
+  var update = cartValue.map((item) => {
+    return item.productId
+  })
+
+
+  var updatedCart =
+    console.log(update)
+</script>
+
+
+<section class="cart">
+  <div class="container-fluid px-lg-5">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h3 class="text-black">My Cart</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col" class="text-center">Price</th>
+                <th scope="col" class="text-center">Quantity</th>
+                <th scope="col" class="text-center">Subtotal</th>
+                <th scope="col" class="text-center">Delete</th>
+              </tr>
+            </thead>
+            <tbody class="cartItem">
+              <% allCarts.map((item)=>{ %>
+              <tr>
+                <input type="hidden" name="" class="currentProductId" value="<%- item._id -%>">
+                <th scope="row">
+                  <div class="d-flex gap-3 align-items-center">
+                    <img src="<%- item.product.designImage -%>" alt="" width="50">
+                    <%- item.product.title -%>
+                  </div>
+                </th>
+                <td>PKR <%- +item.product.productId.pdocutBasePrice + +item.product.designPrice  -%></td>
+                <td>
+                  <div class="quantity counter d-flex w-100 justify-content-around">
+                    <button type="button" class="decrement fas fa-minus"></button>
+                    <input type="hidden" name="" class="productId" value="<%- item.product._id -%>">
+                    <p class="mb-0 counterValue"> <%- item.quantity -%></p>
+                    <button type="button" class="increment fas fa-plus"></button>
+                  </div>
+                </td>
+                <td style="color: #191C1F;">PKR <%- item.totalPrice -%></td>
+                <td style="color: #191C1F;">
+                  <button type="button" onclick="deleteCollection('<%- item._id -%>')" class="btn btn-primary">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="cart-total">
+          <h6>Cart Totals</h6>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <p class="mb-0">Sub-total</p>
+            <p class="mb-0">PKR <span id="subTotalAmount"><%- totalPriceVal -%></span></p>
+          </div>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <p class="mb-0">Shipping</p>
+            <p class="mb-0"><span id="shippingInfo">Free</span></p>
+          </div>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <p class="mb-0">Discount</p>
+            <p class="mb-0"><span id="discountAmount">0.00</span></p>
+          </div>
+          <!-- <div class="d-flex align-items-center justify-content-between mb-4">
+                                <p class="mb-0">Tax</p>
+                                <p class="mb-0">PKR 2400</p>
+                            </div> -->
+          <hr style="color: #9fa1a3;">
+          <div class="d-flex align-items-center total justify-content-between mb-4">
+            <p class="mb-0">Total</p>
+            <p class="fw-semibold mb-0">PKR <span id="totalAmount"><%- totalPriceVal -%></span></p>
+          </div>
+          <a id="proceedCheckout" class="my-btn bg-primary w-100 text-center">Proceed to Checkout <i class="ms-2 fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="cart-total mt-4">
+          <h6>Coupon Code</h6>
+          <form action="" class="coupon-form">
+            <input type="number" class="form-control mb-3" placeholder="CODE">
+            <button type="submit" class="my-btn secondary">Apply Coupon</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  // var counter = 1;
+  // $('.counter button').on('click', async function () {
+
+
+
+  //     if ($(this).hasClass("fa-minus")) {
+  //         var counterValue = $(this).next().text();
+  //         var productId = $(this).find('.productId').val()
+
+
+  //         if (counter >= 2) {
+  //             --counter;
+
+  //             console.log(productId)
+  //             console.log(counterValue)
+
+
+  //             $(this).parent().find('p').text(counter);
+  //             console.log(productId)
+  //             console.log(counterValue)
+
+  //             await axios.post('/api/cart/decrease', {
+  //                 product: productId,
+  //                 quantity: counterValue
+  //             }).then((res) => {
+  //                 console.log(res)
+  //                 window.location.reload();
+  //             }).catch((error) => {
+  //                 console.log(error)
+  //             })
+
+  //         }
+
+
+
+  //     } else {
+  //         ++counter;
+  //         var counterValue = $(this).prev().text();
+  //         var productId = $(this).prevAll('.productId').val()
+
+  //         $(this).parent().find('p').text(counter);
+
+  //         await axios.post('/api/cart', {
+  //             product: productId,
+  //             quantity: counterValue
+  //         }).then((res) => {
+  //             console.log(res)
+  //             window.location.reload();
+  //         }).catch((error) => {
+  //             console.log(error)
+  //         })
+  //     }
+  // });
+
+  const deleteCollection = async (id) => {
+    console.log(id)
+    await axios.delete(`/api/cart/${id}`).then((res) => {
+      console.log(res.data);
+      toastr.success('Success', 'Successfully Deleted Item    ')
+
+      window.location.reload()
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
+
+  $('#proceedCheckout').click(async function() {
+    const productIds = []; // Array to store input field values
+
+    $('.cartItem tr').each(function() {
+      const productId = $(this).find('.currentProductId').val();
+      productIds.push(productId);
+    });
+
+    var subTotalAmount = $('#subTotalAmount').text();
+    var shippingInfo = $('#shippingInfo').text();
+    var discountAmount = $('#discountAmount').text();
+    var totalAmount = $('#totalAmount').text();
+
+
+    await axios.post('/api/add-checkout',{
+      cartId:productIds,
+      subTotal:subTotalAmount,
+      Discount:discountAmount,
+      shipping:shippingInfo,
+      Total:totalAmount
+    }).then((res)=>{
+      console.log(res.data)
+      toastr.success('Success', 'Successfully Added to Checkout')
+      window.location.href = '/checkout'
+    }).catch((error)=>{
+      console.log(error)
+
+    })
+
+   
+
+
+  })
+
+
+
+
+  $(document).on('click', '.increment', async function() {
+    var counterValue = $(this).siblings('.counterValue').text();
+    var productValue = $(this).siblings('.productId').val();
+    var currentQuantity = parseInt(counterValue);
+    $(this).siblings('.counterValue').text(currentQuantity + 1);
+
+
+
+
+    await axios.post('/api/cart', {
+      product: productValue,
+      quantity: counterValue
+    }).then((res) => {
+      console.log(res)
+      window.location.reload();
+    }).catch((error) => {
+      console.log(error)
+    })
+  });
+
+  $(document).on('click', '.decrement', async function() {
+    var counterValue = $(this).siblings('.counterValue').text();
+    var currentQuantity = parseInt(counterValue);
+    var productValue = $(this).siblings('.productId').val();
+    if (currentQuantity >= 1) {
+      $(this).siblings('.counterValue').text(currentQuantity - 1);
+      console.log(counterValue)
+      await axios.post('/api/cart/decrease', {
+        product: productValue,
+        quantity: counterValue
+      }).then((res) => {
+        console.log(res)
+        window.location.reload();
+      }).catch((error) => {
+        console.log(error)
+      })
+
+    }
+
+  });
+</script>

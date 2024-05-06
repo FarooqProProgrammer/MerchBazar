@@ -1,0 +1,446 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>T-Shirt Online Designer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="<%- baseUrl -%>uploadPageAssets/bootstrap.min.css">
+    <link rel="stylesheet" href="<%- baseUrl -%>uploadPageAssets/bootstrap-colorpicker.min.css">
+    <link rel="stylesheet" href="<%- baseUrl -%>uploadPageAssets/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#openModalBtn').on('click', function () {
+                $("#dialog").dialog();
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div id="wrap">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-2">
+                    <div class="leftLayout" id="leftLayoutContainer">
+                        <div>Type</div>
+                        <div class="btn-group" data-toggle="buttons">
+                            <% MocuckUp?.map((item)=>{ %>
+
+                                <div class="btn typeButton active">
+                                    <input type="radio" name="form_shirt_type" value="1" autocomplete="off" checked />
+                                    <img src='<%- item.productFrontImage -%>' /><br />
+                                    <div class="typename">Men</div>
+                                </div>
+                                <% }) %>
+
+                        </div>
+                        <div id="div_colors_title">Color</div>
+                        <div class="btn-group" data-toggle="buttons" id="div_colors">
+                            <div class="btn colorButton active" style="background-color: #0268b0;">
+                                <input type="radio" name="form_shirt_color" value="1" autocomplete="off"
+                                    checked />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <div class="btn colorButton" style="background-color: #ffffff;">
+                                <input type="radio" name="form_shirt_color" value="2"
+                                    autocomplete="off" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                        <div class="btn-toolbar">
+                            <div class="add_image btn-group">
+                                <iframe id="ifr_upload" name="ifr_upload" height="0" width="0" frameborder="0"></iframe>
+                                <form id="frm_upload" action="" method="post" enctype="multipart/form-data"
+                                    target="ifr_upload">
+                                    <label class="btn btn-default btn-file">
+                                        <i class="fa fa-picture-o"></i>&nbsp;&nbsp;Add image<input type="file"
+                                            name="image_upload" accept=".gif,.jpg,.jpeg,.png,.ico">
+                                    </label>
+                                </form>
+                            </div>
+                            <div class="add_text btn-group">
+                                <button type="button" class="btn btn-default" id="btn_addtext"><i
+                                        class="fa fa-font"></i>&nbsp;&nbsp;Add text</button>
+                            </div>
+                            <div class="add_album btn-group">
+                                <button type="button" class="btn btn-default" data-toggle="modal"
+                                    data-target="#albumModal"><i class="fa fa-th"></i>&nbsp;&nbsp;Album</button>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-primary" data-toggle="modal"
+                                    data-target="#saveModal">Save</button>
+                            </div>
+
+                        </div>
+                        <div class="message">
+                        </div>
+                    </div>
+                </div>
+                <!-- center column -->
+                <div class="col-md-8">
+                    <div class="centerLayout" id="centerLayoutContainer">
+                        <div class="shirt" id="captureImage">
+
+                            <img src="https://tshirtdemo.habadeu.com/images/shirts/men1_blue_front.png"
+                                id="img_shirt" />
+                        </div>
+                        <div class="cvtoolbox">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" id="toolbox_centerh"><i
+                                        class="fa fa-arrows-h fa-lg"></i></button>
+                                <button type="button" class="btn btn-default" id="toolbox_up"><i
+                                        class="fa fa-arrow-up"></i></button>
+                                <button type="button" class="btn btn-default" id="toolbox_centerv"><i
+                                        class="fa fa-arrows-v fa-lg"></i></button>
+                                <button type="button" class="btn btn-default" id="toolbox_flipx"><i
+                                        class="fa fa-road fa-lg"></i></button>
+                                <button type="button" class="btn btn-default" id="toolbox_flipy"><i
+                                        class="fa fa-road fa-lg fa-rotate-90"></i></button>
+                                <button type="button" class="btn btn-default" id="toolbox_remove"><i
+                                        class="fa fa-trash-o fa-lg"></i></button>
+                            </div>
+                        </div>
+                        <div class="cvtoolbox cvtoolbox_2nd">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" id="toolbox_left"><i
+                                        class="fa fa-arrow-left"></i></button>
+                                <button type="button" class="btn btn-default" id="toolbox_center"><i
+                                        class="fa fa-arrows fa-lg"></i></button>
+                                <button type="button" class="btn btn-default" id="toolbox_right"><i
+                                        class="fa fa-arrow-right"></i></button>
+                                <button type="button" class="btn btn-default nobtn">&nbsp;</button>
+                                <button type="button" class="btn btn-default nobtn">&nbsp;</button>
+                                <button type="button" class="btn btn-default nobtn">&nbsp;</button>
+                            </div>
+                        </div>
+                        <div class="cvtoolbox cvtoolbox_3rd">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" id="toolbox_totop"><i
+                                        class="fa fa-step-backward fa-lg fa-rotate-90"></i></button>
+                                <button type="button" class="btn btn-default" id="toolbox_down"><i
+                                        class="fa fa-arrow-down"></i></button>
+                                <button type="button" class="btn btn-default" id="toolbox_tobottom"><i
+                                        class="fa fa-step-forward fa-lg fa-rotate-90"></i></button>
+                                <button type="button" class="btn btn-default nobtn">&nbsp;</button>
+                                <button type="button" class="btn btn-default nobtn">&nbsp;</button>
+                                <button type="button" class="btn btn-default nobtn">&nbsp;</button>
+                            </div>
+                        </div>
+                        <div class="cvtoolbox_info">
+                            <div><span></span></div>
+                        </div>
+                        <div id="div_canvas_front" style="margin-top: 155px;">
+                            <canvas id="mainCanvas_front" width="260" height="350" class="shirt_canvas"></canvas>
+                        </div>
+                        <div id="div_canvas_back" style="margin-top: 155px;">
+                            <canvas id="mainCanvas_back" width="260" height="350" class="shirt_canvas"></canvas>
+                        </div>
+
+                        <div class="div_reviewbtn">
+                            <button type="button" class="btn btn-default" data-toggle="modal"
+                                data-target="#reviewModal"><i class="fa fa-eye"></i> Preview</button>
+                            <div class="dropup">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownDownload"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-save"></i> Download
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownDownload">
+                                    <li><a href="#" id="btnDownloadDesign">Design Only</a></li>
+                                    <li><a href="#" id="btnDownloadShirt">Design & Shirt</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- right column -->
+                <div class="col-md-2">
+                    <div class="rightLayout" id="rightLayoutContainer">
+                        <div class="texttoolbox">
+                        </div>
+                        <div class="message">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="reviewModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">&nbsp;</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="shirt"><img src="" /></div>
+                    <div class="shirtdesign"><img src="" /></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Album Modal -->
+    <div id="albumModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Album</h4>
+                </div>
+                <div class="modal-body">
+                    <a href="#" class="album-item">
+                        <div style="background-image: url(https://tshirtdemo.habadeu.com/images/album/image1.png)"><img
+                                bgsrc="https://tshirtdemo.habadeu.com/images/album/image1.png"
+                                src="https://tshirtdemo.habadeu.com/images/blank.png" /></div>
+                    </a>
+                    <a href="#" class="album-item">
+                        <div style="background-image: url(https://tshirtdemo.habadeu.com/images/album/image2.png)"><img
+                                bgsrc="https://tshirtdemo.habadeu.com/images/album/image2.png"
+                                src="https://tshirtdemo.habadeu.com/images/blank.png" /></div>
+                    </a>
+                    <a href="#" class="album-item">
+                        <div style="background-image: url(https://tshirtdemo.habadeu.com/images/album/image3.png)"><img
+                                bgsrc="https://tshirtdemo.habadeu.com/images/album/image3.png"
+                                src="https://tshirtdemo.habadeu.com/images/blank.png" /></div>
+                    </a>
+                    <a href="#" class="album-item">
+                        <div style="background-image: url(https://tshirtdemo.habadeu.com/images/album/image4.png)"><img
+                                bgsrc="https://tshirtdemo.habadeu.com/images/album/image4.png"
+                                src="https://tshirtdemo.habadeu.com/images/blank.png" /></div>
+                    </a>
+                    <a href="#" class="album-item">
+                        <div style="background-image: url(https://tshirtdemo.habadeu.com/images/album/image5.png)"><img
+                                bgsrc="https://tshirtdemo.habadeu.com/images/album/image5.png"
+                                src="https://tshirtdemo.habadeu.com/images/blank.png" /></div>
+                    </a>
+                    <a href="#" class="album-item">
+                        <div style="background-image: url(https://tshirtdemo.habadeu.com/images/album/image6.png)"><img
+                                bgsrc="https://tshirtdemo.habadeu.com/images/album/image6.png"
+                                src="https://tshirtdemo.habadeu.com/images/blank.png" /></div>
+                    </a>
+                    <a href="#" class="album-item">
+                        <div style="background-image: url(https://tshirtdemo.habadeu.com/images/album/image7.png)"><img
+                                bgsrc="https://tshirtdemo.habadeu.com/images/album/image7.png"
+                                src="https://tshirtdemo.habadeu.com/images/blank.png" /></div>
+                    </a>
+                    <a href="#" class="album-item">
+                        <div style="background-image: url(https://tshirtdemo.habadeu.com/images/album/image8.png)"><img
+                                bgsrc="https://tshirtdemo.habadeu.com/images/album/image8.png"
+                                src="https://tshirtdemo.habadeu.com/images/blank.png" /></div>
+                    </a>
+                    <a href="#" class="album-item">
+                        <div style="background-image: url(https://tshirtdemo.habadeu.com/images/album/image9.png)"><img
+                                bgsrc="https://tshirtdemo.habadeu.com/images/album/image9.png"
+                                src="https://tshirtdemo.habadeu.com/images/blank.png" /></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Album Modal -->
+    <div id="saveModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Album</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="px-5">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="designTitle" class="form-label">Design Title</label>
+                                    <input type="text" class="form-control" id="designTitle" placeholder="Design Title">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="mainTag" class="form-label">Main Tag</label>
+                                    <input type="text" class="form-control" id="mainTag" placeholder="Main Tag">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <input type="text" class="form-control" id="description" placeholder="Description">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="supportedTag" class="form-label">Supported Tag</label>
+                                    <input type="text" class="form-control" id="supportedTag"
+                                        placeholder="Supported Tag">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <label for="albumSelect" class="form-label">Album</label>
+                                    <select class="form-control" id="albumSelect" aria-label="Select Album">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <button id="submitForm" class="btn btn-primary">Add Your Product</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="https://tshirtdemo.habadeu.com/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://tshirtdemo.habadeu.com/js/placeholders.min.js"></script>
+    <script type="text/javascript"
+        src="https://tshirtdemo.habadeu.com/js/colorpicker/js/bootstrap-colorpicker.min.js"></script>
+    <script type="text/javascript" src="https://tshirtdemo.habadeu.com/js/fabric4.min.js"></script>
+    <script type="text/javascript" src="https://tshirtdemo.habadeu.com/js/fontfaceobserver.js"></script>
+    <script type="text/javascript" src="https://tshirtdemo.habadeu.com/js/merge-images.js"></script>
+    <script type="text/javascript" src="https://tshirtdemo.habadeu.com/js/main.min.js?v=1.1.2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmpnrRYeBVc5xYb_p5cRiMHB3A8X6rooU",
+            authDomain: "merhcbazar.firebaseapp.com",
+            projectId: "merhcbazar",
+            storageBucket: "merhcbazar.appspot.com",
+            messagingSenderId: "234938435232",
+            appId: "1:234938435232:web:c31b149247347ed2da6bc5"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+
+
+
+
+        $('.btn.typeButton.active').on('click', function () {
+            $('#img_shirt').attr('src', $(this).find('img').attr('src'))
+        })
+
+
+
+        $(document).ready(async function () {
+            $("#submitForm").click(async function () {
+                var designTitle = $("#designTitle").val();
+                var mainTag = $("#mainTag").val();
+                var description = $("#description").val();
+                var supportedTag = $("#supportedTag").val();
+                var album = $("#albumSelect").val();
+                var userId = Cookies.get('user');
+                console.log(userId.substring(2).id)
+
+
+                // Create an object with the form data
+                var formData = {
+                    designTitle: designTitle,
+                    mainTag: mainTag,
+                    description: description,
+                    supportedTag: supportedTag,
+                    album: album
+                };
+
+                console.log(formData)
+
+                var node = document.getElementById('centerLayoutContainer');
+
+
+        
+
+                html2canvas(node).then(async function (canvas) {
+                    var base64Image = canvas.toDataURL('image/png');
+                    console.log(base64Image);
+                    var imageUrl = ''
+
+
+
+                    // Create a unique filename (optional, but recommended)
+                    var filename = Math.floor(Math.random() * 100000) + '.png'; // Example: 12345.png
+
+                    // Create a storage reference for the image
+                    var storageRef = ref(storage, `/images/${filename}`);
+
+                    await uploadString(storageRef, base64Image, 'data_url').then((snapshot) => {
+                        console.log('Uploaded a data_url string!');
+                    });
+
+                    await getDownloadURL(ref(storage, storageRef))
+                        .then((url) => {
+                            imageUrl = url
+
+                            console.log(url)
+
+                        })
+                        .catch((error) => {
+
+                        });
+
+                    var designTitle = $('#designTitle').val();
+                    var mainTag = $('#mainTag').val();
+                    var description = $('#description').val();
+                    var supportedTag = $('#supportedTag').val();
+                    var albumSelect = $('#albumSelect').val();
+
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/create-store-data',
+                        data: {
+                            title: designTitle,
+                            mainTag: mainTag,
+                            description: description,
+                            supportingTags: supportedTag,
+                            album: albumSelect,
+                            designImage: imageUrl,
+
+                        },
+                        success: function (response) {
+                            console.log(response)
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle error
+                            console.log(xhr.responseText);
+                        }
+                    });
+
+                });
+
+
+
+
+
+
+
+            });
+        })
+
+    </script>
+</body>
+
+</html>

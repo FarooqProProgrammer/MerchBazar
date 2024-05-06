@@ -1,0 +1,178 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Edit Album </title>')%>
+
+
+
+
+
+
+
+<style>
+    .albums .album-design {
+        position: relative;
+    }
+
+    .albums .album-design .overlay {
+        display: none;
+        z-index: 10;
+    }
+
+    .albums .album-design .overlay>div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 10;
+    }
+
+    .albums .album-design .toggle_click {
+        position: absolute;
+        display: block;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 5;
+        cursor: pointer;
+    }
+
+    .albums .album-design .image-container {
+        position: relative;
+        overflow: hidden;
+        padding-bottom: 100%;
+        z-index: -6;
+    }
+
+    .albums .album-design .image-container img {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        display: block;
+        width: 100%;
+        opacity: 0.3;
+        cursor: pointer;
+    }
+
+    .albums .album-design.added .image-container img {
+        opacity: 1;
+    }
+
+    .albums .album-design .add_toggle {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        z-index: 15;
+    }
+
+    .albums .album-design .add_toggle .add,
+    .albums .album-design .add_toggle .remove {
+        height: 23px;
+        width: 23px;
+        cursor: pointer;
+        display: block;
+        background-image: url('images/checkbox.png');
+    }
+
+    .albums .album-design .add_toggle .remove {
+        background-position: -33px 0px;
+        display: none;
+    }
+
+    .albums .album-design.added .add_toggle .remove {
+        display: block;
+    }
+
+    .albums .album-design.added .add_toggle .add {
+        display: none;
+    }
+</style>
+<div class='main-wrapper'>
+    <div id='site'>
+        <div id='fb-root'></div>
+        <div id='content'>
+            <div class='flash x'>
+            </div>
+            <section class='contain m-account contain--wide-1'>
+                <div class="container albums">
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <h1 class="upcase">
+                                Album Editor
+                            </h1>
+                            <label class="bold" for="store_album_name">1. Enter album name:</label>
+                            <input placeholder="Album Name" class="form-control album-name" value="Album name" type="text" name="store_album" id="store_album">
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="select-wrapper" style="width: 150px; margin-top: 20px;">
+                                <div class="select">
+                                    <select name="store_album[active]" id="store_album_active">
+                                        <option selected="selected" value="true">Active</option>
+                                        <option value="false">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="bold" style="margin-top: 20px;">
+                                2. Select designs to include:
+                            </label>
+                        </div>
+                        <div class="col-sm-2 col-xs-4">
+                            <div class="album-design removed added">
+                                <div class="overlay">
+                                    <div class="added_overlay">
+                                        <img src="https://assets.teepublic.com/assets/icons/account/added-to-album-retina-b96a4a09c8537738ebdc89e0917e1f0094c5a88fe72c8a95673de78036be39f2.png">
+                                    </div>
+                                    <div class="removed_overlay">
+                                        <img src="https://assets.teepublic.com/assets/icons/account/removed-from-album-retina-472ceccd2303e26ece224d4029d8a81c2953367f14a51919b42b74f89359e548.png">
+                                    </div>
+                                </div>
+                                <div class="toggle_click"></div>
+                                <div class="image-container">
+                                    <img src="https://res.cloudinary.com/teepublic/image/private/s--K68be2WP--/t_Preview/b_rgb:191919,c_limit,f_auto,h_313,q_auto:good:420,w_313/v1707314611/production/designs/57436862_0.jpg">
+                                </div>
+                                <div class="add_toggle" data-id="57436862">
+                                    <a class="add" data-remote="true" rel="nofollow" href="#"></a>
+                                    <a class="remove" data-remote="true" rel="nofollow" href="#"></a>
+                                </div>
+                            </div>
+                            <div class="title ellip">
+                                Chainsaw Man
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-xs-4">
+                            <div class="album-design removed">
+                                <div class="overlay">
+                                    <div class="added_overlay">
+                                        <img src="https://assets.teepublic.com/assets/icons/account/added-to-album-retina-b96a4a09c8537738ebdc89e0917e1f0094c5a88fe72c8a95673de78036be39f2.png">
+                                    </div>
+                                    <div class="removed_overlay">
+                                        <img src="https://assets.teepublic.com/assets/icons/account/removed-from-album-retina-472ceccd2303e26ece224d4029d8a81c2953367f14a51919b42b74f89359e548.png">
+                                    </div>
+                                </div>
+                                <div class="toggle_click"></div>
+                                <div class="image-container">
+                                    <img src="https://res.cloudinary.com/teepublic/image/private/s--K68be2WP--/t_Preview/b_rgb:191919,c_limit,f_auto,h_313,q_auto:good:420,w_313/v1707314611/production/designs/57436862_0.jpg">
+                                </div>
+                                <div class="add_toggle" data-id="57436862">
+                                    <a class="add" data-remote="true" rel="nofollow" href="#"></a>
+                                    <a class="remove" data-remote="true" rel="nofollow" href="#"></a>
+                                </div>
+                            </div>
+                            <div class="title ellip">
+                                Chainsaw Man
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,148 @@
+<% layout('layouts/adminLayout') -%>
+    <%-block('title','<title> Edit Page </title>') -%>
+
+        <style>
+            .showUploadDesignImage {
+                width: 300px;
+                height: 300px;
+            }
+
+            .image-canvas {
+                width: 500px;
+                height: 500px;
+                border: 1px solid #000;
+            }
+            #canvas  { 
+                width: 500px;
+                height: 500px;
+            }
+
+            .image-tool {
+                width: 500px;
+                background-color: #151523;
+            }
+        </style>
+
+        <section>
+            <!-- Upload Design -->
+            <div class="container">
+                <h5 class="text-center">Upload Design</h5>
+                <h6 class="text-center">Need Help Uploading?</h6>
+
+                <!-- Canvas Show Image  -->
+                <div class="showUploadDesignImage border border-dark m-auto">
+
+                </div>
+                <!-- Canvas Show Image  -->
+
+                <!--  Instruction  -->
+                <div class="instruction-box mt-3">
+                    <div class="alert alert-warning mb-0" role="alert">
+                        Your image isn't large enough to support all our Wall Art options. The largest size your image
+                        supports is Medium (16" x 24").
+                    </div>
+                    <div class="alert alert-dark" role="alert">
+                        <p class="text-center">File Requirements:</p>
+                        <p class="text-center">
+                            A high-resolution transparent .PNG at 150dpi. Minimum dimensions of at least 1500px by
+                            1995px (not including outer transparent pixels).
+                            To enable all products, your file must be at least 5000px by 5500px.
+                            <a href="#!">
+                                See our design guide
+                                for help.
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <!--  Instruction  -->
+
+                <!-- Uploaded Form  -->
+                <div class="bg-dark-subtle p-3 mb-5">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Design Title</label>
+                                <input type="text" class="form-control py-2 mt-1" id="exampleFormControlInput1"
+                                    placeholder="Design Title">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Main Tag</label>
+                                <input type="text" class="form-control" name="mainTag" id="tagifyTag"
+                                    placeholder="Main Tag">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Supported Tags</label>
+                                <textarea class="form-control" id="suportedtags" name="suportedtags"
+                                    rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mt-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Select Your Album</label>
+                            <select class=" form-control" name="album">
+
+                                <option value="AL">No Uploaded Album</option>
+                                <option value="AL">Alabama</option>
+                                <option value="WY">Wyoming</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Does this design contain
+                                    Mature Content, such as nudity or other adult themes?</label>
+                                <div class="d-flex justify-content-start align-items-start gap-2">
+                                    <div class="d-flex justify-content-start align-items-center gap-1">
+                                        <label for="">Yes</label>
+                                        <input type="radio" name="nudityContent" class="" id="">
+                                    </div>
+                                    <div class="d-flex justify-content-start align-items-center gap-1">
+                                        <label for="">No</label>
+                                        <input type="radio" name="nudityContent" class="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Uploaded Form  -->
+
+                <!-- Editing Canvas  -->
+                <sectoion class="editing-canvas pt-5 mt-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="image-canvas">
+                                    
+                                </div>
+                                <div class="image-tool py-2 ps-2 d-flex justify-content-start align-items-center gap-2">
+                                    <h5 class="text-white fs-6">Tools</h5>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+
+                            </div>
+                        </div>
+                    </div>
+                </sectoion>
+                <!-- Editing Canvas  -->
+            </div>
+            <!-- Upload Design -->
+        </section>
+
+        <script>
+            var inputElem = document.querySelector('#tagifyTag') // the 'input' element which will be transformed into a Tagify component
+            var tagify = new Tagify(inputElem, {
+                whitelist: ['foo', 'bar', 'and baz', 0, 1, 2]
+            })
+
+       
+        </script>

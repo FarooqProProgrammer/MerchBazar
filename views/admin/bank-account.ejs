@@ -1,0 +1,50 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Bank Account </title>')%>
+
+<section class="card container">
+  <div class="row">
+    <div class="col-lg-12 py-3">
+        <p class="fs-5"> All Bank Accounts</p>
+    </div>
+    <div class="col-lg-12">
+      <div class="table-responsive">
+        <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
+          <thead>
+            <tr class="fw-semibold fs-6 text-muted">
+              <th>ID</th>
+              <th>Name</th>
+              <th>Bank Name</th>
+              <th>Bank Number</th>
+              <th>Account Number</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% bankAccount.map((item,index)=>{ %>
+            <tr>
+              <td><%- index + 1 -%></td>
+              <td><%- item.userId.firstName -%></td>
+              <td><%- item.bankName -%></td>
+              <td><%- item.bankNumber -%></td>
+              <td><%- item.AccountNumber -%></td>
+              <td>
+                <a href="#" class="btn btn-icon btn-primary">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+              </td>
+            </tr>
+
+
+            <% }) %>
+
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  $("#kt_datatable_zero_configuration").DataTable();
+</script>

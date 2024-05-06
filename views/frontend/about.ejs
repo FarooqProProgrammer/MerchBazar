@@ -1,0 +1,72 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> About Page </title>')%>
+
+
+<section class="main-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="text-white">Video</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="text-black">About</h3>
+                <p><%- AboutPage[0].AboutDescription -%></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-gradient">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="text-white">How we do Business?</h3>
+                <p class="text-white">Lorem ipsum dolor sit amet consectetur. A amet ullamcorper felis in. Eu mi enim facilisis proin pellentesque orci urna pulvinar. Vitae ante enim tellus pellentesque massa platea mattis. Quisque nibh tellus fames et pulvinar amet nullam eget felis.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">     
+        <div class="row align-items-center">
+            <div class="col-lg-7 mb-5 mb-lg-0">
+                <h5 class="text-black text-center">What are you waiting for <br>
+                    <span class="text-uppercase">start exploring</span>
+                </h5>
+                <div class="row">
+                    <div class="col-lg-12 rounded-2 overflow-hidden mx-auto mt-3">
+                        <form action="" class="banner-form">
+                            <div class="row g-0">
+                                <div class="col-lg-7 col-md-12">
+                                    <input type="text" class="form-control" placeholder="Search" name="search" id="search">
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-8 col-8">
+                                    <select name="category" id="category" class="form-control form-select">
+                                        <option value="">All Category</option>
+                                        <option value="">Apparal</option>
+                                        <option value="">bags</option>
+                                        <option value="">key chain</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-md-6 col-sm-4 col-4">
+                                    <button type="submit" s>Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <img src="frontend/images/about.png" alt="" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section> 

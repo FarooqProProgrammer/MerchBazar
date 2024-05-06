@@ -1,0 +1,239 @@
+<% layout('layouts/adminLayout') -%>
+    <%-block('title','<title> Setting </title>')%>
+
+
+        <div class='main-wrapper'>
+            <div id='site'>
+                <div id='content'>
+                    <div class='flash x'>
+                    </div>
+                    <section class='contain m-account contain--wide-1'>
+
+                        <div class='page-head'>
+                            <h1 class='h__h1'>
+                                My Account
+                            </h1>
+                            <div class='page-head__actions'>
+
+                            </div>
+                        </div>
+                        <div class='content-table jsMAccountContent'>
+                            <div class='content-table__head jsNavCtrl'>
+                                <h2 class='h__h2--primary h--no-s h--icon'>
+                                    <span
+                                        class="teepublicon teepublicon--dark-default teepublicon-background--transparent"><svg
+                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="28"
+                                            height="28" focusable="false" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M22.86 4h2.325a4.327 4.327 0 0 1 4.03 2.75l1.063 2.7 3.232 1.865 2.866-.436a4.33 4.33 0 0 1 4.402 2.118l1.16 2.005a4.324 4.324 0 0 1-.366 4.867l-1.808 2.263v3.738l1.797 2.26a4.33 4.33 0 0 1 .367 4.868L40.768 35a4.337 4.337 0 0 1-4.4 2.12l-2.869-.436-3.237 1.867-1.058 2.696A4.332 4.332 0 0 1 25.176 44h-2.322a4.326 4.326 0 0 1-4.03-2.752l-1.057-2.696-3.238-1.867-2.866.436a4.34 4.34 0 0 1-4.402-2.118l-1.16-2.005a4.325 4.325 0 0 1 .366-4.867l1.808-2.263v-3.736l-1.807-2.263a4.328 4.328 0 0 1-.367-4.867L7.26 13a4.334 4.334 0 0 1 4.401-2.12l2.86.436 3.246-1.878 1.064-2.688A4.327 4.327 0 0 1 22.86 4Zm1.16 27.991c4.418 0 8-3.577 8-7.991s-3.582-7.991-8-7.991-8 3.577-8 7.991 3.582 7.991 8 7.991Z"
+                                                clip-rule="evenodd"></path>
+                                        </svg></span>
+                                    <span>Account Settings</span>
+                                </h2>
+
+                                <span
+                                    class="teepublicon teepublicon--dark-default teepublicon-background--transparent m-account-nav__ctrl"><svg
+                                        xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50 50" width="16" height="16"
+                                        focusable="false" aria-hidden="true">
+                                        <path
+                                            d="M10.032 6.295 28.742 25l-18.71 18.705a1.058 1.058 0 0 0 0 1.496l4.49 4.49a1.059 1.059 0 0 0 1.497 0l23.949-23.943a1.058 1.058 0 0 0 0-1.496l-4.49-4.49-.002-.001L16.019.31a1.058 1.058 0 0 0-1.496 0l-4.49 4.489a1.058 1.058 0 0 0 0 1.496Z">
+                                        </path>
+                                    </svg></span>
+                            </div>
+                            <div class='content-table__body m-account__body'>
+                                <%- include partial/sidebar -%>
+                                    <div class="px-5 w-100">
+                                        <!-- =============== EDIT USER INFORMATION ================= -->
+                                        <form >
+                                            <h4 class="display-6">Account Information</h4>
+                                            <div class="row mt-2">
+                                                <div class="col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="exampleFormControlInput1" class="form-label">First
+                                                            Name</label>
+                                                        <input type="text" value="<%- currentActiveUser.firstName -%>"
+                                                            class="form-control" id="firstName" placeholder="name@example.com">
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="exampleFormControlInput1" class="form-label">Last
+                                                            Name</label>
+                                                        <input type="trext" value="<%- currentActiveUser.lastName -%>"
+                                                            class="form-control" id="lastName" placeholder="name@example.com">
+                                                    </div>
+                                                </div>
+                                       
+                                                <div class="col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="exampleFormControlInput1"
+                                                            class="form-label">Email</label>
+                                                        <input type="email" class="form-control"
+                                                            placeholder="Your Email" id="email" value="<%- currentActiveUser.email -%>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label for="exampleFormControlInput1"
+                                                        class="form-label">Country</label>
+                                                    <select id="user_country_id" class="form-select form-control">
+                                                        <% countryData.map((item)=>{ %>
+                                                            <option value="<%- countryData.countryName -%>"><%- countryData.countryName -%></option>
+                                                        <% }) %>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <button class="btn btn-primary">Save User Info</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- =============== EDIT USER INFORMATION ================= -->
+
+                                        <!-- =============== Bank Account Info ==================== -->
+                                        <div>
+                                            <input type="hidden" name="id" id="id"
+                                                value="<%- currentActiveUser._id -%>">
+                                            <h4 class="display-6">Bank Account Info</h4>
+                                            <div class="row">
+                                                <div class="col-lg-12 mt-3">
+                                                    <div class="mb-3">
+                                                        <label for="bankName" class="form-label">Bank Name</label>
+                                                        <input type="text" class="form-control" name="bankName"
+                                                            id="bankName" value="<%- bankAccountModel[0]?.bankName -%>" placeholder="Enter Bank Name">
+                                                        <p id="bankNameError"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mt-3">
+                                                    <div class="mb-3">
+                                                        <label for="bankNumber" class="form-label">Bank Number</label>
+                                                        <input type="text" class="form-control" name="bankNumber"
+                                                            id="bankNumber" value="<%- bankAccountModel[0]?.bankNumber -%>" placeholder="Enter Bank Number">
+                                                            <p id="bankNumberError"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mt-3">
+                                                    <div class="mb-3">
+                                                        <label for="accountNumber" class="form-label">Account
+                                                            Number</label>
+                                                        <input type="text" class="form-control" name="accountNumber"
+                                                            id="accountNumber" value="<%- bankAccountModel[0]?.AccountNumber -%>" placeholder="Account Number">
+                                                            <p id="accountNumberError"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <button type="button" id="bankAccountForm"
+                                                        class="btn btn-lg btn-primary">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- =============== Bank Account Info ==================== -->
+
+                                    </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $('.email-edit-btn').on('click', function (e) {
+                e.preventDefault();
+                console.log($('.edit-notice').slideDown());
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: 'https://restcountries.com/v3.1/all',
+                    method: 'GET',
+                    success: function (response) {
+                        // Sort countries alphabetically by their common name
+                        const sortedCountries = response.sort((a, b) => a.name.common.localeCompare(b.name.common));
+
+                        // Populate select tag with sorted countries
+                        console.log(sortedCountries)
+                        sortedCountries.forEach(country => {
+                            $('#user_country_id').append(`<option value="${country.name.common}">${country.name.common}</option>`);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+
+
+                document.getElementById('bankAccountForm').addEventListener('click',async function (event) {
+
+
+                    // Serialize form data
+                    console.log('HELLO')
+                    var id = $('#id').val();
+                    var bankName = $('#bankName').val();
+                    var bankNumber = $('#bankNumber').val();
+                    var accountNumber = $('#accountNumber').val();
+
+
+                    if(bankName == '' ) { 
+                        $('#bankName').addClass('is-invalid');
+                        $('#bankNameError').text('Please Add your Name');
+                        $('#bankNameError').addClass('text-danger');
+                        return
+                    }else { 
+                        $('#bankName').removeClass('is-invalid');
+                        $('#bankNameError').text('');
+                    }
+
+                    var pattern=/^[A-Za-z\s]+$/;
+                    if(!pattern.test(bankName)) { 
+                        $('#bankName').addClass('is-invalid');
+                        $('#bankNameError').text('bank Name is must be string');
+                        $('#bankNameError').addClass('text-danger');
+                        return
+                    }else { 
+                        $('#bankName').removeClass('is-invalid');
+                        $('#bankNameError').text('');
+                    }
+
+
+                    if(bankNumber == '') {
+                        $('#bankNumber').addClass('is-invalid');
+                        $('#bankNumberError').text('Please Add Your Bank Number');
+                        $('#bankNumberError').addClass('text-danger');
+                        return
+                    }else { 
+                        $('#bankNumber').removeClass('is-invalid');
+                        $('#bankNumberError').text('');
+                    }
+                 
+
+                    // Send Fetch API request
+                 await   axios.post('/api/create-bank-account', {
+                        id: id,
+                        bankName: bankName,
+                        bankNumber: bankNumber,
+                        accountNumber: accountNumber
+                    })
+                        .then(response => {
+                            // Handle success response
+                            console.log(response.data);
+                       
+                            toastr.success('Data saved successfully');
+                        })
+                        .catch(error => {
+                            // Handle error response
+                            console.error('There was a problem with the axios operation:', error);
+                            // Show error message or handle as needed
+                        });
+
+                });
+
+            });
+        </script>   

@@ -1,0 +1,225 @@
+<% layout('layouts/adminLayout') -%>
+    <%-block('title','<title> Shipping Address </title>')%>
+
+
+    <div class='main-wrapper'>
+        <div id='site'>
+
+            <div id='content'>
+                </div>
+                <section class='contain m-account contain--wide-1'>
+    
+                    <div class='page-head'>
+                        <h1 class='h__h1'>
+                            My Account
+                        </h1>
+                        <div class='page-head__actions'>
+    
+                        </div>
+                    </div>
+                    <div class='content-table jsMAccountContent'>
+                        <div class='content-table__head jsNavCtrl'>
+                            <h2 class='h__h2--primary h--no-s h--icon'>
+                                <span class="teepublicon teepublicon--dark-default teepublicon-background--transparent"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="28" height="28" focusable="false" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M16.825 4.502c-3.424.542-5.785 3.384-6.289 7.702-.049.42-.093.825-.134 1.218H8.5a2.5 2.5 0 0 0 0 5h1.558c-.035.96-.055 1.94-.069 3H8.5a2.5 2.5 0 0 0 0 5h1.442c-.005 1.058-.002 2.037.016 3H8.5a2.5 2.5 0 0 0 0 5h1.718c.03.347.062.702.097 1.068.422 4.342 2.73 7.206 6.141 7.822 3.412.616 5.672.638 9.317.673 3.645.035 5.875.056 9.328-.494 3.453-.55 5.773-3.346 6.288-7.702.515-4.356.54-7.086.584-11.638.043-4.553.07-7.378-.363-11.648s-2.67-7.212-6.141-7.822c-3.472-.61-5.672-.63-9.317-.666-3.645-.035-5.904-.055-9.327.487Zm9.143 19.497c2.763 0 5.002-2.254 5.002-5.035 0-2.78-2.24-5.034-5.002-5.034-2.762 0-5.001 2.254-5.001 5.034S23.206 24 25.968 24Zm-7.436 6.875c1.23 1.091 4.04 3.194 7.436 3.194 3.397 0 6.207-2.103 7.437-3.194.422-.375.521-.974.212-1.446-.896-1.366-3.196-3.99-7.649-3.99-4.453 0-6.753 2.624-7.648 3.99-.31.472-.21 1.071.212 1.446Z" clip-rule="evenodd"></path>
+                                    </svg></span>
+                                <span>My Address</span>
+                            </h2>
+    
+                            <span class="teepublicon teepublicon--dark-default teepublicon-background--transparent m-account-nav__ctrl"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50 50" width="16" height="16" focusable="false" aria-hidden="true">
+                                    <path d="M10.032 6.295 28.742 25l-18.71 18.705a1.058 1.058 0 0 0 0 1.496l4.49 4.49a1.059 1.059 0 0 0 1.497 0l23.949-23.943a1.058 1.058 0 0 0 0-1.496l-4.49-4.49-.002-.001L16.019.31a1.058 1.058 0 0 0-1.496 0l-4.49 4.489a1.058 1.058 0 0 0 0 1.496Z">
+                                    </path>
+                                </svg></span>
+                        </div>
+                        <div class='content-table__body m-account__body'>
+                            <%-  include partial/sidebar -%>
+                            <div class="content-table__content">
+                                <div class="content-table__section m-account__addresses">
+                                    <h3 class="h__h3">Address Info</h3>
+                                    <form   class="new_user_address" id="shippingForm" >
+
+
+                                        <div class="form__fields form__fields--s-l1">
+                                            <div class="form__field">
+                                                <label for="user_address_first_name">First Name*</label>
+                                                <div class="form__field-wrap jsFieldHolder">
+                                                    <input class="form__control" value="<%- shippingAdress.firstName -%>" type="text" name="firstName" id="user_address_first_name">
+                                                </div>
+                                            </div>
+                                            <div class="form__field">
+                                                <label for="user_address_last_name">Last Name*</label>
+                                                <div class="form__field-wrap jsFieldHolder">
+                                                    <input class="form__control" value="<%- shippingAdress.lastName -%>" data-name="Last Name" type="text" name="lastName" id="user_address_last_name">
+                                                </div>
+                                            </div>
+                                            <div class="form__field">
+                                                <label for="user_address_street_address">Address Line 1*</label>
+                                                <div class="form__field-wrap jsFieldHolder">
+                                                    <input class="form__control" value="<%- shippingAdress.addressLine1 -%>" type="text" name="addressLine1" id="user_address_street_address">
+                                                </div>
+                                            </div>
+                                            <div class="form__field">
+                                                <label for="user_address_street_address">Address Line 2</label>
+                                                <div class="form__field-wrap jsFieldHolder">
+                                                    <input class="form__control" value="<%- shippingAdress.addressLine2 -%>"  type="text" name="addressLine2" id="user_address_extended_address">
+                                                </div>
+                                            </div>
+                                            <div class="form__fields form__fields--inline">
+                                                <div class="form__field m-checkout__country">
+                                                    <label for="user_address_country_id">Country*</label>
+                                                    <div class="form__field-wrap jsFieldHolder">
+                                                        <div class="select__wrap"></div>
+                                                    </div>
+                                                    <select class="select form__control form-select" name="country" id="user_address_country_id">
+                                                        <% countryInfo.forEach(country => { %>
+                                                           <option value="<%- country.countryName %>" <%- shippingAdress.country == country.countryName && 'selected'  -%> > <%- country.countryName %></option>
+                                                           <% }) %>
+                                                    </select>
+                                                </div>
+                                                <div class="form__field">
+                                                    <label for="user_address_zip">Zip*</label>
+                                                    <div class="form__field-wrap jsFieldHolder">
+                                                        <input class="form__control" value="<%- shippingAdress.addressLine2 -%>"  type="text" name="zip" id="user_address_zip">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form__fields form__fields--inline">
+                                                <div class="form__field">
+                                                    <label for="user_address_city">City*</label>
+                                                    <div class="form__field-wrap jsFieldHolder">
+                                                        <input class="form__control" value="<%- shippingAdress.city -%>" type="text" name="city" id="user_address_city">
+                                                    </div>
+                                                </div>
+                                                <div class="form__field">
+                                                    <label for="user_address_state_code">State*</label>
+                                                    <div class="form__field-wrap jsFieldHolder">
+                                                        <div class="select__wrap">
+                                                            <select class="select form__control" name="state" id="user_address_state_code">
+                                                                <option value="">-- Choose State --</option>
+                                                                <% stateModel.map((item)=>{ %>
+                                                                <option value="<%- item.stateName -%>" <%- shippingAdress.state == item.stateName && 'selected'  -%>><%- item.stateName -%></option>
+                                                                <% }) %>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="error">
+                                        </div>
+                                        <div class="form__actions">
+                                            <div class="form__field">
+                                                <input type="submit" name="commit" value="Save Address" class="btn btn--medium">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+    
+    
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('.email-edit-btn').on('click', function(e) {
+            e.preventDefault();
+            console.log($('.edit-notice').slideDown());
+        });
+    </script>
+
+<script>
+    $(document).ready(function () {
+        // Function to display error message
+        function displayError(inputField, message) {
+            inputField.next('.error').text(message);
+        }
+
+        $('#shippingForm').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Clear previous error messages
+            $('.error').text('');
+
+            // Get form data
+            var formData = {
+                firstName: $('#user_address_first_name').val(),
+                lastName: $('#user_address_last_name').val(),
+                addressLine1: $('#user_address_street_address').val(),
+                addressLine2: $('#user_address_extended_address').val(),
+                country: $('#user_address_country_id').val(),
+                zip: $('#user_address_zip').val(),
+                city: $('#user_address_city').val(),
+                state: $('#user_address_state_code').val()
+            };
+
+            // Client-side validation
+            if (!formData.firstName) {
+                displayError($('#user_address_first_name'), 'First Name is required');
+                return;
+            }
+
+            if (!formData.lastName) {
+                displayError($('#user_address_last_name'), 'Last Name is required');
+                return;
+            }
+
+            if (!formData.addressLine1) {
+                displayError($('#user_address_street_address'), 'Address Line 1 is required');
+                return;
+            }
+
+            if (!formData.country) {
+                displayError($('#user_address_country_id'), 'Country is required');
+                return;
+            }
+
+            if (!formData.zip) {
+                displayError($('#user_address_zip'), 'Zip is required');
+                return;
+            }
+
+            if (!formData.city) {
+                displayError($('#user_address_city'), 'City is required');
+                return;
+            }
+
+            if (!formData.state) {
+                displayError($('#user_address_state_code'), 'State is required');
+                return;
+            }
+
+            // AJAX request to the server
+            $.ajax({
+                type: 'POST',
+                url: '/api/update-ship-info',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function (response) {
+                    toastr.success('Success', 'Successfully Updated Shipping Information');
+
+                   
+                },
+                error: function (xhr, status, error) {
+                    // Handle error response
+                    var errorMessage = xhr.responseText;
+                    alert(errorMessage);
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    var userCookie = Cookies.get('user');
+    var user = JSON.parse(userCookie.slice(2));
+
+    // Set the value of the hidden input field to the user ID
+    document.getElementById('userID').value = user._id;
+</script>

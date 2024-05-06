@@ -1,0 +1,39 @@
+<% layout('layouts/adminLayout') -%>
+<%- block('title','<title>Add Users</title>')%>
+
+
+<div class="container bg-white py-3" style="max-width: 90%;">
+      <div class="table-responsive ">
+          <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
+              <thead>
+                  <tr class="fw-semibold fs-6 text-muted">
+                    <th>ID</th>
+                    <th>User Name</th>
+                    <th>User Role</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>01</td>
+                      <td>TV</td>
+                      <td class="ps-5">tv</td>
+                      <td class="ps-5">tv</td>
+                      <td>
+                          <div class="d-flex align-items-start justify-content-start gap-2">
+                              <a href="#" class="btn btn-icon btn-primary"><i class="bi bi-archive fs-4 me-2"></i></a>
+                              <a href="#" class="btn btn-icon btn-secondary"><i class="bi bi-pencil fs-4 me-2"></i></a>
+                          </div>
+                      </td>
+                  </tr>
+  
+              </tbody>
+          </table>
+      </div>
+      
+  </div>
+
+  <script>
+      $("#kt_datatable_zero_configuration").DataTable();
+  </script>
