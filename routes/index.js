@@ -281,11 +281,55 @@ router.get('/marketplace', async function (req, res, next) {
 
 
 router.get('/product-detail/:id', csrfProtection, async function (req, res, next) {
-  const { id } = req.params;
-  const product = await StoreProduct.findById(id).populate('productId');
-  console.log(product)
-  res.render('frontend/product-detail', { title: 'Express', product: product, csrfToken: req.csrfToken() });
+  try {
+    const { id } = req.params;
+    
+    // Retrieve the product details by ID and populate related data
+    const product = await StoreProduct.findById(id).populate('productId');
+
+    // Retrieve wishlist data
+    const whishList = await whishListSchema.find().populate('user').populate('whishList');
+
+    // Create a map of product _id and its corresponding original collection id for faster lookup
+    const productMap = {};
+    productMap[product._id.toString()] = product; // Store the product item itself
+
+    // Create a map of wishlist _ids and their corresponding collection ids for faster lookup
+    const whishListMap = {};
+    whishList.forEach(item => {
+      whishListMap[item.whishList._id.toString()] = item.whishList; // Store the wishlist item itself
+    });
+
+    // Check if the product exists
+    if (!product) {
+      // Handle case where product is not found
+      return res.status(404).send('Product not found');
+    }
+
+    // Retrieve the wishlist collection for the product
+    const whishListItem = whishListMap[product._id.toString()];
+
+    // Check if the product is in the wishlist
+    const isWhishListed = !!whishListItem; // Check if wishlist item is found
+
+    console.log(whishListItem)
+    console.log(isWhishListed)
+
+    // Render the product detail view with the product and wishlist information
+    res.render('frontend/product-detail', { 
+      title: 'Express', 
+      product: product, 
+      whishList: isWhishListed, // Pass whether the product is in the wishlist
+      whishListCollection: whishListItem, // Pass the wishlist collection if the product is in the wishlist
+      csrfToken: req.csrfToken() 
+    });
+  } catch (error) {
+    // Handle any errors that occur during the process
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
+
 
 
 router.get('/desgin-detail/:id', csrfProtection, async function (req, res, next) {

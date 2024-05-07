@@ -12,7 +12,16 @@
                     </div>
                     <div class="col-lg-8 mt-3">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
-                            <a href="#" class="whishlist mb-2 mb-md-0"><i class="fa-regular fa-heart"></i> Add to
+                            <a href="#" class="whishlist SaveWhishList mb-2 mb-md-0">
+                                <input type="hidden" name="" value="<%= product._id %>" class="productId">
+                               <% if(whishList){%>
+                                <i class="fa-solid fa-heart"></i>
+                                <% } else { %>
+                                    <i class="fa-regular fa-heart"></i>
+                                <% } %>
+                              
+                                
+                                Add to
                                 Wishlist</a>
                             <div class="d-flex gap-2">
                                 <p class="mb-0">Share Product :</p>
@@ -316,6 +325,23 @@
 
 
 
+<script>
+    $(document).ready(function(){
+        $('.SaveWhishList').on('click', async function(){
+            var productId = $(this).find('.productId').val();
+
+                await axios.post('/api/add-whishlist',{
+                    whishList:productId
+                }).then((res)=>{
+                    console.log(res.data)
+                    window.location.reload()
+                }).catch((error)=>{
+                    console.log(error)
+                })
+          
+        })
+    })
+</script>
 
         <script>
 
