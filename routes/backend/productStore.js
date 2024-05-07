@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-
+const artistData = require('../../model/artistSchema')
 const StoreProduct = require('../../model/storeProduct');
 const router = express.Router();
 
@@ -22,7 +22,8 @@ router.post('/create-store-data', async (req, res) => {
     const userId = req.cookies.user._id;
     const storeId = req.cookies.store._id;
 
-    console.log(req.body)
+    const artist = artistData.find({ userId:userId });
+    artist.totalDesigns +=1;
 
 
     const SaveProduct = await StoreProduct({

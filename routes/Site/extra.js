@@ -5,7 +5,7 @@ const State = require('../../model/Site/state');
 const ProceedCheckout = require('../../model/Site/ProceedToCheckOut');
 const designModel = require('../../model/Site/CheckDesign');
 const Coupon = require('../../model/Site/coupon');
-
+const designUpdate = require('../../model/Pages/designModelSchema')
 const route = express.Router();
 
 
@@ -190,6 +190,47 @@ route.post('/add-checkout', async (req, res, next) => {
     res.send('Data Updated');
 }
 });
+
+
+
+
+route.post('/upload-design', async (req, res) => {
+  try {
+      // Extract data from request body
+
+
+      // const storeId = req.cookies.store._id;
+
+
+      const { title, mainTag,userId, description, supportingTags, designPrice, album, designImage,  productId } = req.body;
+
+      // Create a new instance of the DesignModel with the extracted data
+      const design = new designUpdate({
+          title,
+          mainTag,
+          description,
+          supportingTags,
+          designPrice,
+          album,
+          designImage,
+          productId:'663a6b107a3946a3879c1ba4',
+          userId
+      });
+
+      // Save the design data to the database
+      const savedDesign = await design.save();
+
+      // Respond with success message and saved design data
+      res.status(201).json({ message: 'Design uploaded successfully', design: savedDesign });
+  } catch (error) {
+      // Handle any errors
+      console.error('Error uploading design:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
 
 
 

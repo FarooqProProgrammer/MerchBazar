@@ -16,20 +16,33 @@ function generateRandomId(length) {
 }
 
 route.post('/add-whishlist', async function (req, res) {
-
     try {
         const { whishList } = req.body;
         const user = req.cookies.user._id;
 
+        // Check if the wishlist item already exists for the user
+        const existingWishlistItem = await whishListSchema.findOne({ whishList });
+
+        if (existingWishlistItem) {
+            // If the item already exists, remove it from the collection
+            await whishListSchema.deleteOne({ whishList });
+            return res.status(200).json({ message: 'Wishlist item removed successfully' });
+        }
+
+        // If the item does not exist, create a new wishlist item
         const wishListId = Date.now();
         const wishlistItem = new whishListSchema({ whishList, user, wishListId });
         await wishlistItem.save();
+
+        // Return a success response
         res.status(201).json({ message: 'Wishlist item added successfully', wishlistItem });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
 
 
 route.post('/remove-whishlist', async function (req, res) {

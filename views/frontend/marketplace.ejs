@@ -99,7 +99,8 @@
                                                     
                                                     <a class="SaveWhishList">
                                                         <input type="hidden" name="" value="<%= ProductData[i]._id %>" class="productId">
-                                                        <i class="fa-regular fa-heart"></i>
+                                                        <%- ProductData[i].whishList ?  '<i class="fa-solid fa-heart"></i>':'<i class="fa-regular fa-heart"></i>'  -%>
+                                                            <!-- <input type="hidden" value=""> -->
                                                     </a>
                                                 </div>
                                             </div>
@@ -140,6 +141,7 @@
                             whishList:productId
                         }).then((res)=>{
                             console.log(res.data)
+                            window.location.reload()
                         }).catch((error)=>{
                             console.log(error)
                         })

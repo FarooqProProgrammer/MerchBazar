@@ -37,18 +37,16 @@
                     <div class="col-lg-9 after">
                         <div class="row">
                             <div class="col-12">
-                                <form action="" class="search-form">
+                                <form action="/marketplace-design" class="search-form">
                                     <div class="row g-0">
-                                        <div class="col-10">
-                                            <input type="text" class="form-control" placeholder="search">
-                                        </div>
-                                        <div class="col-2">
-                                            <button type="submit" class="my-btn text-center p-0"><i
-                                                    class="fa-solid fa-magnifying-glass"></i></button>
-                                        </div>
+                                      <div class="col-10">
+                                        <input type="text" class="form-control" placeholder="Search by title" name="search" value="<%= searchQuery %>">
+                                      </div>
+                                      <div class="col-2">
+                                        <button type="submit" class="my-btn text-center p-0"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                      </div>
                                     </div>
-                                </form>
-
+                                  </form>
                                 <div class="d-flex mt-4 w-100 align-items-center justify-content-between">
                                     <p class="mb-0">Showing 09 of 420 results</p>
                                     <form action="/marketplace-design" class="sorting-form">
@@ -76,19 +74,19 @@
                                             <div class="product-box">
                                                 <a href="#">
                                                     <div class="image">
-                                                        <img src="<%- `${ProductData[i].frontImage}`  %>" alt=""
+                                                        <img src="<%- `${ProductData[i].designImage}`  %>" alt=""
                                                             class="img-fluid">
                                                     </div>
                                                 </a>
                                                 <div class="text d-flex align-items-center justify-content-between">
                                                     <div class="info">
-                                                        <h6><a href="#">
-                                                                <%= ProductData[i].productName %>
+                                                        <h6><a href="/desgin-detail/<%- ProductData[i]._id -%>">
+                                                                <%= ProductData[i].title %>
                                                             </a></h6>
-                                                        <span>by <a href="#">
+                                                        <!-- <span>by <a href="#">
                                                                 <%= ProductData[i].brand %>
-                                                            </a></span>
-                                                        <p class="price">PKR <%= ProductData[i].retailPrice %>
+                                                            </a></span> -->
+                                                        <p class="price">PKR <%= ProductData[i].designPrice %>
                                                         </p>
                                                     </div>
                                                     <a href="#"><i class="fa-regular fa-heart"></i></a>
@@ -104,15 +102,15 @@
                             <div class="col-12">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination flex-wrap justify-content-center rounded-0">
-                                        <% for(let i=1; i<=totalPages; i++) { %>
-                                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                                <a class="page-link" href="/marketplace-design?page=<%= i %>">
-                                                    <%= i %>
-                                                </a>
-                                            </li>
-                                            <% } %>
+                                      <% for(let i=1; i<=totalPages; i++) { %>
+                                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                          <a class="page-link" href="/marketplace-design?page=<%= i %>&search=<%= searchQuery %>">
+                                            <%= i %>
+                                          </a>
+                                        </li>
+                                      <% } %>
                                     </ul>
-                                </nav>
+                                  </nav>
                             </div>
                         </div>
                     </div>

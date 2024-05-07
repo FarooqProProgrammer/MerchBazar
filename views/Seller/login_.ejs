@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" media="all" href="Seller/css/style.css" />
+    <link rel="stylesheet" href="frontend/css/style.css">
+    <link rel="stylesheet" href="<%- baseUrl -%>Seller/css/toastr.css">
+</head>
+
+<body>
+    <!-- <header class="signup pt-5" style="padding: 2rem 0;">
+        <div class="container">
+            <div class="col-lg-6">
+                <div class="logo">
+                    <h1 style="margin-bottom: 0;" class="mb-0 text-black text-uppercase">desedin</h1>
+                </div>
+            </div>
+        </div>
+    </header> -->
+    <section style="padding-top: 4rem">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6" style="float: inherit !important; margin: 0 auto;">
+                    <div id="account-login" style="display: block;">
+                        <div class="login-header">
+                            <h1 class="text-center">desedin Login<h1>
+                        </div>
+                        <div class="switch-login-option text-center">
+                            <div class="create-new-account-option">
+                                New here?
+                                <a class="link--strong" href="/signup">
+                                    Create an account.
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <form class="simple_form new_session" id="loginForm" >
+                            
+                                <div class="form__field">
+                                    <label >Email Address</label>
+                                    <input class="form__control" autofocus="autofocus" type="email" value="" name="email" id="email">
+                                    <p id="emailError"></p>
+                                </div>
+                                <div class="form__field">
+                                    <label >Password</label>
+                                    <input class="form__control" type="password" id="password" name="password" >
+                                    <p id="passwordError"></p>
+                                </div>
+                                <input type="submit" name="commit" value="Log in" id="login" class="btn btn--big btn--full">
+                            </form>
+                        </div>
+                        <div class="switch-login-content">
+                            <div class="switch-login-option">
+                                <a href="<%- baseUrl -%>forgot-password" class="link link--1 link--default link--strong">
+                                    <span class="link__content">
+                                        Forgot your password?
+                                    </span>
+
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <script src="<%- baseUrl -%>Seller/js/jquery-3.7.1.min.js"></script>
+    <script src="<%- baseUrl -%>Seller/js/toastr.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Find the login form
+    var loginForm = $('#loginForm');
+
+   
+    loginForm.submit(function(event) {
+        event.preventDefault(); 
+
+        
+        var email = $('#email').val();
+        var password = $('#password').val();
+
+        if(email == '') {
+            $('#emailError').text('Please Add Your Email')
+            $('#emailError').addClass('text-danger')
+            return
+        }else {
+            $('#emailError').text('')
+            $('#emailError').removeClass('text-danger')
+        }
+
+        
+        if(password == '') {
+            $('#passwordError').text('Please Add Your Password')
+            $('#passwordError').addClass('text-danger')
+            return
+        }else {
+            $('#passwordError').text('')
+            $('#passwordError').removeClass('text-danger')
+        }
+
+
+ 
+        $.ajax({
+            url: '/api/login',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                email: email,
+                password: password
+            }),
+            success: function(response) {
+                toastr.success('Login Success');
+                console.log('Login successful');
+                window.location.href = '/';
+            },
+            error: function(xhr, status, error) {
+                // Handle login error
+                toastr.error('Email and Password are not Correct','Login Failed');
+            }
+        });
+    });
+});
+</script>
+
+    
+</body>
+</html>
+

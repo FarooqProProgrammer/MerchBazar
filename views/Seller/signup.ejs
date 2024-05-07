@@ -1,253 +1,174 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Signup Page </title>')%>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" media="all" href="Seller/css/style.css" />
-  <link rel="stylesheet" href="<%- baseUrl -%>frontend/css/style.css">
-  <link rel="stylesheet" href="<%- baseUrl -%>Seller/css/toastr.css">
-  <script src="<%- baseUrl -%>Seller/js/jquery-3.7.1.min.js"></script>
-  <script src="<%- baseUrl -%>Seller/js/toastr.min.js"></script>
-</head>
 
-<body>
-  <!-- <header class="signup pt-5" style="padding: 2rem 0;">
-        <div class="container">
-            <div class="col-lg-6">
-                <div class="logo">
-                    <h1 style="margin-bottom: 0;" class="mb-0 text-black text-uppercase">desedin</h1>
-                </div>
-            </div>
-        </div>
-    </header> -->
-  <section style="padding-top: 4rem">
+<section class="login">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-6" style="float: inherit !important; margin: 0 auto;">
-          <div id="account-creation" style="display: block;">
-            <div class="login-header">
-              <h3 class="text-center">Account Sign Up<h1>
-            </div>
-            <div class="switch-login-content text-center">
-              <p>
-                Already have an account?
-                <a href="<%- baseUrl -%>login" class="link--strong">
-                  Log in.
-                </a>
-              </p>
-            </div>
-            <div class="form__group">
-              <div class="simple_form new_registration" id="new_registration">
+        <div class="row">
+            <div class="mx-auto col-lg-6">
+                <form action="" class="login-form">
+                    <h1>Sign Up</h1>
+                    <div class="mb-4">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="registration_first_name" class="form-control">
+                        <p id="nameError" style="position:absolute;color:red;"></p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="name">Last Name</label>
+                        <input type="text" name="name" id="registration_last_name" class="form-control">
+                        <p id="lastNameError" style="position:absolute;color:red;"></p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="registration_email" class="form-control">
+                        <p id="registration_Error" style="position:absolute;color:red;"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Countries</label>
+                        <select class="form__control" aria-label="Default select example" id="registration_country_id">
+                            <% countryData.map((item)=>{ %>
+                                <option value="<%- item.countryName -%>"><%- item.countryName -%></option>
+                                <% }) %>
+                          </select>
+                          <p id="countryError" style="position:absolute;color:red;"></p>
 
-                <div class="form__fields form__fields--inline form__fields--wrap-mobile">
-                  <div class="form__field form__field--space-lg-2">
-                    <label class="label--heavy" placeholder="First Name" for="registration_first_name">First
-                      Name*</label>
-                    <input class="form__control" required="required" type="text" name="firstName"
-                      id="registration_first_name">
-                    <p id="nameError" style="position:absolute;color:red;"></p>
-                  </div>
-                  <div class="form__field form__field--space-lg-2">
-                    <label class="label--heavy" placeholder="Last Name" for="registration_last_name">Last Name*</label>
-                    <input class="form__control" required="required" type="text" name="lastName"
-                      id="registration_last_name">
-                    <p id="lastNameError" style="position:absolute;color:red;"></p>
-                  </div>
-                </div>
-                <div class="form__field" style="position:relative">
-                  <label for="registration_email">Email Address*</label>
-                  <input class="form__control jsCreateAccountEmail" type="email" value="" name="email"
-                    id="registration_email">
-                  <p id="registration_Error" style="position:absolute;color:red;"></p>
-                </div>
-                <div class="form__field" style="position:relative">
-                  <label for="registration_country_id">Country</label>
-                  <div class="select__wrap">
-                    <select class="select form__control jsCreateAccountCountry" name="country"
-                      id="registration_country_id">
-                      <% countryData.map((item)=>{ %>
-                        <option value="<%- item.countryName -%>"><%- item.countryName -%></option>
-                        <% }) %>
-                    </select>
-                    <p id="countryError" style="position:absolute;color:red;"></p>
-                  </div>
-                </div>
-                <div class="form__field" style="position:relative">
-                  <label for="registration_password">Password*</label>
-                  <input class="form__control" type="password" name="password" id="registration_password">
-                  <p id="passwordError" style="position:absolute;color:red;"></p>
-                </div>
-                <div class="form__field" style="position:relative">
-                  <label for="registration_password_confirmation">Confirm Password*</label>
-                  <input class="form__control" type="password" name="password_confirmation"
-                    id="registration_password_confirmation">
-                  <p id="password_confirmationError" style="position:absolute;color:red;"></p>
-                </div>
-                <div class="form__field--check form__field-label--normal form__field-label--no-flex">
-                  <input name="registration[settings][off_site_marketing]" type="hidden" value="0"><input
-                    type="checkbox" value="1" checked="checked" name="registration[settings][off_site_marketing]"
-                    id="registration_settings_off_site_marketing">
-                  <label for="registration_settings_off_site_marketing">Yes, I'd like to advertise my
-                    products in
-                    <a href="#" class="link--strong">off-site marketing</a>.
-                  </label>
-                </div>
+                        </div>
+                    <div class="mb-4 password">
+                        <label for="password">Password</label>
+                        <div class="position-relative">
+                            <input type="password" name="password" id="registration_password" class="form-control">
+                            <i class="fa-regular fa-eye"></i>
+                        </div>
+                        <p id="passwordError" style="position:absolute;color:red;"></p>
+                    </div>
+                    <div class="mb-3 password">
+                        <label for="con_password">Confirm password</label>
+                        <div class="position-relative">
+                            <input type="password" name="con_password" id="registration_password_confirmation" class="form-control">
+                            <i class="fa-regular fa-eye"></i>
+                        </div>
+                        <p id="password_confirmationError" style="position:absolute;color:red;"></p>
 
-                <input type="button" value="Create My Account" id="create_account" class="btn btn--big btn--full">
-              </div>
+                    </div>
+                    <div class="d-flex mb-3 align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="checkbox" name="remember-me" id="remember-me">
+                            <label for="remember-me" class="remember mb-0">I agree to <a href="#" style="color: var(--primary-color);">Terms of services</a> and <a href="#" style="color: var(--primary-color);">Privacy policy</a></label>
+                        </div>
+                    </div>
+                    <button type="submit" id="create_account" class="my-btn w-100 text-center bg-primary">Sign Up   </button>
+                    <div class="or">
+                        or
+                    </div>
+                    <a href="#" class="my-btn bg-primary text-center w-100"><i class="fa-brands fa-google"></i> Continue with Google</a>
+                    <p class="signup">Already have an account? <a href="login.php">Sign in</a></p>
+                </form>
             </div>
-
-          </div>
         </div>
-
-      </div>
     </div>
-  </section>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Fetch data from the API
-      fetch('https://restcountries.com/v3.1/all')
-        .then(response => response.json())
-        .then(data => {
-          // Find the select element
-          var selectElement = document.getElementById('registration_country_id');
-
-          // Iterate over the data and populate the select element
-          data.forEach(country => {
-            var option = document.createElement('option');
-            option.text = country.name.common;
-            option.value = country.name.common;
-            selectElement.add(option);
-          });
-        })
-        .catch(error => console.error('Error fetching countries:', error));
-
-      // Your form submission logic goes here
-      document.getElementById('create_account').addEventListener('click', function (e) {
-        e.preventDefault();
-
-        console.log('Muhammad Farooq');
-
-        // Check if first name is not empty
-        var firstName = document.getElementById('registration_first_name').value;
-        if (firstName === '') {
-          document.getElementById('nameError').textContent = 'First name cannot be empty';
-          return
-        } else {
-          document.getElementById('nameError').textContent = '';
-        }
-
-        // Check if last name is not empty
-        var lastName = document.getElementById('registration_last_name').value;
-        if (lastName === '') {
-          document.getElementById('lastNameError').textContent = 'Last name cannot be empty';
-          return
-        } else {
-          document.getElementById('lastNameError').textContent = '';
-        }
-
-        // Check if email is valid
-        var email = document.getElementById('registration_email').value;
-        if (!isValidEmailAddress(email)) {
-          document.getElementById('registration_Error').textContent = 'Invalid email address';
-          return
-        } else {
-          document.getElementById('registration_Error').textContent = '';
-        }
-
-        var country = document.getElementById('registration_country_id').value;
-        if (country === '') {
-          document.getElementById('countryError').textContent = 'Country cannot be empty';
-          return
-        } else {
-          document.getElementById('countryError').textContent = '';
-        }
-        var password = document.getElementById('registration_password').value;
-        var passwordConfirmation = document.getElementById('registration_password_confirmation').value;
-        var offSiteMarketing = document.getElementById('registration_settings_off_site_marketing').checked ? 1 : 0;
+</section>
 
 
+<script>
+  $(document).ready(function() {
+  $('.password i').on('click', function() {
+    $(this).toggleClass('fa-eye-slash fa-eye');
+    var type = $(this).parent().find('input').attr('type') === 'password' ? 'text' : 'password';
+    $(this).parent().find('input').closest('input').attr('type', type); 
+  });
 
-        
-        if(password == '') { 
-          document.getElementById('passwordError').textContent = 'Please Add Your Password';
-          return
-        }else {
-          document.getElementById('passwordError').textContent = '';
-        }
-        
-        
-        if(passwordConfirmation == '') { 
-          document.getElementById('password_confirmationError').textContent = 'Please Add Your Comfirm Password';
-          return
-        }else {
-          document.getElementById('password_confirmationError').textContent = '';
-        }
-        
-        
-        if(password !== passwordConfirmation) { 
-          document.getElementById('password_confirmationError').textContent = 'Passowrd does not Match';
-          return
-        }else {
-          document.getElementById('password_confirmationError').textContent = '';
-        }
-        
+  $('#create_account').click(function(e) {
+    e.preventDefault();
 
-     
+    console.log('Muhammad Farooq');
 
-
-
-
-
-
-
-
-        // Using Fetch API for sending data
-        fetch('/api/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            country: country,
-            password: password,
-            password_confirmation: passwordConfirmation,
-            registration: {
-              settings: {
-                off_site_marketing: offSiteMarketing
-              }
-            }
-          })
-        })
-          .then(response => {
-            if (response.ok) {
-              toastr.success('Registration Success', 'Please Login');
-              window.location.href = '/login'
-            } else {
-              console.error('Error:', response.statusText);
-            }
-          })
-          .catch(error => {
-            console.error('Network error:', error);
-          });
-      });
-    });
-
-    // Function to validate email address format
-    function isValidEmailAddress(emailAddress) {
-      var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return pattern.test(emailAddress);
+    var firstName = $('#registration_first_name').val();
+    if (firstName === '') {
+      $('#nameError').text('First name cannot be empty');
+      return;
+    } else {
+      $('#nameError').text('');
     }
 
-  </script>
-</body>
+    var lastName = $('#registration_last_name').val();
+    if (lastName === '') {
+      $('#lastNameError').text('Last name cannot be empty');
+      return;
+    } else {
+      $('#lastNameError').text('');
+    }
 
-</html>
+    var email = $('#registration_email').val();
+    if (!isValidEmailAddress(email)) {
+      $('#registration_Error').text('Invalid email address');
+      return;
+    } else {
+      $('#registration_Error').text('');
+    }
+
+    var country = $('#registration_country_id').val();
+    if (country === '') {
+      $('#countryError').text('Country cannot be empty');
+      return;
+    } else {
+      $('#countryError').text('');
+    }
+
+    var password = $('#registration_password').val();
+    var passwordConfirmation = $('#registration_password_confirmation').val();
+    var offSiteMarketing = $('#registration_settings_off_site_marketing').prop('checked') ? 1 : 0;
+
+    if (password === '') {
+      $('#passwordError').text('Please Add Your Password');
+      return;
+    } else {
+      $('#passwordError').text('');
+    }
+
+    if (passwordConfirmation === '') {
+      $('#password_confirmationError').text('Please Add Your Confirm Password');
+      return;
+    } else {
+      $('#password_confirmationError').text('');
+    }
+
+    console.log(firstName)
+    console.log(lastName)
+    console.log(country)
+    console.log(email)
+    console.log(password)
+
+    $.ajax({
+      url: '/api/register',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        country: country,
+        password: password,
+        registration: {
+          settings: {
+            off_site_marketing: offSiteMarketing
+          }
+        }
+      }),
+      success: function(response) {
+        toastr.success('Registration Success', 'Please Login');
+        window.location.href = '/login';
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error('Error:', textStatus, errorThrown);
+      }
+    });
+  });
+
+  function isValidEmailAddress(emailAddress) {
+    var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(emailAddress);
+  }
+});
+
+
+</script>

@@ -4,7 +4,7 @@ const whishListSchema = mongoose.Schema(
     {
         whishList: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product'
+            ref: 'storeDetail'
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,

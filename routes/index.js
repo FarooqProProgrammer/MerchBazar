@@ -22,6 +22,7 @@ const AuthModel = require('../model/auth');
 const ArtistSchema = require('../model/artistSchema');
 const designModel = require('../model/Site/CheckDesign');
 const bankModel = require('../model/bankAccount');
+const desigModel = require('../model/Pages/designModelSchema')
 
 var router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -31,10 +32,34 @@ const csrfProtection = csrf({ cookie: true });
 
 router.get('/', async function (req, res, next) {
   const productData = await Product.find();
-  const getAllArtist = await Artist.find();
+  const getAllArtist = await Artist.find().populate("userId");
   const categoryData = await Category.find();
   const subCategory = await productSubCatergoryMain.find();
   const originalproduct = await StoreProduct.find().populate('productId');
+  const whishList = await whishListSchema.find().populate('user').populate('whishList');
+  
+  // Create a map of product _ids and their corresponding original collection ids for faster lookup
+  const productMap = {};
+  originalproduct.forEach(item => {
+    productMap[item._id.toString()] = item; // Store the product item itself
+  });
+  
+  // Create a map of wishlist _ids and their corresponding collection ids for faster lookup
+  const whishListMap = {};
+  whishList.forEach(item => {
+    whishListMap[item.whishList._id.toString()] = item.whishList; // Store the wishlist item itself
+  });
+  
+  // Add whishList field and whishListCollectionId to each product in originalproduct
+  const updatedProductData = originalproduct.map(product => {
+    const whishListItem = whishListMap[product._id.toString()];
+    const isWhishListed = !!whishListItem; // Check if wishlist item is found
+    return { ...product.toObject(), whishList: isWhishListed, whishListCollectionId: whishListItem };
+  });
+  
+  console.log(updatedProductData);
+  // Now updatedProductData contains originalproduct items with additional fields whishList and whishListCollectionId
+  
 
 
   const homeSite = await HomeSiteModel.find({ homeId: 'homepage' });
@@ -52,7 +77,7 @@ router.get('/', async function (req, res, next) {
   console.log(originalproduct)
 
   // console.log(productData)
-  res.render('frontend/index', { title: 'Express', originalproduct, categoryData: categoryData, subCategory, homeSite: homeSite, productData: productData, getAllArtist: getAllArtist });
+  res.render('frontend/index', { title: 'Express', originalproduct:updatedProductData, categoryData: categoryData, subCategory, homeSite: homeSite, productData: productData, getAllArtist: getAllArtist });
 });
 
 router.get('/about', async function (req, res, next) {
@@ -110,7 +135,7 @@ router.get('/checkout', csrfProtection, async function (req, res, next) {
   });
 
   const totalPriceVal = updatedCarts.reduce((acc, curr) => acc + curr.totalPrice, 0);
-  res.render('frontend/checkout', { title: 'Express', userData, countriesData ,  errors: null, updatedCarts, totalPriceVal, csrfToken: req.csrfToken() });
+  res.render('frontend/checkout', { title: 'Express', userData, countriesData, errors: null, updatedCarts, totalPriceVal, csrfToken: req.csrfToken() });
 });
 
 router.get('/edit', function (req, res, next) {
@@ -151,36 +176,29 @@ function escapeRegex(text) {
 }
 
 
-const PAGE_SIZE = 3;
-
 router.get('/marketplace-design', async function (req, res, next) {
-  const page = parseInt(req.query.page) || 1;
-  const pageSize = PAGE_SIZE;
-  const query = { productType: 'design' }; // Include productType condition
-  let sortQuery = {};
-
   try {
-    // Handle sorting
-    if (req.query.sorting === 'popularity') {
-      sortQuery = { popularity: -1 };
-    } else if (req.query.sorting === 'latest') {
-      sortQuery = { createdAt: -1 };
-    } else if (req.query.sorting === 'lowToHigh') {
-      sortQuery = { salePrice: 1 };
-    } else if (req.query.sorting === 'highToLow') {
-      sortQuery = { salePrice: -1 };
+    let query = {};
+    const searchQuery = req.query.search;
+    if (searchQuery) {
+      query = { title: { $regex: new RegExp(searchQuery, 'i') } };
     }
 
-    const totalProductsCount = await Product.countDocuments(query);
-    const totalPages = Math.ceil(totalProductsCount / pageSize);
-    const skip = (page - 1) * pageSize;
-    const ProductData = await Product.find(query).sort(sortQuery).skip(skip).limit(pageSize);
+    const perPage = 10; // Number of items per page
+    const page = parseInt(req.query.page) || 1; // Current page number
+    const totalItems = await desigModel.countDocuments(query);
+    const totalPages = Math.ceil(totalItems / perPage);
+
+    const ProductData = await desigModel.find(query)
+      .skip((perPage * page) - perPage)
+      .limit(perPage);
 
     res.render('frontend/marketplace-design', {
       title: 'Express',
       ProductData: ProductData,
       currentPage: page,
-      totalPages: totalPages
+      totalPages: totalPages,
+      searchQuery: searchQuery // Pass the search query to the view
     });
   } catch (err) {
     next(err);
@@ -189,6 +207,7 @@ router.get('/marketplace-design', async function (req, res, next) {
 
 
 const PAGE_SIZE_MARKET_PLACE = 3; // Number of items per page
+
 router.get('/marketplace', async function (req, res, next) {
   const page = parseInt(req.query.page) || 1;
   const pageSize = PAGE_SIZE_MARKET_PLACE;
@@ -216,29 +235,36 @@ router.get('/marketplace', async function (req, res, next) {
       query.title = { $regex: req.query.search, $options: 'i' };
     }
 
-    const StoreProductData = await StoreProduct.find(query); // Apply the search query
-
-    // Handle category filter if provided
-    if (req.query.category) {
-      query.mainCategory = req.query.category;
+    // Handle artist filter if provided
+    if (req.query.artist) {
+      const artistId = req.query.artist;
+      const artistProducts = await StoreProduct.find({ userId: artistId }).populate('userId');
+      const matchedProductIds = artistProducts.map(product => product._id); // Assuming productId is the correct field
+      query._id = { $in: matchedProductIds }; // Modify this line if productId is different
     }
 
-    // Fetch products based on main category, and productType if category provided
-    let productQuery = StoreProduct.find(query);
-    if (req.query.category) {
-      productQuery = productQuery.populate({
-        path: 'productId',
-        match: query
-      });
-    }
     const totalProductsCount = await StoreProduct.countDocuments(query);
     const totalPages = Math.ceil(totalProductsCount / pageSize);
     const skip = (page - 1) * pageSize;
-    const ProductData = await productQuery.sort(sortQuery).skip(skip).limit(pageSize).exec();
+    const ProductData = await StoreProduct.find(query).sort(sortQuery).skip(skip).limit(pageSize).exec();
+    const whishList = await whishListSchema.find().populate('user').populate('whishList');
+    const whishListMap = {};
+    whishList.forEach(item => {
+      whishListMap[item.whishList._id.toString()] = item._id; // Store the wishlist item's collection id
+    });
+
+    // Add whishList field and whishListCollectionId to each item in ProductData
+    const updatedProductData = ProductData.map(product => {
+      const whishListFoundId = whishListMap[product._id.toString()];
+      const isWhishListed = !!whishListFoundId; // Check if wishlist item is found
+      return { ...product.toObject(), whishList: isWhishListed, whishListCollectionId: whishListFoundId };
+    });
+
+    console.log(updatedProductData);
 
     res.render('frontend/marketplace', {
       title: 'Express',
-      ProductData: ProductData,
+      ProductData: updatedProductData,
       currentPage: page,
       totalPages: totalPages,
       CategoryData: CategoryData,
@@ -254,13 +280,20 @@ router.get('/marketplace', async function (req, res, next) {
 
 
 
-
-
-router.get('/product-detail/:id', isAuthenticated, csrfProtection, async function (req, res, next) {
+router.get('/product-detail/:id', csrfProtection, async function (req, res, next) {
   const { id } = req.params;
   const product = await StoreProduct.findById(id).populate('productId');
   console.log(product)
   res.render('frontend/product-detail', { title: 'Express', product: product, csrfToken: req.csrfToken() });
+});
+
+
+router.get('/desgin-detail/:id', csrfProtection, async function (req, res, next) {
+  const { id } = req.params;
+  console.log(id)
+  const product = await desigModel.findById(id);
+  console.log(product)
+  res.render('frontend/design-preview', { title: 'Express', product: product, csrfToken: req.csrfToken() });
 });
 
 router.get('/wishlist', isAuthenticated, async function (req, res, next) {
@@ -301,7 +334,7 @@ router.get('/upload', isAuthenticated, async function (req, res, next) {
   const allProduct = await Product.find();
   const currentShop = req.query.category;
   const MocuckUp = await ProductMockup.find();
-  res.render('Seller/upload', { title: 'Express', allProduct: allProduct,currentShop, MocuckUp });
+  res.render('Seller/upload', { title: 'Express', allProduct: allProduct, currentShop, MocuckUp });
 });
 
 router.get('/upload-v2', isAuthenticated, async function (req, res, next) {
@@ -311,7 +344,7 @@ router.get('/upload-v2', isAuthenticated, async function (req, res, next) {
   const allProduct = await Product.find();
   const MocuckUp = await ProductMockup.find();
   const deisgnis = await designModel.find();
-  const artistData = await Artist.find({ userId:userId })
+  const artistData = await Artist.find({ userId: userId })
   console.log(artistData)
 
 
@@ -319,8 +352,12 @@ router.get('/upload-v2', isAuthenticated, async function (req, res, next) {
   const designUpload = req.query.designUpload;
   console.log(currentShop)
 
+  if (artistData.length == 0) {
+    res.redirect('/artist-info')
+  }
 
-  res.render('Seller/uploade-v2', { title: 'Express',artistData,  allProduct: allProduct, MocuckUp,currentShop,designUpload });
+
+  res.render('Seller/uploade-v2', { title: 'Express', artistData, allProduct: allProduct, MocuckUp, currentShop, designUpload });
 });
 
 router.get('/order-history', async function (req, res, next) {
@@ -398,23 +435,23 @@ router.get('/admin', function (req, res, next) {
 });
 
 
-router.get('/admin-marketplace',async function (req, res, next) {
+router.get('/admin-marketplace', async function (req, res, next) {
   const originalproduct = await StoreProduct.find().populate('productId');
   res.render('admin/marketplace', { originalproduct });
 });
 
 
-router.get('/bank-account',async function (req, res, next) {
+router.get('/bank-account', async function (req, res, next) {
   const bankAccount = await bankModel.find().populate('userId');
   console.log(bankAccount)
   res.render('admin/bank-account', { bankAccount });
 });
 
-router.get('/product-preview/:id',async function (req, res, next) {
+router.get('/product-preview/:id', async function (req, res, next) {
   const { id } = req.params;
-  const originalproduct = await StoreProduct.find({ _id:id }).populate('productId');
+  const originalproduct = await StoreProduct.find({ _id: id }).populate('productId');
   console.log(originalproduct)
-  res.render('admin/product-preview', { originalproduct:originalproduct[0] });
+  res.render('admin/product-preview', { originalproduct: originalproduct[0] });
 });
 
 

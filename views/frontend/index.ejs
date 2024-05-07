@@ -37,23 +37,23 @@
       <div class="col-lg-7 mb-4 mb-lg-0">
         <div class="category-box" style="background-image: url('frontend/images/tshirts-1.png'); background-position: right top; padding-top: 17rem;">
           <h2 class="mb-3">Apparel</h2>
-          <a href="#" class="my-btn">Shop now</a>
+          <a href="<%- baseUrl -%>marketplace" class="my-btn">Shop now</a>
         </div>
       </div>
       <div class="col-lg-5">
         <div class="row">
           <div class="col-lg-6 col-md-6 mb-4">
-            <div class="category-box" style="background-image: url('frontend/images/bags-1.png'); background-size: 8rem; background-position: left top; background-color: #DF5A8C; padding-top: 9rem; padding-bottom: 1rem;">
+            <div onclick="window.location.href='/marketplace'" class="category-box" style="background-image: url('frontend/images/bags-1.png'); background-size: 8rem; background-position: left top; background-color: #DF5A8C; padding-top: 9rem; padding-bottom: 1rem;">
               <h2 class="mb-0 fs-2 text-end">BAGS</h2>
             </div>
           </div>
           <div class="col-lg-6 col-md-6 mb-4">
-            <div class="category-box h-100" style="background-image: url('frontend/images/keychains-1.png'); background-position: right top; background-color: #BED265; padding-top: 4rem; padding-bottom: 3rem;  background-size: 6rem;">
+            <div onclick="window.location.href='/marketplace'" class="category-box h-100" style="background-image: url('frontend/images/keychains-1.png'); background-position: right top; background-color: #BED265; padding-top: 4rem; padding-bottom: 3rem;  background-size: 6rem;">
               <h2 class="mb-0 text-black fs-2">KEY <br> CHAINS</h2>
             </div>
           </div>
           <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
-            <div class="category-box" style="background-image: url('frontend/images/notebooks-1.png'); background-position: left top; background-color: #F3D751; padding-top: 9rem; padding-bottom: 1rem;">
+            <div onclick="window.location.href='/marketplace'" class="category-box" style="background-image: url('frontend/images/notebooks-1.png'); background-position: left top; background-color: #F3D751; padding-top: 9rem; padding-bottom: 1rem;">
               <h2 class="mb-0 fs-4 text-center text-black">NOTEBOOKS</h2>
             </div>
           </div>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="text">
                       <h4><%- getAllArtist[i].name -%></h4>
-                      <span class="custom_badge"><%- getAllArtist[i].totalDesigns
+                      <span onclick="window.location.href='/marketplace?artist=<%- getAllArtist[i].userId._id -%>'" class="custom_badge"><%- getAllArtist[i].totalDesigns
                                                                     -%>+ designs</span>
                     </div>
                   </div>
@@ -134,7 +134,11 @@
               <span>by <a href='/product-detail/<%- item?._id %>'>Desedin</a></span>
               <p class="price">PKR <%- item?.designPrice -%></p>
             </div>
-            <a href='/product-detail/<%- item?._id %>'><i class="fa-regular fa-heart"></i></a>
+            <a class="SaveWhishList">
+              <input type="hidden" name="" value="<%= item._id %>" class="productId">
+              <%- item.whishList ?  '<i class="fa-solid fa-heart"></i>':'<i class="fa-regular fa-heart"></i>'  -%>
+              <!-- <input type="hidden" value=""> -->
+            </a>
           </div>
         </div>
       </div>
@@ -173,7 +177,11 @@
               <span>by <a href='/product-detail/<%- item?._id %>'>Desedin</a></span>
               <p class="price">PKR <%- item?.designPrice -%></p>
             </div>
-            <a href='/product-detail/<%- item?._id %>'><i class="fa-regular fa-heart"></i></a>
+            <a class="SaveWhishList">
+              <input type="hidden" name="" value="<%= item._id %>" class="productId">
+              <%- item.whishList ?  '<i class="fa-solid fa-heart"></i>':'<i class="fa-regular fa-heart"></i>'  -%>
+              <!-- <input type="hidden" value=""> -->
+            </a>
           </div>
         </div>
       </div>
@@ -194,4 +202,20 @@
   function productDetail(item) {
     console.log(item)
   }
+
+  $(document).ready(function() {
+    $('.SaveWhishList').on('click', async function() {
+      var productId = $(this).find('.productId').val();
+
+      await axios.post('/api/add-whishlist', {
+        whishList: productId
+      }).then((res) => {
+        console.log(res.data)
+        window.location.reload()
+      }).catch((error) => {
+        console.log(error)
+      })
+
+    })
+  })
 </script>
