@@ -389,19 +389,21 @@ router.get('/upload-v2', isAuthenticated, async function (req, res, next) {
   const MocuckUp = await ProductMockup.find();
   const deisgnis = await designModel.find();
   const artistData = await Artist.find({ userId: userId })
-  console.log(artistData)
+  // console.log(artistData)
 
 
   const currentShop = req.query.category;
   const designUpload = req.query.designUpload;
-  console.log(currentShop)
+  const design_upload = req.query.design_upload;
+
+  console.log(design_upload)
 
   if (artistData.length == 0) {
     res.redirect('/artist-info')
   }
 
 
-  res.render('Seller/uploade-v2', { title: 'Express', artistData, allProduct: allProduct, MocuckUp, currentShop, designUpload });
+  res.render('Seller/uploade-v2', { title: 'Express', artistData, design_upload,allProduct: allProduct, MocuckUp, currentShop, designUpload });
 });
 
 router.get('/order-history', async function (req, res, next) {
