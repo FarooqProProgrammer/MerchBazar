@@ -184,7 +184,7 @@ router.get('/marketplace-design', async function (req, res, next) {
       query = { title: { $regex: new RegExp(searchQuery, 'i') } };
     }
 
-    const perPage = 10; // Number of items per page
+    const perPage = 3; // Number of items per page
     const page = parseInt(req.query.page) || 1; // Current page number
     const totalItems = await desigModel.countDocuments(query);
     const totalPages = Math.ceil(totalItems / perPage);

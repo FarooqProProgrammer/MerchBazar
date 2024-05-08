@@ -16,14 +16,14 @@ router.post('/create-store-data', async (req, res) => {
         designImage,
         productId,
         designPrice,
-        
+
     } = req.body;
 
     const userId = req.cookies.user._id;
     const storeId = req.cookies.store._id;
 
-    const artist = artistData.find({ userId:userId });
-    artist.totalDesigns +=1;
+    const artist = artistData.find({ userId: userId });
+    artist.totalDesigns += 1;
 
 
     const SaveProduct = await StoreProduct({
@@ -40,21 +40,21 @@ router.post('/create-store-data', async (req, res) => {
     });
     await SaveProduct.save();
 
-    res.redirect('/upload')
+    res.send({ "product saved success": SaveProduct })
 
 })
 
-router.get('/get-stores',async function(){
-    try { 
+router.get('/get-stores', async function () {
+    try {
         const product = await StoreProduct.find().populate('productId');
         console.log(product)
         res.send(product)
-    }catch(error) { 
+    } catch (error) {
 
     }
 });
 
-router.get('/get-store/:productId', async function(req, res) {
+router.get('/get-store/:productId', async function (req, res) {
     try {
         const productId = req.params.productId;
         const product = await StoreProduct.findById(productId).populate('productId');
