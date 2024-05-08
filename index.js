@@ -12,7 +12,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var flash = require('express-flash');
 const cron = require('node-cron');
-var cachegoose = require('recachegoose');
 var mongoose  = require('mongoose');
 const favicon = require('express-favicon');
 var cors = require('cors')
@@ -68,9 +67,7 @@ cron.schedule('0 12 * * *', () => {
 });
 
 
-cachegoose(mongoose, {
-  engine: 'file'
-});
+
 
 
 app.use(require('express-session')({
@@ -109,8 +106,8 @@ app.use(flash());
 
 
 app.use((req, res, next) => {
- // res.locals.baseUrl = 'http://localhost:3100/';
-res.locals.baseUrl = 'https://merchbazar-4ade74581c10.herokuapp.com/';
+ res.locals.baseUrl = 'http://localhost:3100/';
+// res.locals.baseUrl = 'https://merchbazar-4ade74581c10.herokuapp.com/';
   // res.locals.baseUrl = 'https://gleaming-dog-flannel-shirt.cyclic.app/';
   next();
 });
