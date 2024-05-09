@@ -89,6 +89,7 @@ route.post('/add-states', async (req, res) => {
 // Create a new coupon
 route.post('/coupons', async (req, res) => {
   try {
+    console.log(req.body)
     const coupon = new Coupon(req.body);
     await coupon.save();
     res.status(201).send(coupon);
@@ -134,13 +135,13 @@ route.put('/coupons/:id', async (req, res) => {
 });
 
 // Delete a coupon by ID
-route.delete('/coupons/:id', async (req, res) => {
+route.get('/delete-coupons/:id', async (req, res) => {
   try {
     const coupon = await Coupon.findByIdAndDelete(req.params.id);
     if (!coupon) {
-      return res.status(404).send({ message: 'Coupon not found' });
+      return res.redirect('/coupon')
     }
-    res.send({ message: 'Coupon deleted successfully' });
+    return res.redirect('/coupon')
   } catch (error) {
     res.status(500).send(error);
   }

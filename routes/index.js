@@ -22,7 +22,8 @@ const AuthModel = require('../model/auth');
 const ArtistSchema = require('../model/artistSchema');
 const designModel = require('../model/Site/CheckDesign');
 const bankModel = require('../model/bankAccount');
-const desigModel = require('../model/Pages/designModelSchema')
+const desigModel = require('../model/Pages/designModelSchema');
+const couponDesign  = require('../model/Site/coupon')
 
 var router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -567,8 +568,10 @@ router.get('/users', function (req, res, next) {
   res.render('admin/users', { title: 'Express' });
 });
 
-router.get('/coupon', function (req, res, next) {
-  res.render('admin/coupon', { title: 'Express' });
+router.get('/coupon', async function (req, res, next) {
+  const coupon = await couponDesign.find();
+
+  res.render('admin/coupon', { title: 'Express',coupon });
 });
 
 router.get('/edit-product/:id', async function (req, res, next) {

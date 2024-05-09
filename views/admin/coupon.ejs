@@ -17,16 +17,32 @@
               <th>Coupn Name</th>
               <th>Coupn Discount</th>
               <th>Coupn Expiry</th>
+              <th>Actions</th>
 
             </tr>
           </thead>
           <tbody>
+            <% coupon.forEach((item,index)=>{  %>
             <tr>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
+              <td><%- index + 1 -%></td>
+              <td><%- item.couponName -%></td>
+              <td><%- item.discount -%></td>
+              <td><%- '10 Days' -%></td>
+              <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a href="/api/delete-coupons/<%- item._id -%>" type="button" class="btn btn-icon btn-primary">
+                    <i class="fa-solid fa-trash"></i>
+                  </a>
+                  <button type="button" onclick="updatedData()" class="btn btn-icon btn-primary ">
+                    <input type="hidden" value="<%- item.couponName -%>" id="couponNameForUpdate">
+                    <input type="hidden" value="<%- item.discount -%>" id="discountForUpdate">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                </div>
+              </td>
             </tr>
+
+            <% })  %>
 
 
           </tbody>
@@ -37,6 +53,41 @@
   </div>
 </div>
 
+<div class="modal fade" tabindex="-1" id="kt_modal_2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Coupon</h3>
+
+        <!--begin::Close-->
+        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+          <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+        </div>
+        <!--end::Close-->
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="mb-10">
+              <label for="couponName" class="required form-label">Coupon Name</label>
+              <input type="text" class="form-control form-control-solid" placeholder="Add Coupon Name" id="couponNameUpdated" />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="mb-10">
+              <label for="couponDiscount" class="required form-label">Coupon Discount</label>
+              <input type="text" class="form-control form-control-solid" placeholder="Add Coupon Discount" id="couponDiscountUpdated" />
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <button class="btn btn-primary" id="AddCopoun">Add Coupon</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   $("#kt_datatable_vertical_scroll").DataTable({
@@ -45,6 +96,21 @@
     "paging": false,
     "dom": "<'table-responsive'tr>"
   });
+
+  function updatedData() {
+    $('#kt_modal_2').modal('show');
+    var couponNameUpdated = $('#couponNameForUpdate').val();
+    var couponDiscountUpdated = $('#discountForUpdate').val();
+
+    $('#couponNameUpdated').val(couponNameUpdated)
+    $('#couponDiscountUpdated').val(couponDiscountUpdated)
+
+    
+
+    console.log(couponNameUpdated);
+    console.log(couponDiscountUpdated);
+}
+
 </script>
 
 <div class="modal fade" tabindex="-1" id="kt_modal_1">
@@ -94,6 +160,9 @@
         discount: couponDiscount
       };
 
+     
+
+
       $.ajax({
         type: 'POST',
         url: '/api/coupons',
@@ -101,6 +170,7 @@
         contentType: 'application/json',
         success: function(response) {
           console.log(response);
+          window.location.reload();
         },
         error: function(xhr, status, error) {
           console.error('Error adding coupon:', error);
