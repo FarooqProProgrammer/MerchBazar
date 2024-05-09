@@ -132,12 +132,14 @@
             <div class="mb-10">
               <label for="couponName" class="required form-label">Coupon Name</label>
               <input type="text" class="form-control form-control-solid" placeholder="Add Coupon Name" id="couponName" />
+              <p id="errorName"></p>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="mb-10">
               <label for="couponDiscount" class="required form-label">Coupon Discount</label>
               <input type="text" class="form-control form-control-solid" placeholder="Add Coupon Discount" id="couponDiscount" />
+              <div id="errorDiscount"></div>
             </div>
           </div>
           <div class="col-lg-12">
@@ -150,34 +152,33 @@
 </div>
 
 <script>
-  $(document).ready(function() {
-    $('#AddCopoun').click(function() {
-      var couponName = $('#couponName').val();
-      var couponDiscount = $('#couponDiscount').val();
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('AddCopoun').addEventListener('click', function() {
+      var couponName = document.getElementById('couponName').value;
+      var couponDiscount = document.getElementById('couponDiscount').value;
 
       var data = {
         couponName: couponName,
         discount: couponDiscount
       };
 
-     
+      console.log(data);
 
-
-      $.ajax({
-        type: 'POST',
-        url: '/api/coupons',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(response) {
-          console.log(response);
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/coupons');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          console.log(xhr.responseText);
           window.location.reload();
-        },
-        error: function(xhr, status, error) {
-          console.error('Error adding coupon:', error);
-
+        } else {
+          console.error('Error adding coupon:', xhr.statusText);
         }
-      });
-
-    })
-  })
+      };
+      xhr.onerror = function() {
+        console.error('Error adding coupon:', xhr.statusText);
+      };
+      xhr.send(JSON.stringify(data));
+    });
+  });
 </script>
