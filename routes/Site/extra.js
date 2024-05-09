@@ -202,9 +202,10 @@ route.post('/upload-design', async (req, res) => {
 
 
       // const storeId = req.cookies.store._id;
+      const userId = req.cookies.store._id;
 
 
-      const { title, mainTag,userId, description, supportingTags, designPrice, album, designImage,  productId } = req.body;
+      const { title, mainTag, description, supportingTags, designPrice, album, designImage,  productId } = req.body;
 
       // Create a new instance of the DesignModel with the extracted data
       const design = new designUpdate({
