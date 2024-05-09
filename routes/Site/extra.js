@@ -257,6 +257,36 @@ route.post('/add-album', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+route.post('/update-album/:id', async (req, res) => {
+  try {
+    const { AlbumStatus, Albumname, AlbumProductIds } = req.body;
+    const userId = req.cookies.user._id;
+    const albumId = req.params.id;
+
+    // Find the existing album by ID and update its fields
+    const updatedAlbum = await DesignAlbum.findByIdAndUpdate(
+      albumId,
+      {
+        AlbumStatus,
+        AlbumProductIds,
+        userId,
+        userIdwithMetaData: userId,
+        Albumname
+      },
+      { new: true } // Set new: true to return the updated document
+    );
+
+    if (!updatedAlbum) {
+      return res.status(404).json({ error: 'Album not found' });
+    }
+
+    res.status(200).json(updatedAlbum);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+
+});
 
 
 route.get('/delete-album/:id', async (req, res) => {
@@ -276,6 +306,23 @@ route.get('/delete-album/:id', async (req, res) => {
   }
 });
 
+route.get('/get-album/:id', async (req, res) => {
+  try {
+    const albumId = req.params.id;
+    
+    // Find the album by its ID
+    const album = await DesignAlbum.findById(albumId).populate('AlbumProductIds');
+    
+    if (!album) {
+      return res.status(404).json({ error: 'Album not found' });
+    }
+    
+    res.status(200).json(album);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 

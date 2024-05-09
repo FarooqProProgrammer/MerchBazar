@@ -13,7 +13,7 @@ const designModelSchema = new mongoose.Schema({
   },
   AlbumProductIds :{
     type: [mongoose.Schema.Types.ObjectId],
-    ref:'designmodels'
+    ref:'designModel'
   },
   userId: {
     type: String,
