@@ -33,7 +33,7 @@
                   <a href="/api/delete-coupons/<%- item._id -%>" type="button" class="btn btn-icon btn-primary">
                     <i class="fa-solid fa-trash"></i>
                   </a>
-                  <button type="button" onclick="updatedData()" class="btn btn-icon btn-primary ">
+                  <button type="button"  class="btn updatedData btn-icon btn-primary ">
                     <input type="hidden" value="<%- item.couponName -%>" id="couponNameForUpdate">
                     <input type="hidden" value="<%- item.discount -%>" id="discountForUpdate">
                     <i class="fa-solid fa-pen-to-square"></i>
@@ -97,19 +97,18 @@
     "dom": "<'table-responsive'tr>"
   });
 
-  function updatedData() {
-    $('#kt_modal_2').modal('show');
-    var couponNameUpdated = $('#couponNameForUpdate').val();
-    var couponDiscountUpdated = $('#discountForUpdate').val();
+ $(document).on('click', '.updatedData', function() {
+  $('#kt_modal_2').modal('show');
+  var couponNameUpdated = $(this).find('#couponNameForUpdate').val();
+  var couponDiscountUpdated = $(this).find('#discountForUpdate').val();
 
-    $('#couponNameUpdated').val(couponNameUpdated)
-    $('#couponDiscountUpdated').val(couponDiscountUpdated)
+  console.log(couponNameUpdated);
+  console.log(couponDiscountUpdated);
 
-    
+  $('#couponNameUpdated').val(couponNameUpdated);
+  $('#couponDiscountUpdated').val(couponDiscountUpdated);
+});
 
-    console.log(couponNameUpdated);
-    console.log(couponDiscountUpdated);
-}
 
 </script>
 
@@ -143,7 +142,7 @@
             </div>
           </div>
           <div class="col-lg-12">
-            <button class="btn btn-primary" id="AddCopoun">Add Coupon</button>
+            <button class="btn btn-primary" id="AddCopounData">Add Coupon</button>
           </div>
         </div>
       </div>
@@ -153,7 +152,7 @@
 
 <script>
   $(document).ready(function() {
-    $('#AddCopoun').click(function() {
+    $('#AddCopounData').click(function() {
       var couponName = $('#couponName').val();
       var couponDiscount = $('#couponDiscount').val();
 
@@ -162,6 +161,27 @@
         discount: couponDiscount
       };
 
+
+      if(couponName == '') { 
+        $('#couponName').addClass('is-invalid');
+        $('#errorName').text('PLEASE ADD COUPON NAME');
+        $('#errorName').addClass('text-danger');
+        return
+      }else { 
+        $('#couponName').removeClass('is-invalid');
+        $('#errorName').empty();
+      }
+
+      
+      if(couponDiscount == '') { 
+        $('#couponDiscount').addClass('is-invalid');
+        $('#errorDiscount').text('PLEASE ADD Discount NAME');
+        $('#errorDiscount').addClass('text-danger');
+        return
+      }else { 
+        $('#couponDiscount').removeClass('is-invalid');
+        $('#errorDiscount').empty();
+      }
 
     
 

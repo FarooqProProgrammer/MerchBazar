@@ -23,7 +23,8 @@ const ArtistSchema = require('../model/artistSchema');
 const designModel = require('../model/Site/CheckDesign');
 const bankModel = require('../model/bankAccount');
 const desigModel = require('../model/Pages/designModelSchema');
-const couponDesign  = require('../model/Site/coupon')
+const couponDesign = require('../model/Site/coupon');
+const DesignAlbum = require('../model/Site/albumModel');
 
 var router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -38,29 +39,29 @@ router.get('/', async function (req, res, next) {
   const subCategory = await productSubCatergoryMain.find();
   const originalproduct = await StoreProduct.find().populate('productId');
   const whishList = await whishListSchema.find().populate('user').populate('whishList');
-  
+
   // Create a map of product _ids and their corresponding original collection ids for faster lookup
   const productMap = {};
   originalproduct.forEach(item => {
     productMap[item._id.toString()] = item; // Store the product item itself
   });
-  
+
   // Create a map of wishlist _ids and their corresponding collection ids for faster lookup
   const whishListMap = {};
   whishList.forEach(item => {
     whishListMap[item.whishList._id.toString()] = item.whishList; // Store the wishlist item itself
   });
-  
+
   // Add whishList field and whishListCollectionId to each product in originalproduct
   const updatedProductData = originalproduct.map(product => {
     const whishListItem = whishListMap[product._id.toString()];
     const isWhishListed = !!whishListItem; // Check if wishlist item is found
     return { ...product.toObject(), whishList: isWhishListed, whishListCollectionId: whishListItem };
   });
-  
+
   console.log(updatedProductData);
   // Now updatedProductData contains originalproduct items with additional fields whishList and whishListCollectionId
-  
+
 
 
   const homeSite = await HomeSiteModel.find({ homeId: 'homepage' });
@@ -78,7 +79,7 @@ router.get('/', async function (req, res, next) {
   console.log(originalproduct)
 
   // console.log(productData)
-  res.render('frontend/index', { title: 'Express', originalproduct:updatedProductData, categoryData: categoryData, subCategory, homeSite: homeSite, productData: productData, getAllArtist: getAllArtist });
+  res.render('frontend/index', { title: 'Express', originalproduct: updatedProductData, categoryData: categoryData, subCategory, homeSite: homeSite, productData: productData, getAllArtist: getAllArtist });
 });
 
 router.get('/about', async function (req, res, next) {
@@ -284,7 +285,7 @@ router.get('/marketplace', async function (req, res, next) {
 router.get('/product-detail/:id', csrfProtection, async function (req, res, next) {
   try {
     const { id } = req.params;
-    
+
     // Retrieve the product details by ID and populate related data
     const product = await StoreProduct.findById(id).populate('productId');
 
@@ -317,12 +318,12 @@ router.get('/product-detail/:id', csrfProtection, async function (req, res, next
     console.log(isWhishListed)
 
     // Render the product detail view with the product and wishlist information
-    res.render('frontend/product-detail', { 
-      title: 'Express', 
-      product: product, 
+    res.render('frontend/product-detail', {
+      title: 'Express',
+      product: product,
       whishList: isWhishListed, // Pass whether the product is in the wishlist
       whishListCollection: whishListItem, // Pass the wishlist collection if the product is in the wishlist
-      csrfToken: req.csrfToken() 
+      csrfToken: req.csrfToken()
     });
   } catch (error) {
     // Handle any errors that occur during the process
@@ -354,8 +355,13 @@ router.get('/seller', isAuthenticated, function (req, res, next) {
   res.render('Seller/index', { title: 'Express' });
 });
 
-router.get('/album', function (req, res, next) {
-  res.render('Seller/album', { title: 'Express' });
+router.get('/album', async function (req, res, next) {
+  const userId = req.cookies.user._id;
+
+  const designAlbum = await DesignAlbum.find({ userId: userId });
+
+
+  res.render('Seller/album', { title: 'Express',designAlbum });
 });
 
 router.get('/artist-info', async function (req, res, next) {
@@ -368,11 +374,24 @@ router.get('/artist-info', async function (req, res, next) {
 
   res.render('Seller/artist-info', { title: 'Express', ArtistModel });
 });
-router.get('/create-album', function (req, res, next) {
-  res.render('Seller/create-album', { title: 'Express' });
+router.get('/create-album', async function (req, res, next) {
+  const userId = req.cookies.user._id;
+  console.log(userId)
+  const designs = await desigModel.find({ userUniqueId: userId }).populate('userId').populate('productId');
+
+
+  console.log(designs)
+
+
+  res.render('Seller/create-album', { title: 'Express', designs });
 });
-router.get('/edit-album', function (req, res, next) {
-  res.render('Seller/edit-album', { title: 'Express' });
+
+
+router.get('/edit_album/:id', async function (req, res, next) {
+  const { id } = req.params;
+  const singleAlbum = await DesignAlbum.findById(id);
+  console.log(singleAlbum)
+  res.render('Seller/edit_album', { title: 'Express',singleAlbum });
 });
 
 router.get('/upload', isAuthenticated, async function (req, res, next) {
@@ -404,7 +423,7 @@ router.get('/upload-v2', isAuthenticated, async function (req, res, next) {
   }
 
 
-  res.render('Seller/uploade-v2', { title: 'Express', artistData, design_upload,allProduct: allProduct, MocuckUp, currentShop, designUpload });
+  res.render('Seller/uploade-v2', { title: 'Express', artistData, design_upload, allProduct: allProduct, MocuckUp, currentShop, designUpload });
 });
 
 router.get('/order-history', async function (req, res, next) {
@@ -571,7 +590,7 @@ router.get('/users', function (req, res, next) {
 router.get('/coupon', async function (req, res, next) {
   const coupon = await couponDesign.find();
 
-  res.render('admin/coupon', { title: 'Express',coupon });
+  res.render('admin/coupon', { title: 'Express', coupon });
 });
 
 router.get('/edit-product/:id', async function (req, res, next) {

@@ -5,7 +5,8 @@ const State = require('../../model/Site/state');
 const ProceedCheckout = require('../../model/Site/ProceedToCheckOut');
 const designModel = require('../../model/Site/CheckDesign');
 const Coupon = require('../../model/Site/coupon');
-const designUpdate = require('../../model/Pages/designModelSchema')
+const designUpdate = require('../../model/Pages/designModelSchema');
+const DesignAlbum = require('../../model/Site/albumModel');
 const route = express.Router();
 
 
@@ -231,7 +232,49 @@ route.post('/upload-design', async (req, res) => {
 });
 
 
+route.post('/add-album', async (req, res) => {
+  try {
+    const { AlbumStatus,Albumname, AlbumProductIds } = req.body;
+    const userId = req.cookies.user._id;
 
+
+
+    // Create a new status
+    const status = new DesignAlbum({
+      AlbumStatus,
+      AlbumProductIds,
+      userId,
+      userIdwithMetaData:userId,
+      Albumname
+    });
+
+    // Save the new status to the database
+    const savedStatus = await status.save();
+
+    res.status(201).json(savedStatus);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+route.get('/delete-album/:id', async (req, res) => {
+  try {
+    const albumId = req.params.id;
+    
+    // Find the album by its ID and delete it
+    const deletedAlbum = await DesignAlbum.findByIdAndDelete(albumId);
+    
+    if (!deletedAlbum) {
+      return res.redirect('/album')
+    }
+    return res.redirect('/album')
+  } catch (err) {
+    console.error(err);
+    return res.redirect('/album')
+  }
+});
 
 
 

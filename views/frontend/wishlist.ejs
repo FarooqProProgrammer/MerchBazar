@@ -1,105 +1,120 @@
 <% layout('layouts/adminLayout') -%>
-    <%-block('title','<title> Wishlist </title>')%>
+<%-block('title','<title> Wishlist </title>')%>
 
 
 
 
-        <section class="main-banner wishlist">
-            <div class="container position-relative z-2">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <h1 class="text-white primary-text">Wishlist</h1>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section class="main-banner wishlist">
+  <div class="container position-relative z-2">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1 class="text-white primary-text">Wishlist</h1>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <section class="cart">
-            <div class="container-fluid px-lg-5">
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <h3 class="text-black">Wishlist</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Product</th>
-                                        <th scope="col" class="text-center">Price</th>
-                                        <th scope="col" class="text-center">Stock Status</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% whishList.map((item)=>{ %>
-                                        <tr>
-                                            <th scope="row">
-                                                <div class="d-flex gap-3 align-items-center">
-                                                    <img src="<%- item.whishList.designImage -%>" alt="" width="50">
-                                                    <%- item.whishList.title -%>
-                                                </div>
-                                            </th>
-                                            <td style="color: #191C1F; font-weight: 500;">PKR <%- item.whishList.designPrice -%>
-                                            </td>
-                                            <td style="color: #2DB224; font-weight: 600;"> <%- item ? 'In Stock'
+<section class="cart">
+  <div class="container-fluid px-lg-5">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h3 class="text-black">Wishlist</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col" class="text-center">Price</th>
+                <th scope="col" class="text-center">Stock Status</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% whishList.map((item)=>{ %>
+              <tr>
+                <th scope="row">
+                  <div class="d-flex gap-3 align-items-center">
+                    <img src="<%- item.whishList.designImage -%>" alt="" width="50">
+                    <%- item.whishList.title -%>
+                  </div>
+                </th>
+                <td style="color: #191C1F; font-weight: 500;">PKR <%- item.whishList.designPrice -%>
+                </td>
+                <td style="color: #2DB224; font-weight: 600;"> <%- item ? 'In Stock'
                                                     : 'Not In Stock' -%></td>
-                                            <td style="color: #191C1F;" class="text-start w-25">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <a href="#" class="my-btn primary rounded-0">ADD TO CART <i
-                                                            class="fa-solid fa-cart-shopping"></i></a>
+                <td style="color: #191C1F;" class="text-start w-25">
+                  <div class="d-flex align-items-center gap-2">
+                    <a class="my-btn primary rounded-0">ADD TO CART <i class="fa-solid fa-cart-shopping"></i>
+                      <input type="hidden" name="" class="addCartId" value="<%- item.whishList._id -%>">
+                    </a>
 
-                                                    <a href="#" class="remove">
-                                                        <input type="hidden" name="" class="removeProductID"
-                                                            value="<%- item.wishListId -%>">
-                                                        <i class="fa-regular fa-circle-xmark"
-                                                            style="color: #929FA5;"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <% }) %>
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    <a href="#" class="remove">
+                      <input type="hidden" name="" class="removeProductID" value="<%- item.wishListId -%>">
+                      <i class="fa-regular fa-circle-xmark" style="color: #929FA5;"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
 
 
-        <script>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-            $(document).ready(function () {
-                $('.remove').click(async function () {
-                    var productId = $(this).find('.removeProductID').val();
-                    console.log(productId)
+
+<script>
+  $(document).ready(function() {
+    $('.remove').click(async function() {
+      var productId = $(this).find('.removeProductID').val();
+      console.log(productId)
 
 
-                    try {
-                        const response = await fetch('/api/remove-whishlist', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ whishListItemId: productId })
-                        });
+      try {
+        const response = await fetch('/api/remove-whishlist', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            whishListItemId: productId
+          })
+        });
 
-                        if (response.ok) {
-                            console.log('Success');
-                            window.location.reload()
-                        } else {
-                            throw new Error('Request failed');
-                        }
-                    } catch (error) {
-                        console.error(error);
-                    }
+        if (response.ok) {
+          console.log('Success');
+          window.location.reload()
+        } else {
+          throw new Error('Request failed');
+        }
+      } catch (error) {
+        console.error(error);
+      }
 
-                });
+    });
 
-            })
-        </script>
+    $('.my-btn').click(async function() {
+      var ProductId = $(this).find('.addCartId').val();
+      console.log(ProductId)
+
+      await axios.post('/api/cart', {
+        product: ProductId,
+        quantity: '1'
+      }).then((res) => {
+        console.log(res)
+        window.location.href = '/cart';
+      }).catch((error) => {
+        console.log(error)
+      })
+
+    })
+  })
+</script>

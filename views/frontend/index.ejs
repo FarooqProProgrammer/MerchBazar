@@ -130,14 +130,14 @@
           </a>
           <div class="text d-flex align-items-center justify-content-between">
             <div class="info">
+              <input type="hidden" name="" value="<%- item?._id %>">
               <h6><a href='/product-detail/<%- item?._id %>'><%- item?.title -%></a></h6>
               <span>by <a href='/product-detail/<%- item?._id %>'>Desedin</a></span>
               <p class="price">PKR <%- item?.designPrice -%></p>
             </div>
             <a class="SaveWhishList">
-              <input type="hidden" name="" value="<%= item._id %>" class="productId">
+              <input type="hidden" name="" value="<%- item._id -%>" class="productId">
               <%- item.whishList ?  '<i class="fa-solid fa-heart"></i>':'<i class="fa-regular fa-heart"></i>'  -%>
-              <!-- <input type="hidden" value=""> -->
             </a>
           </div>
         </div>
@@ -146,9 +146,10 @@
 
       <% } else { %>
       <div class="alert alert-primary" role="alert">
-        No Featured Product Avialable
+        A simple primary alert—check it out!
       </div>
       <% } %>
+
 
     </div>
   </div>
@@ -205,17 +206,31 @@
 
   $(document).ready(function() {
     $('.SaveWhishList').on('click', async function() {
+      // Check if user information is available in cookies
+      const userCookie = Cookies.getJSON('user');
+      // if (!userCookie || !userCookie._id) {
+      // console.log("PLEASE LOGIN")
+      //   return;
+      // }
+
+      // If user is logged in, proceed with adding the item to wishlist
       var productId = $(this).find('.productId').val();
+      console.log(productId)
 
-      await axios.post('/api/add-whishlist', {
-        whishList: productId
-      }).then((res) => {
-        console.log(res.data)
-        window.location.reload()
-      }).catch((error) => {
-        console.log(error)
-      })
+      try {
+        // Send request to add item to wishlist
+        const response = await axios.post('/api/add-whishlist', {
+          whishList: productId
+        });
 
-    })
-  })
+        // Reload the page after successfully adding item to wishlist
+        console.log(response.data);
+        window.location.reload();
+      } catch (error) {
+        // Handle errors if adding item to wishlist fails
+        console.error(error);
+        toastr.error('Failed to add item to wishlist');
+      }
+    });
+  });
 </script>

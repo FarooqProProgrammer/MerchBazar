@@ -19,6 +19,7 @@ var helmet  = require('helmet')
 const http = require('http');
 var MongoDBStore = require('connect-mongodb-session')(session);
 require('dotenv').config();
+const expressIp = require('express-ip');
 var app = express();
 
 
@@ -27,7 +28,7 @@ var app = express();
 // app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: '50mb' }));
-
+app.use(expressIp().getIpInfoMiddleware);
 
 var store = new MongoDBStore({
   uri: 'mongodb+srv://farooq123:farooq123@cluster0.ijdh8yd.mongodb.net/dashboard?retryWrites=true&w=majority&appName=Cluster0',

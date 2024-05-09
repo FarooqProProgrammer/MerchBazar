@@ -24,6 +24,7 @@
     "express-ejs-layouts": "^2.5.1",
     "express-favicon": "^2.0.4",
     "express-flash": "^0.0.2",
+    "express-ip": "^1.0.4",
     "express-session": "^1.18.0",
     "express-validator": "^7.0.1",
     "helmet": "^7.1.0",

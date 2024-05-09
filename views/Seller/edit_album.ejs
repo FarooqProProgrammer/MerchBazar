@@ -2,11 +2,6 @@
 <%-block('title','<title> Edit Album </title>')%>
 
 
-
-
-
-
-
 <style>
     .albums .album-design {
         position: relative;
@@ -176,3 +171,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('.email-edit-btn').on('click', function(e) {
+        e.preventDefault();
+        $('.edit-notice').slideDown();
+    });
+
+    $('.add_toggle').on('click', function(e) {
+        e.preventDefault();
+        $(this).parent().toggleClass('added');
+    });
+</script>
