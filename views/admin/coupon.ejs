@@ -152,33 +152,35 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('AddCopoun').addEventListener('click', function() {
-      var couponName = document.getElementById('couponName').value;
-      var couponDiscount = document.getElementById('couponDiscount').value;
+  $(document).ready(function() {
+    $('#AddCopoun').click(function() {
+      var couponName = $('#couponName').val();
+      var couponDiscount = $('#couponDiscount').val();
 
       var data = {
         couponName: couponName,
         discount: couponDiscount
       };
 
-      console.log(data);
 
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/coupons');
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          console.log(xhr.responseText);
+    
+
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/coupons',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(response) {
+          console.log(response);
           window.location.reload();
-        } else {
-          console.error('Error adding coupon:', xhr.statusText);
+        },
+        error: function(xhr, status, error) {
+          console.error('Error adding coupon:', error);
+
         }
-      };
-      xhr.onerror = function() {
-        console.error('Error adding coupon:', xhr.statusText);
-      };
-      xhr.send(JSON.stringify(data));
-    });
-  });
+      });
+
+    })
+  })
 </script>
