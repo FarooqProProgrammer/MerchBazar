@@ -567,8 +567,7 @@
                       <div class="editor-container pillow">
 
                         <div class="mockup-container active">
-                          <div class="mockup-display-preview" >
-                            <img class="w-100 h-100" src="https://img.freepik.com/free-photo/white-plain-eco-bag-with-black-handle-mockup_1409-4307.jpg?t=st=1715363196~exp=1715366796~hmac=f3d07622a95c7cf4bf9acfe4552293716f3e543f4b5bc259d3e53045fbd646b2&w=740" alt="" srcset="">
+                          <div class="mockup-display-preview" style="background-image: url('https://img.freepik.com/free-photo/white-plain-eco-bag-with-black-handle-mockup_1409-4307.jpg?t=st=1715363196~exp=1715366796~hmac=f3d07622a95c7cf4bf9acfe4552293716f3e543f4b5bc259d3e53045fbd646b2&w=740'); background-repeat:no-repeat; background-size:cover;">
                             <div class="mockup-boundaries pillow">
                               <img class="mutable-preview ui-draggable ui-draggable-handle" src="" style="width: 304.5px; height: 221.208px; top: 0px; left: 0px;">
                               <div class="m-uploader_center-axis vertical"></div>
@@ -973,7 +972,7 @@
       document.getElementById('SaveProduct').addEventListener('click', async function(event) {
         console.log('fsdfds ');
 
-        var currentCanvas = document.querySelector('.canvas-container.current-canvas .editor-container');
+        var currentCanvas = document.querySelector('.canvas-container.current-canvas .mockup-container.active .mockup-display-preview');
         // var currentCanvas = document.querySelector('.editor-container.pillow');
         console.log(currentCanvas);
 
