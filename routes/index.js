@@ -435,9 +435,9 @@ router.get('/upload-v2', isAuthenticated, async function (req, res, next) {
   const currentShop = req.query.category;
   const designUpload = req.query.designUpload;
   const design_upload = req.query.design_upload;
-  
+
   const currentUrl = await ProductMockup.find({ category:currentShop });
-  console.log(currentShop)
+  console.log(currentUrl)
 
   if (artistData.length == 0) {
     res.redirect('/artist-info')
