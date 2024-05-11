@@ -49,7 +49,7 @@ route.post('/add-mockup', async(req,res)=>{
 
 route.get('/get-mouckup',async function(req,res){
     try { 
-        const mock = await ProductMockup.find();
+        const mock = await ProductMockup.find().sort({ createdAt: -1 });
         res.send(mock)
     }catch(error) { 
         res.send(error)
