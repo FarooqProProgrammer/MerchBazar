@@ -425,7 +425,7 @@ router.get('/upload-v2', isAuthenticated, async function (req, res, next) {
   const userId = req.cookies.user._id;
 
   const allProduct = await Product.find();
-  const MocuckUp = await ProductMockup.find();
+  const MocuckUp = await ProductMockup.find().sort({ createdAt: -1 });
   const deisgnis = await designModel.find();
   const artistData = await Artist.find({ userId: userId })
   // console.log(artistData)
