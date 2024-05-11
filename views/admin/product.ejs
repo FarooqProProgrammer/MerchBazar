@@ -1,315 +1,311 @@
 <% layout('layouts/adminLayout') -%>
-  <%- block('title','<title>Add Product</title>')%>
+<%- block('title','<title>Add Product</title>')%>
 
 
-    <div class="container bg-white py-3" style="max-width: 90%;">
-      <div class="">
-        <a href="#" class="btn btn-icon btn-primary fs-5" data-bs-toggle="modal" data-bs-target="#kt_modal_1">
-          +
-        </a>
-      </div>
-      <div class="table-responsive ">
-        <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
-          <thead>
-            <tr class="fw-semibold fs-6 text-muted">
-              <th>ID</th>
-              <th>Product Name</th>
-              <th>Product Description</th>
-              <th>Product Price</th>
-              <th>Category</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
+<div class="container bg-white py-3" style="max-width: 90%;">
+  <div class="">
+    <a href="#" class="btn btn-icon btn-primary fs-5" data-bs-toggle="modal" data-bs-target="#kt_modal_1">
+      +
+    </a>
+  </div>
+  <div class="table-responsive ">
+    <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
+      <thead>
+        <tr class="fw-semibold fs-6 text-muted">
+          <th>ID</th>
+          <th>Product Name</th>
+          <th>Product Description</th>
+          <th>Product Price</th>
+          <th>Category</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
 
-            <% for(var i=0;i<Mockup.length;i++) { %>
-              <tr>
-                <td><%- i + 1 -%></td>
-                <td><%- Mockup[i].productName -%></td>
-                <td><%- Mockup[i].AdditionalInformation.substring(0,5)+'...' -%></td>
-                <td><%- Mockup[i].pdocutBasePrice -%></td>
-                <td><%- Mockup[i].category -%></td>
-                <td>
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <form action="/api/delete-mockup/<%- Mockup[i]._id -%>" method="post">
-                      <button type="submit" class="btn btn-icon btn-primary">
-                        <i class="bi bi-trash fs-1x"></i>
-                      </button>
-                    </form>
-                    <a href="/edit-product/<%- Mockup[i]._id -%>" class="btn btn-primary" class="btn btn-primary">
-                      <i class="bi bi-pencil fs-1x"></i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <% } %>
-
-
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-    <div class="modal bg-body fade" tabindex="-1" id="kt_modal_1">
-      <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content shadow-none">
-          <div class="modal-header">
-            <h5 class="modal-title">Add Product</h5>
-
-            <!--begin::Close-->
-            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-              <i class="ki-duotone ki-cross fs-2x"><span class="path1"></span><span class="path2"></span></i>
+        <% for(var i=0;i<Mockup.length;i++) { %>
+        <tr>
+          <td><%- i + 1 -%></td>
+          <td><%- Mockup[i].productName -%></td>
+          <td><%- Mockup[i].AdditionalInformation.substring(0,5)+'...' -%></td>
+          <td><%- Mockup[i].pdocutBasePrice -%></td>
+          <td><%- Mockup[i].category -%></td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <form action="/api/delete-mockup/<%- Mockup[i]._id -%>" method="post">
+                <button type="submit" class="btn btn-icon btn-primary">
+                  <i class="bi bi-trash fs-1x"></i>
+                </button>
+              </form>
+              <a href="/edit-product/<%- Mockup[i]._id -%>" class="btn btn-primary" class="btn btn-primary">
+                <i class="bi bi-pencil fs-1x"></i>
+              </a>
             </div>
-            <!--end::Close-->
+          </td>
+        </tr>
+        <% } %>
+
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<div class="modal bg-body fade" tabindex="-1" id="kt_modal_1">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content shadow-none">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Product</h5>
+
+        <!--begin::Close-->
+        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+          <i class="ki-duotone ki-cross fs-2x"><span class="path1"></span><span class="path2"></span></i>
+        </div>
+        <!--end::Close-->
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+
+          <div class="col-lg-4">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Product Name</label>
+              <input type="text" name="productName" id="productName" class="form-control form-control-solid" placeholder="Product Name" />
+            </div>
           </div>
-
-          <div class="modal-body">
-            <div class="row">
-
-              <div class="col-lg-4">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Product Name</label>
-                  <input type="text" name="productName" id="productName" class="form-control form-control-solid"
-                    placeholder="Product Name" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Product Price</label>
-                  <input type="text" name="sku" id="pdocutBasePrice" class="form-control form-control-solid"
-                    placeholder="Product Price" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Product Colors</label>
-                  <input type="text" name="brand" id="productColors" class="form-control form-control-solid"
-                    placeholder="Product Colors" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Product Sku</label>
-                  <input type="text" name="brand" id="productSku" class="form-control form-control-solid"
-                    placeholder="Product Colors" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Product Brand</label>
-                  <input type="text" name="brand" id="productBrand" class="form-control form-control-solid"
-                    placeholder="Product Colors" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Product Availability</label>
-                  <input type="text" name="brand" id="productAvialability" class="form-control form-control-solid"
-                    placeholder="Product Colors" />
-                </div>
-              </div>
-
-              <div class="col-lg-4">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Product Front Image</label>
-                  <input type="file" name="brand" id="productFrontImage" class="form-control form-control-solid"
-                    placeholder="Product Colors" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Product Back Image</label>
-                  <input type="file" name="brand" id="productBackImage" class="form-control form-control-solid"
-                    placeholder="Product Colors" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Categories</label>
-                  <select name="" id="category" class="form-control form-control-solid">
-                    <% categoryMain.map((item)=>{ %>
-                      <option value="<%- item.productCategory -%>" ><%- item.productCategory -%></option>
-                    <% }) %>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Additional Information</label>
-                  <textarea name="" id="kt_docs_tinymce_additional" class="form-control form-control-solid"></textarea>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="mb-10">
-                  <label for="exampleFormControlInput1" class="required form-label">Specification Review</label>
-                  <textarea name="" id="kt_docs_tinymce_specification"
-                    class="form-control form-control-solid"></textarea>
-                </div>
-              </div>
-              <div class="col-lg-2">
-                <button class="btn btn-primary" id="SaveDate">Save</button>
-              </div>
-
-
+          <div class="col-lg-4">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Product Price</label>
+              <input type="text" name="sku" id="pdocutBasePrice" class="form-control form-control-solid" placeholder="Product Price" />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Product Colors</label>
+              <input type="text" name="brand" id="productColors" class="form-control form-control-solid" placeholder="Product Colors" />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Product Sku</label>
+              <input type="text" name="brand" id="productSku" class="form-control form-control-solid" placeholder="Product Colors" />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Product Brand</label>
+              <input type="text" name="brand" id="productBrand" class="form-control form-control-solid" placeholder="Product Colors" />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Product Availability</label>
+              <input type="text" name="brand" id="productAvialability" class="form-control form-control-solid" placeholder="Product Colors" />
             </div>
           </div>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+          <div class="col-lg-4">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Product Front Image</label>
+              <input type="file" name="brand" id="productFrontImage" class="form-control form-control-solid" placeholder="Product Colors" />
+            </div>
           </div>
+          <div class="col-lg-4">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Product Back Image</label>
+              <input type="file" name="brand" id="productBackImage" class="form-control form-control-solid" placeholder="Product Colors" />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Categories</label>
+              <select name="" id="category" class="form-control form-control-solid">
+                <% categoryMain.map((item)=>{ %>
+                <option value="<%- item.productCategory -%>"><%- item.productCategory -%></option>
+                <% }) %>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Additional Information</label>
+              <textarea name="" id="kt_docs_tinymce_additional" class="form-control form-control-solid"></textarea>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="mb-10">
+              <label for="exampleFormControlInput1" class="required form-label">Specification Review</label>
+              <textarea name="" id="kt_docs_tinymce_specification" class="form-control form-control-solid"></textarea>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <button class="btn btn-primary" id="SaveDate">Save</button>
+          </div>
+
+
         </div>
       </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
+  </div>
+</div>
 
 
 
-    <script type="module">
+<script type="module">
 
 
-    </script>
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-      import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+</script>
+<script type="module">
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyCmpnrRYeBVc5xYb_p5cRiMHB3A8X6rooU",
-        authDomain: "merhcbazar.firebaseapp.com",
-        projectId: "merhcbazar",
-        storageBucket: "merhcbazar.appspot.com",
-        messagingSenderId: "234938435232",
-        appId: "1:234938435232:web:c31b149247347ed2da6bc5"
-      };
+  const firebaseConfig = {
+    apiKey: "AIzaSyCmpnrRYeBVc5xYb_p5cRiMHB3A8X6rooU",
+    authDomain: "merhcbazar.firebaseapp.com",
+    projectId: "merhcbazar",
+    storageBucket: "merhcbazar.appspot.com",
+    messagingSenderId: "234938435232",
+    appId: "1:234938435232:web:c31b149247347ed2da6bc5"
+  };
 
-      const app = initializeApp(firebaseConfig);
-      const storage = getStorage(app);
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
 
-      $('#SaveDate').on('click', async function () {
-        // Get values from form fields
-        const productName = $('#productName').val();
-        const pdocutBasePrice = $('#pdocutBasePrice').val();
-        const productColors = $('#productColors').val();
-        const productFrontImage = $('#productFrontImage').prop('files')[0];
-        const productBackImage = $('#productBackImage').prop('files')[0];
-        const category = $('#category').val();
-        const productSku = $('#productSku').val()
-        const productBrand = $('#productBrand').val()
-        const productAvialability = $('#productAvialability').val()
-        const additionalInformation = tinymce.get('kt_docs_tinymce_additional').getContent();
-        const specificationReview = tinymce.get('kt_docs_tinymce_specification').getContent();
-
-
-        console.log(productSku)
-        console.log(productBrand)
-        console.log(productAvialability)
-
-        console.log(specificationReview)
-
-        var frontImageUrl = '';
-
-        const productRef = ref(storage, `images/${productFrontImage.name}`);
+  $('#SaveDate').on('click', async function() {
+    // Get values from form fields
+    const productName = $('#productName').val();
+    const pdocutBasePrice = $('#pdocutBasePrice').val();
+    const productColors = $('#productColors').val();
+    const productFrontImage = $('#productFrontImage').prop('files')[0];
+    const productBackImage = $('#productBackImage').prop('files')[0];
+    const category = $('#category').val();
+    const productSku = $('#productSku').val()
+    const productBrand = $('#productBrand').val()
+    const productAvialability = $('#productAvialability').val()
+    const additionalInformation = $("#kt_docs_tinymce_additional").val();
+    const specificationReview = $("#kt_docs_tinymce_specification").val();
 
 
+    console.log(productSku)
+    console.log(productBrand)
+    console.log(productAvialability)
 
-        await uploadBytes(productRef, productFrontImage).then(async (snapshot) => {
+    console.log(specificationReview)
 
-          var frontImageUrl = ''
-          var BackImageUrl = ''
-
-
-          await getDownloadURL(ref(storage, productRef)).then((url) => {
-            frontImageUrl = url;
-
-          }).catch((error) => {
-
-          })
+    var frontImageUrl = '';
 
 
+    var formData = new FormData();
+    formData.append('image', productFrontImage);
+
+    $.ajax({
+      url: '/api/upload',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(response) {
+        // Handle the success response here
+        console.log('Image uploaded successfully');
+        console.log(response);
+        // frontImageUrl = response
 
 
-
-          console.log(frontImageUrl)
-
-
-
-
-          const requestData = {
-            productName: productName,
-            pdocutBasePrice: pdocutBasePrice,
-            productColors: productColors,
-            productFrontImage: productFrontImage,
-            productBackImage: productBackImage,
-            category: category,
-            productSku: productSku,
-            productBrand: productBrand,
-            productAvialability: productAvialability,
-            AdditionalInformation: additionalInformation,
-            SpecificationReview: specificationReview,
-            productFrontImage: frontImageUrl,
-            productBackImage: ""
-          };
-
-
+        const requestData = {
+          productName: productName,
+          pdocutBasePrice: pdocutBasePrice,
+          productColors: productColors,
+          productFrontImage: productFrontImage,
+          productBackImage: productBackImage,
+          category: category,
+          productSku: productSku,
+          productBrand: productBrand,
+          productAvialability: productAvialability,
+          AdditionalInformation: additionalInformation,
+          SpecificationReview: specificationReview,
+          productFrontImage: response,
+          productBackImage: ""
+        };
 
 
 
 
-          $.ajax({
-            url: '/api/add-mockup', // Specify your server endpoint
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(requestData),
-            success: function (response) {
-              console.log('Success:', response);
+        $.ajax({
+          url: '/api/add-mockup', // Specify your server endpoint
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(requestData),
+          success: function(response) {
+            console.log('Success:', response);
 
-            },
-            error: function (xhr, status, error) {
-              console.error('Error:', error);
+          },
+          error: function(xhr, status, error) {
+            console.error('Error:', error);
 
-            }
-          });
-
-
-
+          }
         });
 
 
-
-      });
-
-
-
-
-
-
-    </script>
+      },
+      error: function(xhr, status, error) {
+        // Handle errors
+        console.error('Error uploading image:', error);
+      }
+    });
 
 
-    <script>
+
+    console.log(frontImageUrl)
 
 
 
 
-
-      $("#kt_datatable_zero_configuration").DataTable();
-
-      var inputElem = document.querySelector('#productColors') // the 'input' element which will be transformed into a Tagify component
-      var tagify = new Tagify(inputElem, {
-        // A list of possible tags. This setting is optional if you want to allow
-        // any possible tag to be added without suggesting any to the user.
-        whitelist: ['foo', 'bar', 'and baz', 0, 1, 2]
-      })
+  });
+</script>
 
 
+<script>
+  $("#kt_datatable_zero_configuration").DataTable();
 
-      var options = { selector: "#kt_docs_tinymce_basic", height: "280" };
-      var optionsAdditional = { selector: "#kt_docs_tinymce_additional", height: "280" };
-      var optionsspecification = { selector: "#kt_docs_tinymce_specification", height: "280" };
-      var optionsreview = { selector: "#kt_docs_tinymce_Review", height: "280" };
+  var inputElem = document.querySelector('#productColors') // the 'input' element which will be transformed into a Tagify component
+  var tagify = new Tagify(inputElem, {
+    // A list of possible tags. This setting is optional if you want to allow
+    // any possible tag to be added without suggesting any to the user.
+    whitelist: ['foo', 'bar', 'and baz', 0, 1, 2]
+  })
 
-      tinymce.init(options);
-      tinymce.init(optionsAdditional);
-      tinymce.init(optionsspecification);
-      tinymce.init(optionsreview);
 
-    </script>
+
+  var options = {
+    selector: "#kt_docs_tinymce_basic",
+    height: "280"
+  };
+  var optionsAdditional = {
+    selector: "#kt_docs_tinymce_additional",
+    height: "280"
+  };
+  var optionsspecification = {
+    selector: "#kt_docs_tinymce_specification",
+    height: "280"
+  };
+  var optionsreview = {
+    selector: "#kt_docs_tinymce_Review",
+    height: "280"
+  };
+
+  tinymce.init(options);
+  tinymce.init(optionsAdditional);
+  tinymce.init(optionsspecification);
+  tinymce.init(optionsreview);
+</script>

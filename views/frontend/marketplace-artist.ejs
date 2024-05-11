@@ -18,15 +18,9 @@
                                     Categories
                                 </button>
                                 <ul class="dropdown-menu border-0 ps-4">
-                                    <li><a class="dropdown-item" href="#">T shirts</a></li>
-                                    <li><a class="dropdown-item" href="#">Oversized T shirts</a></li>
-                                    <li><a class="dropdown-item" href="#">Full selvees T Shirt</a></li>
-                                    <li><a class="dropdown-item" href="#">Tote bags</a></li>
-                                    <li><a class="dropdown-item" href="#">Drawing bags</a></li>
-                                    <li><a class="dropdown-item" href="#">Art Prints</a></li>
-                                    <li><a class="dropdown-item" href="#">Framed Art Prints</a></li>
-                                    <li><a class="dropdown-item" href="#">Key Chains</a></li>
-                                    <li><a class="dropdown-item" href="#">Notebooks</a></li>
+                                    <% CategoryData.forEach((item,index)=>{ %>
+                                        <li><a class="dropdown-item" href="#"><%- item.productCategory -%></a></li>
+                                    <% }) %>
                                 </ul>
                             </div>
                             <hr>

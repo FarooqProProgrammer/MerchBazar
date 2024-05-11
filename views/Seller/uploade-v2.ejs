@@ -388,18 +388,20 @@
 
                     <div class="canvas-container x apparel current-canvas" data-activecanvas="true" data-canvas="apparel" data-canvas_id="0">
                       <div class="editor-container">
-                       
+
                         <div class="color-container">
                           <span></span>
                           <img src="">
                         </div>
                         <div class="mockup-container tshirt active">
-                          <div class="mockup-display-preview front" style="background-image: url('<%- baseUrl -%><%- currentUrl[0].productFrontImage -%>'); background-position: center; background-size:cover">
+                          <input type="hidden" id="currentProductId" value="<%- currentUrl[0]._id -%>">
+                          <div class="mockup-display-preview front" style="background-image: url('<%- baseUrl -%><%- currentUrl[0].productFrontImage.replace(/\\/g, '/') -%>'); background-position: center; background-size:cover">
                             <div class="mockup-boundaries t-shirt">
-                              <img class="mutable-preview ui-draggable ui-draggable-handle" src="" style="width: 178px; height: 129.311px; top: 0px; left: 0px;">
-                              <div class="m-uploader_center-axis vertical"></div>
+                                <img class="mutable-preview ui-draggable ui-draggable-handle" src="" style="width: 178px; height: 129.311px; top: 0px; left: 0px;">
+                                <div class="m-uploader_center-axis vertical"></div>
                             </div>
-                          </div>
+                        </div>
+                        
                           <div class="backprint-editor-container" style="display: none;">
                             <div class="m-uploader__button-toggle backprint-side-toggle" style="display: none;">
                               <div class="backprint-toggle-front">
@@ -556,10 +558,10 @@
                       <div class="clear-fix" style="height: 30px;"></div>
 
                     </div>
-               
 
 
-                  
+
+
 
                     <hr class="hr--heavy hr--light-1">
                     <div class="additional-canvases">
@@ -568,12 +570,12 @@
 
                         <% MocuckUp.map((item)=>{ %>
 
-                        <% if(item.category == 'apparel'){ %>
+
                         <div class="canvas apparel" data-canvas-name="T-Shirt" data-canvas="apparel">
                           <div>
                             <div class="mockup-display-preview enabled mockup-display-preview">
                               <div class="img-holder">
-                                <img src="https://res.cloudinary.com/teepublic/image/upload/s--wtJATV5C--/c_limit,h_490,w_490/f_auto,q_auto:good/v1462829024/production/blanks/a59x1cgomgu5lprfjlmi">
+                                <img src="<%- item.productFrontImage -%>">
                               </div>
                               <div class="canvas--selected">
                                 Currently Editing
@@ -583,41 +585,20 @@
                               </div>
                             </div>
                             <div class="name">
-                              <h2>Apparel</h2>
+                              <h2><%- item.productName -%></h2>
                             </div>
                             <div class="buttons">
-                              <a id="apparelLink" class="on-off enabled">
-                                <span class="<%- currentShop == 'apparel' ? 'enabled' : 'disabled' -%>"></span>
+                              <a class=" apparelLink on-off enabled">
+                                <input type="hidden" class="categoryLink" value="<%- item.category -%>">
+                                <input type="hidden" class="productId" value="<%- item._id -%>">
+                                <span class="<%- currentShop.toUpperCase() === item.category.toUpperCase() ? 'enabled' : 'disabled' -%>"></span>
                               </a>
                             </div>
                           </div>
                         </div>
-                        <% } %>
 
-                        <% if(item.category == 'pillow') {  %>
-                        <div class="canvas pillow" data-canvas-name="Pillow" data-canvas="pillow">
-                          <div>
-                            <div class="mockup-display-preview enabled mockup-display-preview">
-                              <div class="img-holder">
-                              </div>
-                              <div class="canvas--selected">
-                                Currently Editing
-                              </div>
-                              <div class="mockup-boundaries">
-                                <img class="mutable-preview" src="https://img.freepik.com/free-psd/white-soft-pillow_176382-1116.jpg?size=626&ext=jpg&ga=GA1.1.1278651296.1711881324&semt=ais" style="width: 64.5px; height: 46.8569px; top: 0px; left: 0px;">
-                              </div>
-                            </div>
-                            <div class="name">
-                              <h2>Pillows</h2>
-                            </div>
-                            <div class="buttons">
-                              <a id="pillow" class="on-off enabled">
-                                <span class="<%- currentShop == 'pillow' ? 'enabled' : 'disabled' -%>"></span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <% } %>
+
+
 
 
                         <% }) %>
@@ -700,29 +681,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.js"></script>
   <script>
-    $('#apparelLink').click(function() {
+    $('.apparelLink').click(function() {
       const urlParams = new URLSearchParams(window.location.search);
+      var apparelLink = $(this).find('.categoryLink').val()
+      var productId = $(this).find('.productId').val()
+      const apparelLinkLowercase = apparelLink.charAt(0).toLowerCase() + apparelLink.slice(1); // Convert the first letter to lowercase
+      console.log(apparelLinkLowercase);
+
+
       const designUploadValue = urlParams.get('design_upload');
-
-      window.location.href = `/upload-v2?category=apparel&design_upload=${designUploadValue}`
-
-    });
-
-
-    $('#pillow').click(function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const designUploadValue = urlParams.get('design_upload');
-
-      window.location.href = `/upload-v2?category=pillow&design_upload=${designUploadValue}`
-
-    });
-
-
-    $('#tote').click(function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const designUploadValue = urlParams.get('design_upload');
-
-      window.location.href = `/upload-v2?category=tote&design_upload=${designUploadValue}`
+      window.location.href = `/upload-v2?category=${apparelLinkLowercase}&design_upload=${designUploadValue}`
 
     });
 
@@ -836,6 +804,7 @@
         var design_primary_tag = document.getElementById('design_primary_tag').value;
         var supporting_tag = document.getElementById('supporting_tag').value;
         var designPrice = document.getElementById('enterYourPrice').value;
+        var currentProductId = document.getElementById('currentProductId').value;
 
         if (design_design_title == '') {
           document.getElementById('designTitleError').textContent = 'Please Add Title';
@@ -880,7 +849,7 @@
         const dataUrl = await htmlToImage.toPng(currentCanvas);
         console.log(dataUrl);
 
-       
+
         const storageRef = ref(storage, Date.now() + 'productImage');
         await uploadString(storageRef, dataUrl, 'data_url').then((snapshot) => {
           console.log('Uploaded a base64 string!');
@@ -897,7 +866,7 @@
             supportingTags: supporting_tag,
             album: '1',
             designImage: url,
-            productId: '662d1e88fd7f54cb49b990d5',
+            productId:currentProductId,
             designPrice: designPrice,
           });
 
@@ -924,9 +893,9 @@
             designImage: design_Image,
             productId: '662d1e88fd7f54cb49b990d5',
             designPrice: designPrice,
-          }).then((res)=>{
+          }).then((res) => {
             console.log(res.data)
-          }).catch((error)=>{
+          }).catch((error) => {
             console.log(error)
           })
           toastr.success('Have fun storming the castle!', 'Miracle Max Says')
@@ -942,9 +911,9 @@
 
 
     $(".mutable-preview").each(function() {
-  $(this).draggable();
-  // $(this).resizable();
-});
+      $(this).draggable();
+      // $(this).resizable();
+    });
 
 
 
@@ -1022,7 +991,7 @@
     }
   </script>
 
-
+  
 
 </body>
 

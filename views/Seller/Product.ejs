@@ -1,0 +1,86 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Product </title>')%>
+
+
+<style>
+    .table-active{
+        background-color: #d9d5d5;
+    }
+</style>
+<div class='main-wrapper'>
+  <div id='site'>
+    <div id='fb-root'></div>
+    <noscript>
+      <div class='no-js-warning'>
+        You have Javascript disabled. Javascript is required for this site to function properly.
+        Please enable Javascript and return here.
+      </div>
+    </noscript>
+    <div id='content'>
+      <div class='flash x'>
+      </div>
+      <section class='contain m-account contain--wide-1'>
+
+        <div class='page-head'>
+          <h1 class='h__h1'>
+            My Account
+          </h1>
+          <div class='page-head__actions'>
+
+          </div>
+        </div>
+        <div class='content-table jsMAccountContent'>
+          <div class='content-table__head jsNavCtrl'>
+            <h2 class='h__h2--primary h--no-s h--icon'>
+              <span class="teepublicon teepublicon--dark-default teepublicon-background--transparent"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="28" height="28" focusable="false" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M22.86 4h2.325a4.327 4.327 0 0 1 4.03 2.75l1.063 2.7 3.232 1.865 2.866-.436a4.33 4.33 0 0 1 4.402 2.118l1.16 2.005a4.324 4.324 0 0 1-.366 4.867l-1.808 2.263v3.738l1.797 2.26a4.33 4.33 0 0 1 .367 4.868L40.768 35a4.337 4.337 0 0 1-4.4 2.12l-2.869-.436-3.237 1.867-1.058 2.696A4.332 4.332 0 0 1 25.176 44h-2.322a4.326 4.326 0 0 1-4.03-2.752l-1.057-2.696-3.238-1.867-2.866.436a4.34 4.34 0 0 1-4.402-2.118l-1.16-2.005a4.325 4.325 0 0 1 .366-4.867l1.808-2.263v-3.736l-1.807-2.263a4.328 4.328 0 0 1-.367-4.867L7.26 13a4.334 4.334 0 0 1 4.401-2.12l2.86.436 3.246-1.878 1.064-2.688A4.327 4.327 0 0 1 22.86 4Zm1.16 27.991c4.418 0 8-3.577 8-7.991s-3.582-7.991-8-7.991-8 3.577-8 7.991 3.582 7.991 8 7.991Z" clip-rule="evenodd"></path>
+                </svg></span>
+              <span>Account Settings</span>
+            </h2>
+
+            <span class="teepublicon teepublicon--dark-default teepublicon-background--transparent m-account-nav__ctrl"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50 50" width="16" height="16" focusable="false" aria-hidden="true">
+                <path d="M10.032 6.295 28.742 25l-18.71 18.705a1.058 1.058 0 0 0 0 1.496l4.49 4.49a1.059 1.059 0 0 0 1.497 0l23.949-23.943a1.058 1.058 0 0 0 0-1.496l-4.49-4.49-.002-.001L16.019.31a1.058 1.058 0 0 0-1.496 0l-4.49 4.489a1.058 1.058 0 0 0 0 1.496Z">
+                </path>
+              </svg></span>
+          </div>
+          <div class='content-table__body m-account__body'>
+            <%-  include partial/sidebar -%>
+            <div class="row">
+                <% updatedProducts.forEach((item)=>{ %>
+                    <div class="col-lg-4">
+                        <div class="product-box">
+                            <a href='/product-detail/<%- item?._id %>'>
+                              <div class="image">
+                                <img src="<%- item?.designImage -%>" alt="" class="img-fluid">
+                              </div>
+                            </a>
+                            <div class="text d-flex align-items-center justify-content-between">
+                              <div class="info">
+                                <h6><a href='/product-detail/<%- item?._id %>'><%- item?.title -%></a></h6>
+                                <span>by <a href='/product-detail/<%- item?._id %>'>Desedin</a></span>
+                                <p class="price">PKR <%- item?.designPrice -%></p>
+                              </div>
+                              <a href="/api/delete-store/<%- item._id -%>">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+
+                              </a>
+                            </div>
+                          </div>
+                    </div>
+                <% }) %>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+    </div>
+  </div>
+</div>
+<script>
+    $('.email-edit-btn').on('click', function(e) {
+      e.preventDefault();
+      console.log($('.edit-notice').slideDown());
+    });
+  </script>
