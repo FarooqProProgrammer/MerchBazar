@@ -1,0 +1,57 @@
+/**=====================
+    18. List CSS Start
+==========================**/
+.list-group-item {
+  border: none;
+  &.active {
+    background-color: transparent;
+    border-color: transparent;
+  }
+}
+.list-group {
+  &.pagination {
+    display: flex;
+  }
+} 
+.page-list {
+  .list-group-item {
+    border: 1px solid $light-color;
+    + .list-group-item {
+      border-top: 0;
+    }
+  }
+  .list-group-flush {
+    > .list-group-item {
+      border-width: 0 0 1px;
+    }
+  }
+}
+.list-grouping {
+  .list-group-item {
+    &.active {
+      background-color: var(--theme-default);
+      border-color: var(--theme-default);
+    }
+  }
+}
+.list-group {
+  i {
+    margin-right: $list-group-margin;
+  }
+  img {
+    height: 40px;
+    width: 40px;
+    margin-right: $list-group-margin;
+  }
+}
+.breadcrumb {
+  .list-group-item {
+    padding: 0;
+    &.active {
+      color: #6c757d;
+    }
+  }
+}
+/**=====================
+    18. List CSS Ends
+==========================**/

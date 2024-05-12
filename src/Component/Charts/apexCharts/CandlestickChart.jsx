@@ -1,0 +1,35 @@
+import React, { Fragment, useEffect, useState } from 'react';
+import { Card, CardBody, Col } from 'reactstrap';
+import { CandlestickChart } from '../../../Constant/index';
+import Chart from 'react-apexcharts';
+import { apexCandleStickCharts } from './apexData';
+import CommenHeader from '../Commen';
+
+const CandlestickChartClass = () => {
+  const [display, setDisplay] = useState(false);
+
+  useEffect(() => {
+    let timer = setTimeout(() => setDisplay(true), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if(!display) {
+  return <></>;
+  }
+  return (
+    <Fragment>
+      <Col sm='12' xl='12' className='box-col-12'>
+        <Card>
+          <CommenHeader title={CandlestickChart} />
+          <CardBody >
+            <div id='candlestick'>
+              <Chart options={apexCandleStickCharts.options} series={apexCandleStickCharts.series} type="candlestick" height={350} />
+            </div>
+          </CardBody>
+        </Card>
+      </Col>
+    </Fragment>
+  );
+};
+
+export default CandlestickChartClass;

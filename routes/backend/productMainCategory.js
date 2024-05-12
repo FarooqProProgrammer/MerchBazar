@@ -18,6 +18,7 @@ route.post('/create-main-category',async(req,res)=>{
 
 // Create or update a main category
 route.post('/create-update-main-category', async (req, res) => {
+    
     try {
         if (req.body._id) {
             console.log(req.body._id)
@@ -45,6 +46,22 @@ route.get('/product-category/:id', async (req, res) => {
         res.status(500).send({ error: error.message });
     }
 });
+
+route.get('/product-category', async (req, res) => {
+    try {
+        // Find the category by ID
+        const category = await productCatergoryMain.find();
+        
+        if (!category) {
+            return res.status(404).send({ message: "Category not found" });
+        }
+        
+        res.json(category);
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+});
+
 
 route.post('/delete-main-category/:id', async (req, res) => {
     try {

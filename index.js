@@ -92,7 +92,7 @@ app.use(cookieParser());
 app.engine('ejs', engineLocals);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(cors())
+app.use(cors({ origin:'http://localhost:3000' }))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -105,10 +105,15 @@ app.use(favicon(__dirname + '/public/frontend/images/logo.png'));
 
 app.use(flash());
 
+app.get('/react-admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin/build', 'index.html'));
+});
+
+
 
 app.use((req, res, next) => {
-//  res.locals.baseUrl = 'http://localhost:3100/';
-res.locals.baseUrl = 'https://merchbazar-4ade74581c10.herokuapp.com/';
+ res.locals.baseUrl = 'http://localhost:3100/';
+// res.locals.baseUrl = 'https://merchbazar-4ade74581c10.herokuapp.com/';
   // res.locals.baseUrl = 'https://gleaming-dog-flannel-shirt.cyclic.app/';
   next();
 });

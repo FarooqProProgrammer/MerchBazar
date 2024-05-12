@@ -1,0 +1,75 @@
+/**=====================
+    37. Select 2 CSS Start
+==========================**/
+.add-post {
+  .selection {
+    .select2-selection {
+      border: 1px solid $light-semi-gray;
+    }
+  }
+  form {
+    .m-checkbox-inline {
+      label {
+        margin-bottom: 0;
+      }
+    }
+    .form-group {
+      margin-bottom: 30px;
+      .form-control {
+        border: 1px solid $light-semi-gray;
+      }
+      .col-form-label {
+        padding-bottom: 0;
+        padding-top: 0;
+        .select2-container--default {
+          margin-top: 10px;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}
+.select2-drpdwn {
+  .select2-selection {
+    border-radius: 0 !important;
+    border-color: $light-color !important;
+    height: 40px !important;
+    padding: 5px;
+  }
+  .form-control {
+    border-radius: 5px;
+  }
+  @each $form-name, $select-color in 
+  (primary, var(--theme-default)),
+  (secondary, var(--theme-secondary)), 
+  (success, $success-color),
+  (danger, $danger-color), 
+  (info, $info-color), 
+  (light, $light-color),
+  (inverse, $dark-color), 
+  (warning, $warning-color)
+  {
+    .form-control-#{$form-name} {
+      border-color: $select-color;
+      color: $select-color;
+    }
+  }
+  @each $fill-name, $select-color in 
+  (primary, var(--theme-default)),
+  (secondary, var(--theme-secondary)), 
+  (success, $success-color),
+  (danger, $danger-color), 
+  (info, $info-color), 
+  (light, $light-color),
+  (inverse, $dark-color), 
+  (warning, $warning-color)
+  {
+    .form-control-#{$fill-name}-fill {
+      background-color: $select-color;
+      color: $white;
+    }
+  }
+}
+/**=====================
+    37. Select 2 CSS Ends
+==========================**/
