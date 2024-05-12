@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 require('dotenv').config();
 
-// module.exports = mongoose.connect(process.env.LOCAL_DB).then((res)=>{
+// module.exports = mongoose.connect('mongodb://localhost:27017/dashboard').then((res)=>{
 //     console.log('Database is Successfully Connect')
 // }).catch((error)=>{
 //     console.log(error)
