@@ -39,6 +39,7 @@ router.get('/', async function (req, res, next) {
   const getAllArtist = await Artist.find().populate("userId");
   const categoryData = await Category.find();
   const subCategory = await productSubCatergoryMain.find();
+  const CatergoryMain = await productCatergoryMain.find();
   const originalproduct = await StoreProduct.find().populate('productId');
   const whishList = await whishListSchema.find().populate('user').populate('whishList');
 
@@ -81,7 +82,7 @@ router.get('/', async function (req, res, next) {
   console.log(originalproduct)
 
   // console.log(productData)
-  res.render('frontend/index', { title: 'Express', originalproduct: updatedProductData, categoryData: categoryData, subCategory, homeSite: homeSite, productData: productData, getAllArtist: getAllArtist });
+  res.render('frontend/index', { CatergoryMain, originalproduct: updatedProductData, categoryData: categoryData, subCategory, homeSite: homeSite, productData: productData, getAllArtist: getAllArtist });
 });
 
 router.get('/about', async function (req, res, next) {
