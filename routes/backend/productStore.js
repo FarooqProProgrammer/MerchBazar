@@ -53,22 +53,12 @@ router.get('/get-stores', async function () {
 
     }
 });
-
-router.delete('/delete-store/:productId', async function (req, res) {
+router.post('/delete-store/:productId', async function (req, res) {
     try {
         const productId = req.params.productId;
 
-        const deleteArtistCounter = await artistData.find().populate('userId');
-        const deletedProduct = await StoreProduct.find({ _id: productId }).populate('userId');
-
-
-        console.log(deleteArtistCounter == deletedProduct)
-
-
-
-        return
         // Find the product by its ID and delete it
-        // const deletedProduct = await StoreProduct.findByIdAndDelete(productId);
+        const deletedProduct = await StoreProduct.findByIdAndDelete(productId);
 
         // If the product is successfully deleted, send a success message
         if (deletedProduct) {
@@ -85,7 +75,6 @@ router.delete('/delete-store/:productId', async function (req, res) {
         res.status(500).send('Internal Server Error');
     }
 });
-
 
 
 

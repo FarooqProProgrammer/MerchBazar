@@ -40,6 +40,15 @@ class ShippingController {
     }
 }
 
+static async getShippingAddress(req,res) { 
+    try {
+        const Ship = await shipModel.find();
+        res.send(Ship)
+     }catch(error) {
+        res.send(error)
+      }
+}
+
 
 
 }

@@ -3,9 +3,9 @@
 
 
 <style>
-    .table-active{
-        background-color: #d9d5d5;
-    }
+  .table-active {
+    background-color: #d9d5d5;
+  }
 </style>
 <div class='main-wrapper'>
   <div id='site'>
@@ -46,28 +46,33 @@
           <div class='content-table__body m-account__body'>
             <%-  include partial/sidebar -%>
             <div class="row">
-                <% updatedProducts.forEach((item)=>{ %>
-                    <div class="col-lg-4">
-                        <div class="product-box">
-                            <a href='/product-detail/<%- item?._id %>'>
-                              <div class="image">
-                                <img src="<%- item?.designImage -%>" alt="" class="img-fluid">
-                              </div>
-                            </a>
-                            <div class="text d-flex align-items-center justify-content-between">
-                              <div class="info">
-                                <h6><a href='/product-detail/<%- item?._id %>'><%- item?.title -%></a></h6>
-                                <span>by <a href='/product-detail/<%- item?._id %>'>Desedin</a></span>
-                                <p class="price">PKR <%- item?.designPrice -%></p>
-                              </div>
-                              <a href="/api/delete-store/<%- item._id -%>">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-
-                              </a>
-                            </div>
-                          </div>
+              <% updatedProducts.forEach((item)=>{ %>
+              <div class="col-lg-4">
+                <div class="product-box">
+                  <a href='/product-detail/<%- item?._id %>'>
+                    <div class="image">
+                      <img src="<%- item?.designImage -%>" alt="" class="img-fluid">
                     </div>
-                <% }) %>
+                  </a>
+                  <div class="text d-flex align-items-center justify-content-between">
+                    <div class="info">
+                      <h6><a href='/product-detail/<%- item?._id %>'><%- item?.title -%></a></h6>
+                      <span>by <a href='/product-detail/<%- item?._id %>'>Desedin</a></span>
+                      <p class="price">PKR <%- item?.designPrice -%></p>
+                    </div>
+                    <form id="deleteForm" class="d-flex justify-content-start align-items-center" action="/api/delete-store/<%- item._id %>" method="POST">
+                      <button type="submit" class="border-0">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                      <a href="/edit_design?productid=<%- item._id -%>&category=<%- item.productId.category -%>&design_upload=true">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </a>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+              <% }) %>
             </div>
           </div>
         </div>
@@ -79,8 +84,33 @@
   </div>
 </div>
 <script>
-    $('.email-edit-btn').on('click', function(e) {
-      e.preventDefault();
-      console.log($('.edit-notice').slideDown());
-    });
-  </script>
+  $('.email-edit-btn').on('click', function(e) {
+    e.preventDefault();
+    console.log($('.edit-notice').slideDown());
+  });
+</script>
+
+<script>
+  document.getElementById('deleteForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData
+      });
+
+      if (response.ok) {
+        // Reload the page after successful deletion
+        window.location.reload();
+      } else {
+        console.error('Failed to delete product:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+  });
+</script>

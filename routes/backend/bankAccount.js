@@ -57,7 +57,14 @@ route.post('/create-bank-account', async function (req, res) {
 
 
 
-
+route.get('/get-bank-acount',async function(req,res){
+    try { 
+            const bank = await bankAccountModel.find();
+            res.send(bank)
+    }catch(error) {
+        console.log(error)
+     }
+})
 
 
 module.exports = route;

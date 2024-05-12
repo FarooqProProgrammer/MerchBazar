@@ -266,7 +266,7 @@ router.get('/marketplace', async function (req, res, next) {
     const totalProductsCount = await StoreProduct.countDocuments(query);
     const totalPages = Math.ceil(totalProductsCount / pageSize);
     const skip = (page - 1) * pageSize;
-    
+
     // Populate productId field to access the category
     const ProductData = await StoreProduct.find(query).populate('productId').sort(sortQuery).skip(skip).limit(pageSize).exec();
 
@@ -287,11 +287,11 @@ router.get('/marketplace', async function (req, res, next) {
 
     // Check if req.query.category is provided
     if (req.query.category && req.query.category !== 'all') {
-        // Filter the products based on req.query.category
-        productModification = updatedProductData.filter(product => product.productId.category === req.query.category);
+      // Filter the products based on req.query.category
+      productModification = updatedProductData.filter(product => product.productId.category === req.query.category);
     } else {
-        // If req.query.category is empty or 'all', return all the products
-        productModification = updatedProductData;
+      // If req.query.category is empty or 'all', return all the products
+      productModification = updatedProductData;
     }
 
     res.render('frontend/marketplace', {
@@ -383,6 +383,44 @@ router.get('/wishlist', isAuthenticated, async function (req, res, next) {
 router.get('/seller', isAuthenticated, function (req, res, next) {
   res.render('Seller/index', { title: 'Express' });
 });
+router.get('/edit_design', isAuthenticated, async function (req, res, next) {
+
+
+
+  const productId = req.query.productid;
+  const userId = req.cookies.user._id;
+
+  const allProduct = await Product.find();
+  const MocuckUp = await ProductMockup.find().sort({ createdAt: -1 });
+  const deisgnis = await designModel.find();
+  const artistData = await Artist.find({ userId: userId })
+  // console.log(artistData)
+
+  const design = await StoreProduct.find({ _id: productId })
+  console.log(design)
+
+
+
+  const currentShop = req.query.category;
+  const designUpload = req.query.designUpload;
+  const design_upload = req.query.design_upload;
+
+  const searchTerm = currentShop.charAt(0).toUpperCase() + currentShop.slice(1).toLowerCase();
+  // console.log(MocuckUp)
+
+  const currentUrl = await ProductMockup.find({ category: searchTerm });
+  // console.log(currentShop)
+  // console.log(searchTerm)
+  // console.log(MocuckUp)
+
+  if (artistData.length == 0) {
+    res.redirect('/artist-info')
+  }
+
+
+  res.render('Seller/edit_design', { design: design[0], productId, currentUrl, artistData, design_upload, allProduct: allProduct, MocuckUp, currentShop, designUpload });
+});
+
 
 router.get('/markeplace-seller', isAuthenticated, async function (req, res, next) {
   const userId = req.cookies.user._id;
