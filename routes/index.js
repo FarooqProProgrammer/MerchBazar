@@ -318,6 +318,7 @@ router.get('/marketplace', async function (req, res, next) {
 router.get('/product-detail/:id', csrfProtection, async function (req, res, next) {
   try {
     const { id } = req.params;
+    console.log(id)
 
     // Retrieve the product details by ID and populate related data
     const product = await StoreProduct.findOne({ _id: id }).populate('productId');
@@ -328,9 +329,10 @@ router.get('/product-detail/:id', csrfProtection, async function (req, res, next
     // Create a map of wishlist _ids and their corresponding collection ids for faster lookup
     const whishListMap = {};
     whishList.forEach(item => {
-      whishListMap[item.whishList._id.toString()] = item.whishList; // Store the wishlist item itself
+      if (item.whishList) { // Check if whishList is not null
+        whishListMap[item.whishList._id.toString()] = item.whishList; // Store the wishlist item itself
+      }
     });
-
     // Check if the product exists
     if (!product) {
       // Handle case where product is not found
