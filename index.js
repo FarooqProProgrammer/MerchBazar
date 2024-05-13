@@ -109,10 +109,10 @@ app.use(flash());
 
 
 app.use((req, res, next) => {
- res.locals.baseUrl = 'http://localhost:3100/';
+//  res.locals.baseUrl = 'http://localhost:3100/';
 
 
-//  res.locals.baseUrl = 'https://merchbazar-4ade74581c10.herokuapp.com/';
+ res.locals.baseUrl = 'https://merchbazar-4ade74581c10.herokuapp.com/';
  //res.locals.baseUrl = 'https://gleaming-dog-flannel-shirt.cyclic.app/';
   next();
 });
