@@ -21,7 +21,6 @@
     "ejs": "~2.6.1",
     "ejs-blocks": "^0.1.4",
     "express": "~4.16.1",
-    "express-ejs-layouts": "^2.5.1",
     "express-favicon": "^2.0.4",
     "express-flash": "^0.0.2",
     "express-ip": "^1.0.4",
@@ -40,7 +39,6 @@
     "node-cache": "^5.1.2",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.13",
-    "purgecss": "^6.0.0",
     "session-file-store": "^1.5.0",
     "uuid": "^9.0.1"
   },
