@@ -1,0 +1,242 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Home Page </title>')%>
+
+<section class="main-home-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1 class="text-white text-uppercase font-open-sans">wear your <span>passion</span></h1>
+      </div>
+      <div class="col-lg-7 rounded-2 overflow-hidden mx-auto mt-3">
+        <form action="/marketplace" class="banner-form">
+          <div class="row g-0">
+            <div class="col-lg-7 col-md-12">
+              <input type="text" class="form-control" placeholder="Search" name="search" id="search">
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-8 col-8">
+              <select name="category" id="category" class="form-control form-select">
+                <option value="">All Category</option>
+                <% subCategory.map((item)=>{  %>
+                <option value="<%- item?.slug -%>"><%- item?.productSubCategory -%></option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-4 col-4">
+              <button type="submit" s>Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="category">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-7 mb-4 mb-lg-0">
+        <div class="category-box" style="background-image: url('frontend/images/tshirts-1.png'); background-position: right top; padding-top: 17rem;">
+          <h2 class="mb-3">Apparel</h2>
+          <a href="<%- baseUrl -%>marketplace" class="my-btn">Shop now</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 mb-4">
+            <div onclick="window.location.href='/marketplace'" class="category-box" style="background-image: url('frontend/images/bags-1.png'); background-size: 8rem; background-position: left top; background-color: #DF5A8C; padding-top: 9rem; padding-bottom: 1rem;">
+              <h2 class="mb-0 fs-2 text-end">BAGS</h2>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 mb-4">
+            <div onclick="window.location.href='/marketplace'" class="category-box h-100" style="background-image: url('frontend/images/keychains-1.png'); background-position: right top; background-color: #BED265; padding-top: 4rem; padding-bottom: 3rem;  background-size: 6rem;">
+              <h2 class="mb-0 text-black fs-2">KEY <br> CHAINS</h2>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
+            <div onclick="window.location.href='/marketplace'" class="category-box" style="background-image: url('frontend/images/notebooks-1.png'); background-position: left top; background-color: #F3D751; padding-top: 9rem; padding-bottom: 1rem;">
+              <h2 class="mb-0 fs-4 text-center text-black">NOTEBOOKS</h2>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="category-box" style="background-image: url('frontend/images/artprints-1.png'); background-position: left top; background-color: #A2C1DF; padding-top: 9rem; padding-bottom: 1rem;">
+              <h2 class="mb-0 fs-4 text-end text-black">ARTPRINTS</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="featured-artist">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h3>Featured Artist</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="splide artist-splide">
+          <div class="splide__track">
+            <ul class="splide__list">
+              <% if (getAllArtist.length > 0) { %>
+              <% for(var i=0;i<getAllArtist.length;i++){ %>
+              <li class="splide__slide">
+                <a href="#">
+                  <div class="artist-box">
+                    <div class="image">
+                      <img src="<%- getAllArtist[i].artistLogo -%>" alt="" class="img-fluid">
+                    </div>
+                    <div class="text">
+                      <h4><%- getAllArtist[i].name -%></h4>
+                      <span onclick="window.location.href='/marketplace?artist=<%- getAllArtist[i].userId._id -%>'" class="custom_badge"><%- getAllArtist[i].totalDesigns
+                                                                    -%>+ designs</span>
+                    </div>
+                  </div>
+                </a>
+              </li>
+
+              <% } %>
+              <% } else { %>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="alert alert-primary " role="alert">
+                      No Artist Found
+                  </div>
+                  </div>
+                </div>
+              
+              <% } %>
+
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="featured-product">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h3>Featured Products</h3>
+      </div>
+    </div>
+    <div class="row">
+      <% if (originalproduct.length > 0) { %>
+      <% originalproduct.slice(0,4).forEach(function(item) { %>
+      <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+        <div class="product-box">
+          <a href='/product-detail/<%- item?._id %>'>
+            <div class="image">
+              <img src="<%- item?.designImage -%>" alt="" class="img-fluid">
+            </div>
+          </a>
+          <div class="text d-flex align-items-center justify-content-between">
+            <div class="info">
+              <input type="hidden" name="" value="<%- item?._id %>">
+              <h6><a href='/product-detail/<%- item?._id %>'><%- item?.title -%></a></h6>
+              <span>by <a href='/product-detail/<%- item?._id %>'>Desedin</a></span>
+              <p class="price">PKR <%- item?.designPrice -%></p>
+            </div>
+            <a class="SaveWhishList">
+              <input type="hidden" name="" value="<%- item._id -%>" class="productId">
+              <%- item.whishList ?  '<i class="fa-solid fa-heart"></i>':'<i class="fa-regular fa-heart"></i>'  -%>
+            </a>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+
+      <% } else { %>
+      <div class="alert alert-primary" role="alert">
+        No Feature Product Found
+      </div>
+      <% } %>
+
+
+    </div>
+  </div>
+</section>
+
+<section class="featured-product">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h3>Top Selling Products</h3>
+      </div>
+    </div>
+    <div class="row">
+      <% if (originalproduct.length > 0) { %>
+      <% originalproduct.slice(0,4).forEach(function(item) { %>
+      <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+        <div class="product-box">
+          <a href='/product-detail/<%- item?._id %>'>
+            <div class="image">
+              <img src="<%- item?.designImage -%>" alt="" class="img-fluid">
+            </div>
+          </a>
+          <div class="text d-flex align-items-center justify-content-between">
+            <div class="info">
+              <h6><a href='/product-detail/<%- item?._id %>'><%- item?.title -%></a></h6>
+              <span>by <a href='/product-detail/<%- item?._id %>'>Desedin</a></span>
+              <p class="price">PKR <%- item?.designPrice -%></p>
+            </div>
+            <a class="SaveWhishList">
+              <input type="hidden" name="" value="<%= item._id %>" class="productId">
+              <%- item.whishList ?  '<i class="fa-solid fa-heart"></i>':'<i class="fa-regular fa-heart"></i>'  -%>
+              <!-- <input type="hidden" value=""> -->
+            </a>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+
+      <% } else { %>
+      <div class="alert alert-primary" role="alert">
+ No Top Selling Product Found      </div>
+      <% } %>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function productDetail(item) {
+    console.log(item)
+  }
+
+  $(document).ready(function() {
+    $('.SaveWhishList').on('click', async function() {
+      // Check if user information is available in cookies
+      const userCookie = Cookies.getJSON('user');
+      // if (!userCookie || !userCookie._id) {
+      // console.log("PLEASE LOGIN")
+      //   return;
+      // }
+
+      // If user is logged in, proceed with adding the item to wishlist
+      var productId = $(this).find('.productId').val();
+      console.log(productId)
+
+      try {
+        // Send request to add item to wishlist
+        const response = await axios.post('/api/add-whishlist', {
+          whishList: productId
+        });
+
+        // Reload the page after successfully adding item to wishlist
+        console.log(response.data);
+        window.location.reload();
+      } catch (error) {
+        // Handle errors if adding item to wishlist fails
+        console.error(error);
+        toastr.error('Failed to add item to wishlist');
+      }
+    });
+  });
+</script>

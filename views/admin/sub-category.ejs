@@ -1,0 +1,74 @@
+<% layout('layouts/adminLayout') -%>
+<%- block('title','<title>Add Sub Category</title>')%>
+
+
+<div class="container bg-white py-3" style="max-width: 90%;">
+    <div class="">
+      <a href="#" class="btn btn-icon btn-primary fs-5" data-bs-toggle="modal" data-bs-target="#kt_modal_1">
+          +
+          </a>
+    </div>
+      <div class="table-responsive ">
+          <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
+              <thead>
+                  <tr class="fw-semibold fs-6 text-muted">
+                    <th>ID</th>
+                    <th>Category Name</th>
+                    <th>Parent Category Name</th>
+                    <th>Category Slug</th>
+                    <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>01</td>
+                      <td>Wood</td>
+                      <td>FUrniture</td>
+                      <td class="ps-5">tv</td>
+                      <td>
+                          <div class="d-flex align-items-start justify-content-start gap-2">
+                              <a href="#" class="btn btn-icon btn-primary"><i class="bi bi-archive fs-4 me-2"></i></a>
+                              <a href="#" class="btn btn-icon btn-secondary"><i class="bi bi-pencil fs-4 me-2"></i></a>
+                          </div>
+                      </td>
+                  </tr>
+  
+              </tbody>
+          </table>
+      </div>
+      
+  </div>
+  <div class="modal fade" tabindex="-1" id="kt_modal_1">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h3 class="modal-title">Add Category</h3>
+  
+                  <!--begin::Close-->
+                  <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                      <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                  </div>
+                  <!--end::Close-->
+              </div>
+  
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-lg-12">
+                          <input type="text" class="form-control form-control-solid" placeholder="Enter Category Name"/>
+                      </div>
+                      <div class="col-lg-12 mt-3">
+                          <input type="text" class="form-control form-control-solid" placeholder="Enter Category Slug"/>
+                      </div>
+                      <div class="col-lg-12 mt-3">
+                          <a href="#" class="btn btn-primary">Submit</a>
+  
+                      </div>
+                  </div>
+              </div>
+  
+          </div>
+      </div>
+  </div>
+  <script>
+      $("#kt_datatable_zero_configuration").DataTable();
+  </script>

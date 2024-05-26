@@ -1,0 +1,100 @@
+<% layout('layouts/adminLayout') -%>
+    <%- block('title','<title>Edit Product</title>')%>
+
+        <div class="container bg-white py-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="mb-10">
+                        <label for="exampleFormControlInput1" class="required form-label">Product Name</label>
+                        <input type="text" name="productName" id="productName" class="form-control form-control-solid"
+                            placeholder="Product Name" value="<%- Mockup[0].productName -%>" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-10">
+                        <label for="exampleFormControlInput1" class="required form-label">Product Price</label>
+                        <input type="text" name="sku" id="pdocutBasePrice" class="form-control form-control-solid"
+                            placeholder="Product Price" value="<%- Mockup[0].pdocutBasePrice -%>" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-10">
+                        <label for="exampleFormControlInput1" class="required form-label">Product Colors</label>
+                        <input type="text" name="brand" id="productColors" class="form-control form-control-solid"
+                            placeholder="Product Colors"  />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-10">
+                        <label for="exampleFormControlInput1" class="required form-label">Product Front Image</label>
+                        <input type="file" name="brand" id="productFrontImage" class="form-control form-control-solid"
+                            placeholder="Product Colors" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-10">
+                        <label for="exampleFormControlInput1" class="required form-label">Product Back Image</label>
+                        <input type="file" name="brand" id="productBackImage" class="form-control form-control-solid"
+                            placeholder="Product Colors" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-10">
+                        <label for="exampleFormControlInput1" class="required form-label">Categories</label>
+                        <select name="" id="category" class="form-control form-control-solid">
+                            <option value="t-shirts">T shirts</option>
+                            <option value="t-shirts">T shirts</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-10">
+                        <label for="exampleFormControlInput1" class="required form-label">Additional Information</label>
+                        <textarea name="" id="kt_docs_tinymce_additional"
+                            class="form-control form-control-solid"></textarea>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-10">
+                        <label for="exampleFormControlInput1" class="required form-label">Specification Review</label>
+                        <textarea name="" id="kt_docs_tinymce_specification"
+                            class="form-control form-control-solid"></textarea>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-primary" id="SaveDate">Save</button>
+                </div>
+            </div>
+        </div>
+
+        
+      
+       
+        <script>
+
+            let data = '<%- Mockup -%>'
+            console.log(data)
+            $("#kt_datatable_zero_configuration").DataTable();
+      
+            var inputElem = document.querySelector('#productColors') // the 'input' element which will be transformed into a Tagify component
+            var tagify = new Tagify(inputElem, {
+              // A list of possible tags. This setting is optional if you want to allow
+              // any possible tag to be added without suggesting any to the user.
+              whitelist: ['foo', 'bar', 'and baz', 0, 1, 2]
+            })
+
+            tagify.addTags(Mockup[0].productColors);
+      
+      
+      
+            var options = { selector: "#kt_docs_tinymce_basic", height: "280" };
+            var optionsAdditional = { selector: "#kt_docs_tinymce_additional", height: "280" };
+            var optionsspecification = { selector: "#kt_docs_tinymce_specification", height: "280" };
+            var optionsreview = { selector: "#kt_docs_tinymce_Review", height: "280" };
+      
+            tinymce.init(options);
+            tinymce.init(optionsAdditional);
+            tinymce.init(optionsspecification);
+            tinymce.init(optionsreview);
+      
+          </script>

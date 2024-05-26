@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design Your Product</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="<%- baseUrl -%>Seller/css/uploader-v2.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" media="all" href="<%- baseUrl -%>/Seller/css/style.css" />
+  <link rel="stylesheet" href="<%- baseUrl -%>/frontend/css/style.css">
+  <link rel="stylesheet" href="<%- baseUrl -%>Seller/css/jquery-ui.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.3/jquery-ui.min.js"></script>
+</head>
+
+<body class="current-user">
+
+  <style>
+    .hidden {
+      display: none !important;
+    }
+
+    .uploadImageContainer {
+      width: 100%;
+      height: auto;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .uploadImagePreview {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #000;
+      border-radius: 10px;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .uploadImagePreview svg {
+      width: 30px;
+      height: 30px;
+    }
+  </style>
+  <header class="header">
+    <div class="container">
+      <div class="d-flex flex-wrap flex-lg-nowrap justify-content-between align-items-center">
+        <div class="logo">
+          <a href="#">
+            <img src="<%- baseUrl -%>/frontend/images/logo.png" alt="" class="img-fluid">
+          </a>
+        </div>
+        <div class="main-menu">
+          <ul class="list-unstyled">
+            <li><a href="<%- baseUrl -%>">Home</a></li>
+            <li><a href="<%- baseUrl -%>marketplace">Marketplace</a></li>
+            <li><a href="<%- baseUrl -%>about">About</a></li>
+            <li><a href="#">Work With Us</a></li>
+            <li><a href="<%- baseUrl -%>contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="icon-list">
+          <ul class="list-unstyled">
+            <li><a href="<%- baseUrl -%>seller"><i class="fa-regular fa-user"></i></a></li>
+            <li><a href="#"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+            <li><a href="#"><i class="fa-regular fa-heart"></i></a></li>
+            <li>
+              <a href="<%- baseUrl -%>cart" class="position-relative">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="badge bg-secondary position-absolute counterBadge"></span>
+              </a>
+
+            </li>
+            <li><a href="" id="main-menu-btn"><i class="fa-solid fa-bars"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <input type="hidden" value="<%- design_upload -%>" id="hiddenId">
+
+  <% if(design_upload==='false' ){ %>
+  <div class="uploadImageContainer" id="uploadImage">
+    <h1 class='m-uploader__header'>
+      Upload A Design
+    </h1>
+    <label for="uploadDesignImage" class="uploadImagePreview">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+        <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+        <path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z" />
+      </svg>
+    </label>
+    <input type="file" hidden style="display: none;" name="" id="uploadDesignImage">
+  </div>
+  <div class="d-flex justify-content-center align-items-center">
+    <button class="btn btn-primary" id="uploadDesign">Upload Design</button>
+  </div>
+  <% } %>
+
+
+
+
+
+  <div class="main-wrapper">
+    <div id="site">
+      <div id="content">
+        <div class="flash x">
+        </div>
+        <div class="dropper-container hidden">
+          <img id="dropper" src="https://res.cloudinary.com/teepublic/image/private/s--rB8zeJsG--/l_text:helvetica_16_bold:379f06c0ee9ff270339050b555fd95e7b5bc4fdc,o_0/c_limit,f_png,h_500,q_90/v1458927364/production/designs/458065_1.png">
+          <div class="dropper-shade"></div>
+        </div>
+
+        <div class="contain">
+
+          <div class="row" id="cloudinary-uploader">
+            <form class="edit_design" id="edit_design_59368987">
+
+              <div class="jsUploaderArtwork">
+
+                <% if(design_upload=='true' ) { %>
+                <h1 class="m-uploader__header">
+                  Upload A Design
+                </h1>
+
+
+                <div class="m-uploader__artwork-management jsArtworkManagment">
+
+                  <a class="m-uploader__help-uploading link--strong" tabindex="1" target="_blank">
+                    Need help uploading?
+                  </a>
+
+
+                  <div class="m-uploader__dropzone jsUploaderDropzone" style="display: none">
+                    <span class="teepublicon teepublicon--grey-default teepublicon-background--transparent m-uploader__dropzone-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="16" height="16" focusable="false" aria-hidden="true">
+                        <path d="M15.482 33.439V31.57h.664c.248 0 .608.034.833.27.202.203.225.473.225.675 0 .18-.012.484-.248.687-.236.213-.619.236-.821.236h-.653Z">
+                        </path>
+                        <path fill-rule="evenodd" d="M29.615 0H10.03C8.673 0 7.515.48 6.557 1.442 5.599 2.404 5 3.804 5 5.166v39.906c0 1.362.499 2.524 1.497 3.486C7.495 49.519 8.673 50 10.03 50h29.94c1.357 0 2.535-.48 3.533-1.442.998-.962 1.497-2.124 1.497-3.486V15.437a1 1 0 0 0-.292-.706L30.323.294A1 1 0 0 0 29.615 0Zm-1.56 17.488a.6.6 0 0 1-.6-.6V5.169a.6.6 0 0 1 1.023-.425l11.779 11.719a.6.6 0 0 1-.423 1.025H28.055ZM15.483 35.014h1.226c.585 0 1.282-.079 1.867-.653.585-.573.664-1.271.664-1.867 0-.63-.112-1.26-.697-1.823-.574-.551-1.25-.675-1.902-.675h-3.105V37.5h1.947v-2.486Zm4.792 2.486h1.946v-4.59l3.589 4.59h1.946v-7.504H25.81v4.59l-3.589-4.59h-1.946V37.5Zm12.656-4.252v1.518h1.598a1.334 1.334 0 0 1-.462.833c-.348.292-.742.349-1.08.349-.573 0-1.012-.192-1.372-.574-.349-.372-.596-.934-.596-1.62 0-.585.214-1.283.652-1.721a1.812 1.812 0 0 1 1.283-.518c.371 0 .72.101 1.046.371.191.158.405.405.54.754l1.856-.765c-.27-.585-.754-1.181-1.339-1.541-.573-.349-1.327-.506-2.025-.506-1.327 0-2.294.483-2.913 1.102-.653.641-1.125 1.62-1.125 2.813 0 1.237.517 2.148 1.08 2.71.607.62 1.53 1.114 2.88 1.114.956 0 1.856-.213 2.643-.944.9-.833 1.204-1.89 1.204-3.375h-3.87Z" clip-rule="evenodd"></path>
+                      </svg></span>
+                    <div class="m-uploader__dropzone-message">
+                      Drop one file here or
+                    </div>
+                    <div class="m-uploader__dropzone-clickable">
+                      click to upload
+                    </div>
+                    <div class="m-uploader__loading-overlay jsLoadingOverlay" style="display: none;">
+                      <div class="m-uploader__loading-icon"></div>
+                    </div>
+                  </div>
+
+
+                  <div class="m-uploader__current-artwork jsUploaderCurrentArtwork">
+                    <img id="uploader-preview-image" src="">
+                  </div>
+                  <a id="changeArtwork" class="jsChangeArtwork m-uploader__change-artwork btn btn--medium" tabindex="1">Change
+                    Artwork</a>
+
+
+
+
+                  <div class="m-uploader__messaging-area">
+                    <div class="m-uploader__error-box" id="jsImageSizeError" style="display: none;">
+                      <div id="flash-notice-red">
+                        Your artwork is
+                        <span id="jsSizeErrorWidth">3484</span>
+                        px x
+                        <span id="jsSizeErrorHeight">2531</span>
+                        px and is not large enough to be printed.
+                        Your design must be at least 1500px wide
+                        OR 1995px tall (this does not include transparent pixels).
+                      </div>
+                    </div>
+                    <div class="m-uploader__notice-box jsPrintAvailability" style="">Your image
+                      isn't large enough to support all our Wall Art options. The largest size
+                      your image supports is Medium (16" x 24").</div>
+                    <div class="m-uploader__notice-box jsTapestryAvailability" style="display: none;">
+                      <div id="flash-notice-yellow">
+                        Your artwork must be at least 2434px wide or tall to enable
+                        tapestries.
+                      </div>
+                    </div>
+                    <div class="notice-box hidden">
+                      <div class="notice">
+                        <div>
+                          <strong class="notice__title">File Requirements:</strong>
+                          PNG with a transparent background. Please make sure artwork is
+                          set to at least 40% opacity, 8 bit color, and is at least 150
+                          DPI (300 DPI recommended for art prints). File should be at
+                          least
+                          <b>1500px&nbsp;x&nbsp;1995px</b>
+                          for apparel and
+                          <b>5500px&nbsp;x&nbsp;5000px</b>
+                          to print on the largest size art print.
+                        </div>
+                        <div class="activate-orig-artfile-upload">
+                          <strong class="notice__title">Design Guide:</strong>
+                          Check out this helpful
+                          <a target="_blank" tabindex="1" href="https://assets.teepublic.com/assets/pdfs/designing-for-dtg-061ba741bd403ab1a5d84d0ed3ce584bae150e47068f0a275f72e64e8b577189.pdf">design
+                            guide</a>
+                          for best practices when designing your art for TeePublic.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="m-uploader__container--cool">
+                      <div>
+                        <strong class="notice__title">
+                          File Requirements:
+                        </strong>
+                        <br>
+                        A high-resolution
+                        <strong>transparent .PNG</strong>
+                        at
+                        <strong>150dpi.</strong>
+                        Minimum dimensions of at least
+                        <strong>1500px by 1995px</strong>
+                        (not including outer transparent pixels).
+                        <br>
+                      </div>
+                      <div>
+                        To enable
+                        <strong>all</strong>
+                        products, your file must be at least
+                        <strong>5000px by 5500px.</strong>
+                        <a target="_blank" href="https://assets.teepublic.com/assets/pdfs/designing-for-dtg-061ba741bd403ab1a5d84d0ed3ce584bae150e47068f0a275f72e64e8b577189.pdf" class="link link--strong link--1 link--default">
+                          <span class="link__content">
+                            See our design guide for help.
+                          </span>
+
+                        </a>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+
+                <div class="jsProductEditor" id="product-editor" style="">
+
+                  <div class="m-uploader__container--neutral jsUploaderTextFields" style="">
+                    <div class="m-uploader__form">
+                      <input type="hidden" name="" id="artistId" value="<%- artistData[0]._id -%>">
+                      <div class="col-lg-6 col-md-12">
+                        <div class="form__field">
+                          <label class="label--heavy">
+                            Design Title
+                          </label>
+                          <div class="form__note">
+                            Give your design a name!
+                          </div>
+                          <input class="form__control" placeholder="Title" tabindex="1" type="text" value="" name="" id="design_design_title">
+                          <p id="designTitleError"></p>
+                        </div>
+                        <div class="form__field">
+                          <label class="label--heavy">
+                            Description
+                          </label>
+                          <div class="form__note">
+                            Describe your design in a short sentence or two!
+                          </div>
+                          <textarea maxlength="750" class="form__control textarea" placeholder="Describe your design" tabindex="3" id="design_design_description"></textarea>
+                          <p id="designDescriptionError"></p>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-12">
+                        <div class="form__field">
+                          <label class="label--heavy">
+                            Main Tag
+                          </label>
+                          <div class="form__note">
+                            What (1) tag would I search to find your design?
+                          </div>
+                          <input class="form__control ui-autocomplete-input" tabindex="2" placeholder="Main tag" maxlength="39" size="39" type="text" id="design_primary_tag" data-original-title="">
+                          <p id="primaryTagError"></p>
+
+                        </div>
+                        <div class="form__field">
+                          <label class="label--heavy">
+                            Supporting Tags
+                          </label>
+                          <div class="form__note">
+                            What other relevant tags would customers use to find your
+                          </div>
+
+                          <textarea name="" class="input form__control textarea clearfix form__control--fit-content" id="supporting_tag"></textarea>
+                          <p id="supportingTagError"></p>
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-md-12">
+                        <div class="form__field">
+                          <label class="label--heavy">
+                            Price
+                          </label>
+                          <div class="form__note">
+                            Enter Your Price
+                          </div>
+                          <input class="form__control" placeholder="Price" tabindex="1" type="text" value="" name="" id="enterYourPrice">
+                          <p id="priceError"></p>
+                        </div>
+
+                      </div>
+
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+
+
+                  <div class="canvas-selection m-uploader__panel" style="">
+                    <hr class="hr--light-1">
+
+                    <!-- <% if (currentShop=='print' ) { %>
+                    <div class="canvas-container x print <%- currentShop == 'print' && 'current-canvas captureDiv' -%>" data-activecanvas="true" data-canvas="print" data-canvas_id="6">
+                      <div class="editor-container">
+                        <div class="mockup-container active">
+                          <div class="mockup-display-preview r1x1 Portrait">
+                            <div class="mockup-boundaries print">
+                              <img class="mutable-preview ui-draggable ui-draggable-handle ui-draggable-disabled" src="" style="width: 608.427px; height: 442px; top: 0px; left: -83.2134px;">
+                              <div class="m-uploader_center-axis vertical"></div>
+                              <div class="m-uploader_center-axis horizontal"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="m-uploader-toolbar jsUploaderPrintToolbar hidden">
+                          <div class="m-uploader-toolbar_tools">
+                            <div class="m-uploader-toolbar_label">
+                              Tools
+                            </div>
+                            <div class="m-uploader-toolbar_color-selector">
+                              <div class="minicolors minicolors-theme-default minicolors-position-bottom minicolors-position-left">
+                                <input class="jsUploaderPrintColor jsUploaderColor minicolors-input" type="text" value="" name="design[mockup_config_print_attributes][bg_color]" id="design_mockup_config_print_attributes_bg_color" size="7"><span class="minicolors-swatch"><span class="minicolors-swatch-color" style="background-color: rgb(255, 255, 255);"></span></span>
+                                <div class="minicolors-panel minicolors-slider-hue">
+                                  <div class="minicolors-slider">
+                                    <div class="minicolors-picker" style="top: 0px;"></div>
+                                  </div>
+                                  <div class="minicolors-opacity-slider">
+                                    <div class="minicolors-picker"></div>
+                                  </div>
+                                  <div class="minicolors-grid" style="background-color: rgb(255, 0, 0);">
+                                    <div class="minicolors-grid-inner"></div>
+                                    <div class="minicolors-picker" style="top: 150px; left: 0px;">
+                                      <div></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="m-uploader-toolbar_tool m-uploader-toolbar_tool-dropper jsOpenColorDropper" data-label="Prints" data-selector="#design_mockup_config_print_attributes_bg_color" title="Color Dropper"></div>
+                            <div class="m-uploader-toolbar_tool m-uploader-toolbar_tool-h-align jsUploaderPrintHAlign" title="Center Horizontally"></div>
+                            <div class="m-uploader-toolbar_tool m-uploader-toolbar_tool-v-align jsUploaderPrintVAlign" title="Center Vertically"></div>
+                          </div>
+                          <div class="m-uploader-toolbar_scaler jsUploaderPrintToolbarScaler">
+                            <div class="m-uploader-toolbar_label">
+                              Scale
+                            </div>
+                            <div class="m-uploader-toolbar_scaler-input">
+                              <input min="0" max="300" step="1" class="jsUploaderPrintScaler" type="range" value="88" name="design[mockup_config_print_attributes][image_size]" id="design_mockup_config_print_attributes_image_size">
+                            </div>
+                            <div class="m-uploader-toolbar_scaler-label jsUploaderPrintScalerLabel">
+                              88%
+                            </div>
+                          </div>
+                        </div>
+                        <div class="m-uploader-toolbar jsUploaderPrintToolbarInactive">
+                          <div class="m-uploader-toolbar_tools">
+                            <div class="m-uploader-toolbar_message">
+                              You cannot edit design size/placement when full-bleed
+                              wall art is turned on.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="clear"></div>
+                    </div>
+
+                    <% } %> -->
+
+
+
+                    <div class="canvas-container x apparel current-canvas" data-activecanvas="true" data-canvas="apparel" data-canvas_id="0">
+                      <div class="editor-container">
+
+                        <div class="color-container">
+                          <span></span>
+                          <img src="">
+                        </div>
+                        <div class="mockup-container tshirt active">
+                          <input type="hidden" id="currentProductId" value="<%- currentUrl[0]._id -%>">
+                          <div class="mockup-display-preview front" style="background-image: url('<%- baseUrl -%><%- currentUrl[0].productFrontImage.replace(/\\/g, '/') -%>'); background-position: center; background-size:cover">
+                            <div class="mockup-boundaries t-shirt">
+                                <img class="mutable-preview ui-draggable ui-draggable-handle" src="" style="width: 178px; height: 129.311px; top: 0px; left: 0px;">
+                                <div class="m-uploader_center-axis vertical"></div>
+                            </div>
+                        </div>
+                        
+                          <div class="backprint-editor-container" style="display: none;">
+                            <div class="m-uploader__button-toggle backprint-side-toggle" style="display: none;">
+                              <div class="backprint-toggle-front">
+                                Front
+                              </div>
+                              <div class="backprint-toggle-back selected">
+                                Back
+                              </div>
+                            </div>
+                            <div class="backprint-editor-back">
+                              <input autocomplete="off" type="hidden" value="0" name="design[mockup_config_apparel_back_attributes][position_top]" id="design_mockup_config_apparel_back_attributes_position_top">
+                              <input autocomplete="off" type="hidden" value="0" name="design[mockup_config_apparel_back_attributes][position_left]" id="design_mockup_config_apparel_back_attributes_position_left">
+                              <input autocomplete="off" type="hidden" value="100" name="design[mockup_config_apparel_back_attributes][image_size]" id="design_mockup_config_apparel_back_attributes_image_size">
+                              <input type="hidden" name="backprint_back_image_version" id="backprint_back_image_version" class="jsBackprintBackImageVersion" autocomplete="off">
+                              <div class="mockup-container backprint_back">
+                                <div class="mockup-display-preview back" style="background-image: url(&quot;https://res.cloudinary.com/teepublic/image/upload/s--ATWMitia--/c_limit,h_490,w_490/f_auto,q_auto:good/v1535405111/production/blanks/ui7syp42jhmnxtvniuwg&quot;)">
+                                  <div class="mockup-boundaries t-shirt">
+                                    <img class="mutable-preview ui-draggable ui-draggable-handle" src="" style="width: 178px; height: 129.311px; top: 0px; left: 0px;">
+                                    <div class="m-uploader_center-axis vertical">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="button-container">
+                                  <div class="change-artwork">
+                                    <span class="teepublicon teepublicon--light-default teepublicon-background--transparent teepublicon-spacing--right"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="16" height="16" focusable="false" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M12.344 4.577c-4.272.576-7.187 3.442-7.766 7.769C4 16.672 4 19.442 4 23.997c0 4.556 0 7.312.58 11.652.578 4.34 3.496 7.184 7.766 7.768C16.616 44 19.44 44 23.995 44c4.555 0 7.341 0 11.649-.584 4.308-.584 7.174-3.405 7.766-7.769.59-4.363.59-7.095.59-11.651 0-4.557 0-7.384-.592-11.652-.591-4.269-3.42-7.191-7.766-7.768C31.297 4 28.548 4 23.992 4c-4.554 0-7.376.002-11.648.577ZM31.166 21.75a5 5 0 1 0-.097-9.999 5 5 0 0 0 .097 9.999Zm-17.5 16.947c-4.213-.39-4.374-2.21-4.703-5.95l-.03-.342c-.16-1.792-.156-4.005-.152-5.9l.001-.745c-.03-.745.471-1.4 1.174-1.474 4.689-.488 9.25 1.15 12.633 4.445 2.519 2.453 4.384 5.713 5.395 9.375.071.256.295 1.104-.377 1.104l-1.538.002h-.003c-4.262.008-8.44.016-12.4-.515Zm18.948-1.689c.447 1.275.703 2.007 1.228 2.007 4.432.05 5.045-4.491 5.358-7.883a.719.719 0 0 0-.526-.762 17.277 17.277 0 0 0-8.255-.206c-.521.114-.895.473-.424 1.162 1.455 2.358 2.145 4.327 2.62 5.682Z" clip-rule="evenodd"></path>
+                                      </svg></span>
+                                    Replace back image
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="m-uploader-toolbar jsUploaderApparelBackToolbar">
+                                <div class="m-uploader-toolbar_tools">
+                                  <div class="m-uploader-toolbar_label">
+                                    Tools
+                                  </div>
+                                  <div class="m-uploader-toolbar_tool m-uploader-toolbar_tool-top-align jsUploaderApparelBackTopAlign" title="Top Align"></div>
+                                  <div class="m-uploader-toolbar_tool m-uploader-toolbar_tool-h-align jsUploaderApparelBackHAlign" title="Center Horizontally"></div>
+                                </div>
+                                <div class="m-uploader-toolbar_scaler">
+                                  <div class="m-uploader-toolbar_label">
+                                    Scale
+                                  </div>
+                                  <div class="m-uploader-toolbar_scaler-input">
+                                    <input class="design-size jsUploaderApparelBackScaler" max="200" min="0" step="1" type="range" value="100.0">
+                                  </div>
+                                  <div class="m-uploader-toolbar_scaler-label jsUploaderApparelBackScalerLabel">
+                                    100%</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="backprint-editor-front">
+                              <input autocomplete="off" type="hidden" value="0" name="design[mockup_config_apparel_front_attributes][position_top]" id="design_mockup_config_apparel_front_attributes_position_top">
+                              <input autocomplete="off" type="hidden" value="0" name="design[mockup_config_apparel_front_attributes][position_left]" id="design_mockup_config_apparel_front_attributes_position_left">
+                              <input autocomplete="off" type="hidden" value="100" name="design[mockup_config_apparel_front_attributes][image_size]" id="design_mockup_config_apparel_front_attributes_image_size">
+                              <input type="hidden" name="backprint_front_image_version" id="backprint_front_image_version" class="jsBackprintFrontImageVersion" autocomplete="off">
+                              <div class="mockup-container backprint_front">
+                                <div class="mockup-display-preview front" style="background-image: url(&quot;https://res.cloudinary.com/teepublic/image/upload/s--wtJATV5C--/c_limit,h_490,w_490/f_auto,q_auto:good/v1462829024/production/blanks/a59x1cgomgu5lprfjlmi&quot;)">
+                                  <div class="mockup-boundaries t-shirt">
+                                    <img class="mutable-preview ui-draggable ui-draggable-handle" src="" style="width: 178px; height: 129.311px; top: 0px; left: 0px;">
+                                    <div class="m-uploader_center-axis vertical">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="button-container">
+                                  <div class="change-artwork">
+                                    <span class="teepublicon teepublicon--light-default teepublicon-background--transparent teepublicon-spacing--right"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="16" height="16" focusable="false" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M12.344 4.577c-4.272.576-7.187 3.442-7.766 7.769C4 16.672 4 19.442 4 23.997c0 4.556 0 7.312.58 11.652.578 4.34 3.496 7.184 7.766 7.768C16.616 44 19.44 44 23.995 44c4.555 0 7.341 0 11.649-.584 4.308-.584 7.174-3.405 7.766-7.769.59-4.363.59-7.095.59-11.651 0-4.557 0-7.384-.592-11.652-.591-4.269-3.42-7.191-7.766-7.768C31.297 4 28.548 4 23.992 4c-4.554 0-7.376.002-11.648.577ZM31.166 21.75a5 5 0 1 0-.097-9.999 5 5 0 0 0 .097 9.999Zm-17.5 16.947c-4.213-.39-4.374-2.21-4.703-5.95l-.03-.342c-.16-1.792-.156-4.005-.152-5.9l.001-.745c-.03-.745.471-1.4 1.174-1.474 4.689-.488 9.25 1.15 12.633 4.445 2.519 2.453 4.384 5.713 5.395 9.375.071.256.295 1.104-.377 1.104l-1.538.002h-.003c-4.262.008-8.44.016-12.4-.515Zm18.948-1.689c.447 1.275.703 2.007 1.228 2.007 4.432.05 5.045-4.491 5.358-7.883a.719.719 0 0 0-.526-.762 17.277 17.277 0 0 0-8.255-.206c-.521.114-.895.473-.424 1.162 1.455 2.358 2.145 4.327 2.62 5.682Z" clip-rule="evenodd"></path>
+                                      </svg></span>
+                                    Replace front image
+                                  </div>
+                                  <div class="m-uploader__button-toggle toggle-front-visibility hidden">
+                                    <div class="" data-action="show">
+                                      Show Art
+                                    </div>
+                                    <div class="selected" data-action="hide">
+                                      Hide Art
+                                    </div>
+                                    <input type="checkbox" name="enable_backprint_fronts" id="enable_backprint_fronts" value="1" class="enable_backprint_fronts">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="m-uploader-toolbar jsUploaderApparelFrontToolbar">
+                                <div class="m-uploader-toolbar_tools">
+                                  <div class="m-uploader-toolbar_label">
+                                    Tools
+                                  </div>
+                                  <div class="m-uploader-toolbar_tool m-uploader-toolbar_tool-top-align jsUploaderApparelFrontTopAlign" title="Top Align"></div>
+                                  <div class="m-uploader-toolbar_tool m-uploader-toolbar_tool-h-align jsUploaderApparelFrontHAlign" title="Center Horizontally"></div>
+                                </div>
+                                <div class="m-uploader-toolbar_scaler">
+                                  <div class="m-uploader-toolbar_label">
+                                    Scale
+                                  </div>
+                                  <div class="m-uploader-toolbar_scaler-input">
+                                    <input class="design-size jsUploaderApparelFrontScaler" max="200" min="0" step="1" type="range" value="100.0">
+                                  </div>
+                                  <div class="m-uploader-toolbar_scaler-label jsUploaderApparelFrontScalerLabel">
+                                    100%</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="backprint-message hidden">
+                              <strong>
+                                Note:
+                              </strong>
+                              New files selected for
+                              <strong>
+                                Back Printing
+                              </strong>
+                              will not affect artwork applied to other apparel items
+                              or other products.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="m-uploader-toolbar jsUploaderApparelToolbar">
+                          <div class="m-uploader-toolbar_tools">
+                            <div class="m-uploader-toolbar_label">
+                              Tools
+                            </div>
+                            <div class="m-uploader-toolbar_tool m-uploader-toolbar_tool-top-align jsUploaderApparelTopAlign" title="Top Align"></div>
+                            <div class="m-uploader-toolbar_tool m-uploader-toolbar_tool-h-align jsUploaderApparelHAlign" title="Center Horizontally"></div>
+                          </div>
+                          <div class="m-uploader-toolbar_scaler">
+                            <div class="m-uploader-toolbar_label">
+                              Scale
+                            </div>
+                            <div class="m-uploader-toolbar_scaler-input">
+                              <input class="design-size jsUploaderApparelScaler" max="200" min="0" step="1" type="range" value="100.0">
+                            </div>
+                            <div class="m-uploader-toolbar_scaler-label jsUploaderApparelScalerLabel">
+                              100%
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="toolbar">
+                        <div class="apparel-options">
+                          <table tabindex="5">
+                            <tbody>
+                              <tr>
+                                <th class="apparel_row">
+                                  <div class="primary_color">Default Color</div>
+                                  <div class="apparel_swapper">Enable</div>
+                                  <div class="canvas_label">Item</div>
+                                </th>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="clear-fix" style="height: 30px;"></div>
+
+                    </div>
+
+
+
+
+
+                    <hr class="hr--heavy hr--light-1">
+                    <div class="additional-canvases">
+                      <div class="h__h3">Configure Other Products</div>
+                      <div class="additional-canvases-container">
+
+                        <% MocuckUp.map((item)=>{ %>
+
+
+                        <div class="canvas apparel" data-canvas-name="T-Shirt" data-canvas="apparel">
+                          <div>
+                            <div class="mockup-display-preview enabled mockup-display-preview">
+                              <div class="img-holder">
+                                <img src="<%- item.productFrontImage -%>">
+                              </div>
+                              <div class="canvas--selected">
+                                Currently Editing
+                              </div>
+                              <div class="mockup-boundaries">
+                                <img class="mutable-preview" src="" style="width: 41px; height: 29.785px; top: 0px; left: 0px;">
+                              </div>
+                            </div>
+                            <div class="name">
+                              <h2><%- item.productName -%></h2>
+                            </div>
+                            <div class="buttons">
+                              <a class=" apparelLink on-off enabled">
+                                <input type="hidden" class="categoryLink" value="<%- item.category -%>">
+                                <input type="hidden" class="productId" value="<%- item._id -%>">
+                                <span class="<%- currentShop.toUpperCase() === item.category.toUpperCase() ? 'enabled' : 'disabled' -%>"></span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+
+
+                        <% }) %>
+
+
+
+
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="additional-stores" style="display:none;">
+                  <h2>Add to your Affiliate Stores</h2>
+                </div>
+                <div class="bottom-actions m-uploader__panel" style="">
+                  <div class="canvas-option-hidden">
+
+                  </div>
+                  <label for="terms"><input type="checkbox" name="terms" id="terms" value="read">
+                    <span>I have read and agree to the</span>
+                    <a rel="nofollow" target="_blank" href="/terms" class="link link--1 link--default link--strong">
+                      <span class="link__content">
+                        Terms and Conditions
+                      </span>
+
+                    </a>
+                  </label>
+                  <div class="">
+                  </div>
+                </div>
+                <% }%>
+              </div>
+
+
+          </div>
+          </form>
+          <div class="d-flex justify-content-center align-items-center">
+            <!-- <button class="btn btn--big btn--green" id="SaveProduct">Add Product</button> -->
+            <button class="btn btn-primary" id="SaveProduct">Add Product</button>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+  </div>
+  <footer>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
+          <div class="logo mb-3">
+            <img src="../assets/images/logo.png" alt="" class="img-fluid">
+          </div>
+          <ul class="social-icon-list list-unstyled justify-content-center justify-content-lg-start d-flex flex-wrap gap-2">
+            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+            <li><a href="#"><i class="fab fa-tiktok"></i></a></li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <ul class="footer-list list-unstyled d-flex flex-wrap justify-content-center justify-content-lg-end align-items-center gap-4">
+            <li><a href="<%- baseUrl -%>/contact">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">FAQS</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.js"></script>
+  <script>
+    $('.apparelLink').click(function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      var apparelLink = $(this).find('.categoryLink').val()
+      var productId = $(this).find('.productId').val()
+      const apparelLinkLowercase = apparelLink.charAt(0).toLowerCase() + apparelLink.slice(1); // Convert the first letter to lowercase
+      console.log(apparelLinkLowercase);
+
+
+      const designUploadValue = urlParams.get('design_upload');
+      window.location.href = `/upload-v2?category=${apparelLinkLowercase}&design_upload=${designUploadValue}`
+
+    });
+
+
+
+
+    $('#uploadDesign').on('click', function() {
+      var fileInput = $('#uploadDesignImage')[0].files[0];
+      var formData = new FormData();
+      formData.append('image', fileInput);
+
+      console.log(formData)
+
+      $.ajax({
+        url: '/api/upload',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          console.log(response);
+          localStorage.setItem('designUploadedUrl', response);
+
+          // Update designUploaded and designUploadedCheck
+          var designUploaded = true;
+          var designUploadedCheck = true;
+
+          // Show/hide elements based on upload status
+          $('.jsUploaderArtwork').show();
+          $('#uploadImage').hide();
+
+          // Update localStorage values
+          localStorage.setItem('designUploaded', designUploaded);
+          localStorage.setItem('designUploadedCheck', designUploadedCheck);
+
+
+          localStorage.setItem('designUploadedUrl', response);
+
+
+          const urlParams = new URLSearchParams(window.location.search);
+          urlParams.set('design_upload', 'true');
+          const newUrl = window.location.pathname + '?' + urlParams.toString();
+          window.history.replaceState({}, '', newUrl);
+          window.location.reload();
+          var designUrl = localStorage.getItem('designUploadedUrl')
+
+          console.log(designUrl)
+
+
+          $('#uploader-preview-image').attr('src', designUrl);
+          $('.mutable-preview').attr('src', designUrl);
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
+    });
+
+    // Trigger change event immediately after selecting a file
+    $('#uploadDesignImage').change(function() {
+      $(this).click();
+    });
+
+    $("#changeArtwork").click(function() {
+      // Update the URL to include design_upload=false
+      window.location.href = '/upload-v2?category=pillow&design_upload=false'
+
+    });
+
+    function updateUrlParameter(url, param, value) {
+      const urlParams = new URLSearchParams(url);
+      urlParams.set(param, value);
+      return url.split('?')[0] + '?' + urlParams.toString();
+    }
+  </script>
+
+  <script type="module">
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import {
+      getStorage,
+      ref,
+      uploadString,
+      getDownloadURL,
+      uploadBytes
+    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCmpnrRYeBVc5xYb_p5cRiMHB3A8X6rooU",
+      authDomain: "merhcbazar.firebaseapp.com",
+      projectId: "merhcbazar",
+      storageBucket: "merhcbazar.appspot.com",
+      messagingSenderId: "234938435232",
+      appId: "1:234938435232:web:c31b149247347ed2da6bc5"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+
+    document.getElementById('SaveProduct').addEventListener('click', function() {
+      document.getElementById('SaveProduct').addEventListener('click', async function(event) {
+        console.log('fsdfds ');
+
+        var currentCanvas = document.querySelector('.canvas-container.current-canvas .mockup-container.active .mockup-display-preview');
+        // var currentCanvas = document.querySelector('.editor-container.pillow');
+        console.log(currentCanvas);
+
+        var design_design_title = document.getElementById('design_design_title').value;
+        var design_design_description = document.getElementById('design_design_description').value;
+        var design_primary_tag = document.getElementById('design_primary_tag').value;
+        var supporting_tag = document.getElementById('supporting_tag').value;
+        var designPrice = document.getElementById('enterYourPrice').value;
+        var currentProductId = document.getElementById('currentProductId').value;
+
+        if (design_design_title == '') {
+          document.getElementById('designTitleError').textContent = 'Please Add Title';
+          document.getElementById('designTitleError').style.color = 'red';
+          return;
+        } else {
+          document.getElementById('designTitleError').textContent = '';
+        }
+
+        if (design_design_description == '') {
+          document.getElementById('designDescriptionError').textContent = 'Please Add Description';
+          document.getElementById('designDescriptionError').style.color = 'red';
+          return;
+        } else {
+          document.getElementById('designDescriptionError').textContent = '';
+        }
+
+        if (design_primary_tag == '') {
+          document.getElementById('primaryTagError').textContent = 'Please Add Primary Tag';
+          document.getElementById('primaryTagError').style.color = 'red';
+          return;
+        } else {
+          document.getElementById('primaryTagError').textContent = '';
+        }
+
+        if (supporting_tag == '') {
+          document.getElementById('supportingTagError').textContent = 'Please Add Supporting Tag';
+          document.getElementById('supportingTagError').style.color = 'red';
+          return;
+        } else {
+          document.getElementById('supportingTagError').textContent = '';
+        }
+
+        if (designPrice == '') {
+          document.getElementById('priceError').textContent = 'Please Add Price';
+          document.getElementById('priceError').style.color = 'red';
+          return;
+        } else {
+          document.getElementById('priceError').textContent = '';
+        }
+
+        const dataUrl = await htmlToImage.toPng(currentCanvas);
+        console.log(dataUrl);
+
+
+        const storageRef = ref(storage, Date.now() + 'productImage');
+        await uploadString(storageRef, dataUrl, 'data_url').then((snapshot) => {
+          console.log('Uploaded a base64 string!');
+        });
+
+        const url = await getDownloadURL(ref(storage, storageRef));
+        console.log(url);
+
+        try {
+          const response = await axios.post('/api/create-store-data', {
+            title: design_design_title,
+            mainTag: design_primary_tag,
+            description: design_design_description,
+            supportingTags: supporting_tag,
+            album: '1',
+            designImage: url,
+            productId:currentProductId,
+            designPrice: designPrice,
+          });
+
+          console.log(response.data);
+
+
+          var artistId = $('#artistId').val()
+
+          await axios.post(`/api/update-store/${artistId}`).then((res) => {
+            console.log(res.data);
+          }).catch((error) => {
+            console.log(res.data);
+          });
+
+          var design_Image = localStorage.getItem('designUploadedUrl');
+
+
+          await axios.post('/api/upload-design', {
+            title: design_design_title,
+            mainTag: design_primary_tag,
+            description: design_design_description,
+            supportingTags: supporting_tag,
+            album: '1',
+            designImage: design_Image,
+            productId: '662d1e88fd7f54cb49b990d5',
+            designPrice: designPrice,
+          }).then((res) => {
+            console.log(res.data)
+          }).catch((error) => {
+            console.log(error)
+          })
+          toastr.success('Have fun storming the castle!', 'Miracle Max Says')
+        } catch (error) {
+          console.log(error);
+        }
+
+        console.log('fsdfds ');
+      });
+    })
+
+
+
+
+    $(".mutable-preview").each(function() {
+      $(this).draggable();
+      // $(this).resizable();
+    });
+
+
+
+    // $('.mockup-boundaries.pillow .mutable-preview').draggable();
+
+
+
+    // $('.jsUploaderArtwork').hide()
+
+    // var designUploaded = false;
+    // var designUploadedCheck = false;
+    // var designUploadedUrl = '';
+
+    // // Retrieve existing values from localStorage
+    // var storedDesignUploaded = localStorage.getItem('designUploaded');
+    // var storedDesignUploadedCheck = localStorage.getItem('designUploadedCheck');
+    // var storedDesignUploadedUrl = localStorage.getItem('designUploadedUrl');
+
+    // if (storedDesignUploadedUrl !== '') {
+    //   $('#uploader-preview-image').attr('src', storedDesignUploadedUrl);
+    //   $('.mutable-preview').attr('src', storedDesignUploadedUrl);
+    // }
+
+    // // Check if URL already exists in localStorage
+    // if (storedDesignUploadedUrl && storedDesignUploadedUrl !== '') {
+    //   designUploadedUrl = storedDesignUploadedUrl;
+    //   designUploaded = true;
+    //   designUploadedCheck = true;
+    //   $('.jsUploaderArtwork').show()
+    //   // $('#uploadImage').hide()
+    //   $('#SaveProduct').show()
+
+    // } else {
+    //   $('#uploadImage').show()
+    //   $('#SaveProduct').hide()
+    // }
+
+
+
+
+    // Update localStorage values
+    localStorage.setItem('designUploaded', designUploaded);
+    localStorage.setItem('designUploadedCheck', designUploadedCheck);
+    localStorage.setItem('designUploadedUrl', designUploadedUrl);
+
+    // Trigger change event immediately after file is selected
+    // Trigger change event immediately after file is selected
+
+    $('.jsChangeArtwork').click(function() {
+      localStorage.setItem('designUploaded', false);
+      localStorage.setItem('designUploadedCheck', false);
+      localStorage.setItem('designUploadedUrl', '');
+      window.location.reload();
+
+      var storedDesignUploadedUrl = localStorage.getItem('designUploadedUrl');
+
+      if (storedDesignUploadedUrl !== '') {
+        $('#uploader-preview-image').attr('src', storedDesignUploadedUrl);
+        $('.mutable-preview').attr('src', storedDesignUploadedUrl);
+      }
+    })
+  </script>
+
+
+
+  <script>
+    // Retrieve image URL from localStorage
+    var designUploadedUrl = localStorage.getItem('designUploadedUrl');
+
+    // Check if designUploadedUrl exists and is not empty
+    if (designUploadedUrl) {
+      console.log(designUploadedUrl)
+      $('.mutable-preview').attr('src', designUploadedUrl);
+      $('#uploader-preview-image').attr('src', designUploadedUrl);
+    }
+  </script>
+
+  
+
+</body>
+
+</html>

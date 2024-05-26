@@ -1,0 +1,388 @@
+<% layout('layouts/adminLayout') -%>
+    <%-block('title','<title> Product Detail</title>')%>
+
+
+
+        <section class="product-detail" style="background-color: #FDFDFD">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="text-black" id="productName"><%- product.title %></h2>
+                        <input type="hidden" id="productID" name="productID" value="<%- product._id -%>">
+                    </div>
+                    <div class="col-lg-8 mt-3">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between">
+                            <a href="#" class="whishlist SaveWhishList mb-2 mb-md-0">
+                                <input type="hidden" name="" value="<%= product._id %>" class="productId">
+                               <% if(whishList){%>
+                                <i class="fa-solid fa-heart"></i>
+                                <% } else { %>
+                                    <i class="fa-regular fa-heart"></i>
+                                <% } %>
+                              
+                                
+                                Add to
+                                Wishlist</a>
+                            <div class="d-flex gap-2">
+                                <p class="mb-0">Share Product :</p>
+                                <ul class="list-unstyled mb-0 d-flex align-items-center gap-3">
+                                    <input type="hidden" name="" id="baseUrl">
+                                    <li><a href="#" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i></a>
+                                    </li>
+                                    <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-lg-6 mb-5 mb-lg-0">
+                        <img src="<%- product.designImage -%>" alt="" class="img-fluid">
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="info">
+                            <div class="d-flex mb-3 flex-wrap gap-2 align-items-center">
+                                <ul class="ratings mb-0 list-unstyled d-flex align-items-center gap-2">
+                                    <li><i class="fas fa-star"></i></li>
+                                    <li><i class="fas fa-star"></i></li>
+                                    <li><i class="fas fa-star"></i></li>
+                                    <li><i class="fas fa-star"></i></li>
+                                    <li><i class="fas fa-star"></i></li>
+                                </ul>
+                                <p class="mb-0"><strong>4.7 Star Rating</strong>(21,671 User feedback)</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p>Sku: <strong><%- product.productId.productSku -%></strong></p>
+                                    <p>Brand: <strong><%- product.productId.productBrand -%></strong></p>
+                                </div>
+                                <div>
+                                    <p>Availability: <span style="color: #2DB224;"><%-
+                                                product.productId.productAvialability ? 'In Stock' :"Not Avialable"
+                                                -%></span></p>
+                                    <p>Category: <%- product.productId.category -%></p>
+                                </div>
+                            </div>
+                            <div class="price mt-4 d-flex mb-4 gap-2 align-items-center">
+                                <h6 id="retailPrice">PKR:<%- +product.designPrice + +product.productId.pdocutBasePrice -%></h6>
+                                <!-- <span class="cut">PKR:<%- product.productId.pdocutBasePrice -%></span> -->
+                                <!-- <span class="custom_bagde"><%- product.productId.pdocutBasePrice -%></span> -->
+                            </div>
+                            <hr style="color: #909395;">
+                            <div class="cart-form mt-4">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-6">
+                                        <p class="mb-2">color</p>
+                                        <div class="d-flex gap-3">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-6">
+                                        <p class="mb-2">size</p>
+
+                                    </div>
+                                </div>
+                                <div class="row mt-4 g-3 align-items-center">
+                                    <div class="col-lg-3 col-md-3">
+
+                                        <div class="counter d-flex flex-nowrap justify-content-between">
+                                            <button type="button" id="minus" onclick="removeValue()"
+                                                class="fas fa-minus"></button>
+                                            <p class="mb-0" id="counterValue">0</p>
+
+                                            <button type="button" id="plus" class="fas fa-plus"></button>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <input type="hidden" name="" id="productId"
+                                            value="<%- product.productId._id -%>">
+                                        <a class="my-btn primary" id="addtoCart">Add To CART <i
+                                                class="fa-solid fa-cart-shopping"></i></a>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3">
+                                        <a href="#" class="my-btn secondary">Buy now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-description">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="nav nav-tabs mb-5" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                    data-bs-target="#home-tab-pane" type="button" role="tab"
+                                    aria-controls="home-tab-pane" aria-selected="true">Description</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                    data-bs-target="#profile-tab-pane" type="button" role="tab"
+                                    aria-controls="profile-tab-pane" aria-selected="false">Additional
+                                    information</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                    data-bs-target="#contact-tab-pane" type="button" role="tab"
+                                    aria-controls="contact-tab-pane" aria-selected="false">Specification</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="review-tab" data-bs-toggle="tab"
+                                    data-bs-target="#review-tab-pane" type="button" role="tab"
+                                    aria-controls="contact-tab-pane" aria-selected="false">Review</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
+                                aria-labelledby="home-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="col-lg-6 mb-4 mb-lg-0">
+                                        <h5>Description</h5>
+                                        <%- product.productId.description -%>
+                                    </div>
+                                    <!-- <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                                <h5>Feature</h5>
+                                <p style="color: #191C1F;"><i class="fa-solid me-2 fa-medal"></i> Free 1 Year Warranty</p>
+                                <p style="color: #191C1F;"><i class="fa-solid me-2 fa-truck"></i> Free Shipping & Fasted Delivery</p>
+                                <p style="color: #191C1F;"><i class="fa-regular me-2 fa-handshake"></i> 100% Money-back guarantee</p>
+                                <p style="color: #191C1F;"><i class="fa-solid me-2 fa-headset"></i> 24/7 Customer support</p>
+                                <p style="color: #191C1F;"><i class="fa-regular me-2 fa-credit-card"></i> Secure payment method</p>
+                            </div> -->
+                                    <!-- <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                                <h5>Shipping Information</h5>
+                                <p><span style="color: #191C1F; font-weight: 500;">Courier:</span> 2 - 4 days, free shipping</p>
+                                <p><span style="color: #191C1F; font-weight: 500;">Local Shipping:</span> up to one week, $19.00</p>
+                                <p><span style="color: #191C1F; font-weight: 500;">UPS Ground Shipping:</span> 4 - 6 days, $29.00</p>
+                            </div> -->
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel"
+                                aria-labelledby="profile-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <%- product.productId.AdditionalInformation -%>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel"
+                                aria-labelledby="contact-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <%- product.productId.SpecificationReview -%>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="review-tab-pane" role="tabpanel" aria-labelledby="review-tab"
+                                tabindex="0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <%- product.productId.review -%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="other-product" style="background-color: #FDFDFD">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                <h5>Also Available on</h5>
+                                <div class="more-product-box mb-3">
+                                    <div class="image">
+                                        <img src="frontend/images/more-product.png" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="text">
+                                        <h6>TOZO T6 True Wireless Earbuds Bluetooth Headpho...</h6>
+                                        <p class="price">$1,500</p>
+                                    </div>
+                                </div>
+                                <div class="more-product-box mb-3">
+                                    <div class="image">
+                                        <img src="frontend/images/more-product-1.png" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="text">
+                                        <h6>JBL FLIP 4 - Waterproof Portable Bluetooth Speaker...</h6>
+                                        <p class="price">$1,500</p>
+                                    </div>
+                                </div>
+                                <div class="more-product-box mb-3">
+                                    <div class="image">
+                                        <img src="frontend/images/more-product-2.png" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="text">
+                                        <h6>Wyze Cam Pan v2 1080p Pan/Tilt/Zoom Wi-Fi Indoor Smar...</h6>
+                                        <p class="price">$1,500</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                <h5>More by this Artist</h5>
+                                <div class="more-product-box mb-3">
+                                    <div class="image">
+                                        <img src="frontend/images/more-product.png" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="text">
+                                        <h6>TOZO T6 True Wireless Earbuds Bluetooth Headpho...</h6>
+                                        <p class="price">$1,500</p>
+                                    </div>
+                                </div>
+                                <div class="more-product-box mb-3">
+                                    <div class="image">
+                                        <img src="frontend/images/more-product-1.png" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="text">
+                                        <h6>JBL FLIP 4 - Waterproof Portable Bluetooth Speaker...</h6>
+                                        <p class="price">$1,500</p>
+                                    </div>
+                                </div>
+                                <div class="more-product-box mb-3">
+                                    <div class="image">
+                                        <img src="frontend/images/more-product-2.png" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="text">
+                                        <h6>Wyze Cam Pan v2 1080p Pan/Tilt/Zoom Wi-Fi Indoor Smar...</h6>
+                                        <p class="price">$1,500</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                <h5>Similar Design</h5>
+                                <div class="more-product-box mb-3">
+                                    <div class="image">
+                                        <img src="frontend/images/more-product.png" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="text">
+                                        <h6>TOZO T6 True Wireless Earbuds Bluetooth Headpho...</h6>
+                                        <p class="price">$1,500</p>
+                                    </div>
+                                </div>
+                                <div class="more-product-box mb-3">
+                                    <div class="image">
+                                        <img src="frontend/images/more-product-1.png" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="text">
+                                        <h6>JBL FLIP 4 - Waterproof Portable Bluetooth Speaker...</h6>
+                                        <p class="price">$1,500</p>
+                                    </div>
+                                </div>
+                                <div class="more-product-box mb-3">
+                                    <div class="image">
+                                        <img src="frontend/images/more-product-2.png" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="text">
+                                        <h6>Wyze Cam Pan v2 1080p Pan/Tilt/Zoom Wi-Fi Indoor Smar...</h6>
+                                        <p class="price">$1,500</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <script>
+
+            $('#addtoCart').click(async function () {
+                var productId = $('#productID').val();
+                var counterValue = $('#counterValue').text();
+
+
+                await axios.post('/api/cart', {
+                    product: productId,
+                    quantity:counterValue
+                }).then((res)=>{
+                    console.log(res)
+                    window.location.href = '/cart'
+                }).catch((error)=>{
+                    console.log(error)
+                })
+
+
+            })
+
+
+
+        </script>
+
+
+
+<script>
+    $(document).ready(function(){
+        $('.SaveWhishList').on('click', async function(){
+            var productId = $(this).find('.productId').val();
+
+                await axios.post('/api/add-whishlist',{
+                    whishList:productId
+                }).then((res)=>{
+                    console.log(res.data)
+                    window.location.reload()
+                }).catch((error)=>{
+                    console.log(error)
+                })
+          
+        })
+    })
+</script>
+
+        <script>
+
+
+
+
+
+
+
+            var counter = 1;
+
+            var counterValue = $('#counterValue').text();
+
+            $('#plus').click(function () {
+                $('#counterValue').empty()
+                $('#counterValue').text(counter);
+                counter++;
+            })
+
+            $('#minus').click(function () {
+                if (counter > 1) {
+                    counter--;
+                    $('#counterValue').text(counter);
+                }
+            });
+
+            $('#baseUrl').val(window.location);
+
+            function copyToClipboard() {
+                // Get the text from the input field
+                var textToCopy = document.getElementById('baseUrl').value;
+
+                // Copy the text to the clipboard
+                navigator.clipboard.writeText(textToCopy)
+                    .then(function () {
+                        console.log('Text copied to clipboard successfully');
+                        alert('Text copied to clipboard successfully');
+                    })
+                    .catch(function (error) {
+                        console.error('Unable to copy text to clipboard: ', error);
+                        alert('Unable to copy text to clipboard');
+                    });
+            }
+        </script>

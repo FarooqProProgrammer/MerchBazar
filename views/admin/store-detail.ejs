@@ -1,0 +1,61 @@
+<% layout('layouts/adminLayout') -%>
+    <%- block('title','<title>Store</title>')%>
+
+
+        <div class="flex-row-fluid ml-lg-8">
+            <!--begin::Card-->
+            <div class="card card-custom gutter-b">
+                <div class="card-body p-0">
+                    <!-- begin: Invoice-->
+                    <!-- begin: Invoice header-->
+                    <div class="row justify-content-center py-8 px-8 py-md-27 px-md-0">
+                        <div class="col-md-10">
+                            <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
+                                <h1 class="display-4 font-weight-boldest mb-10"><%- infoStore[0].storeName -%></h1>
+                                <div class="d-flex flex-column align-items-md-end px-0">
+                                    <!--begin::Logo-->
+                                    <a href="#" class="mb-5">
+                                        <img src="/metronic/theme/html/demo1/dist/assets/media/logos/logo-dark.png"
+                                            alt="">
+                                    </a>
+                                    <!--end::Logo-->
+                                    <span class=" d-flex flex-column align-items-md-end opacity-70">
+                                        <span><%- infoStore[0].Location -%></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Brief Bio</label>
+                                        <input type="text" value="<%- infoStore[0].BriefBio -%>" class="form-control" id="exampleFormControlInput1">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Location</label>
+                                        <input type="text" value="<%- infoStore[0].Location -%>" class="form-control" id="exampleFormControlInput1">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label d-block">Sales Notification</label>
+                                        <input type="checkbox" class="" <% if (infoStore[0].SalesNotification) { %> checked <% } %> style="height: 40px;" id="exampleFormControlInput1">
+                                    </div>
+                                </div>
+                            </div>
+        
+
+                        </div>
+                    </div>
+                    <!-- end: Invoice header-->
+
+                
+
+
+
+                    <!-- end: Invoice-->
+                </div>
+            </div>
+
+        </div>

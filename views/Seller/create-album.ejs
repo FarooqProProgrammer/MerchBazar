@@ -1,0 +1,213 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Create Album </title>')%>
+<style>
+  .albums .album-design {
+    position: relative;
+  }
+
+  .albums .album-design .overlay {
+    display: none;
+    z-index: 10;
+  }
+
+  .albums .album-design .overlay>div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  .albums .album-design .toggle_click {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 5;
+    cursor: pointer;
+  }
+
+  .albums .album-design .image-container {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100%;
+    z-index: -6;
+  }
+
+  .albums .album-design .image-container img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .albums .album-design.added .image-container img {
+    opacity: 1;
+  }
+
+  .albums .album-design .add_toggle {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    z-index: 15;
+  }
+
+  .albums .album-design .add_toggle .add,
+  .albums .album-design .add_toggle .remove {
+    height: 23px;
+    width: 23px;
+    cursor: pointer;
+    display: block;
+    background-image: url('images/checkbox.png');
+  }
+
+  .albums .album-design .add_toggle .remove {
+    background-position: -33px 0px;
+    display: none;
+  }
+
+  .albums .album-design.added .add_toggle .remove {
+    display: block;
+  }
+
+  .albums .album-design.added .add_toggle .add {
+    display: none;
+  }
+
+  .opacity {
+    opacity: 0.3;
+  }
+</style>
+<div class='main-wrapper'>
+  <div id='site'>
+    <div id='fb-root'></div>
+    <div id='content'>
+      <div class='flash x'>
+      </div>
+      <section class='contain m-account contain--wide-1'>
+        <div class="container albums">
+          <div class="row">
+            <div class="col-sm-6 col-xs-12">
+              <h1 class="upcase">
+                Album Editor
+              </h1>
+              <label class="bold" for="store_album_name">1. Enter album name:</label>
+              <input placeholder="Album Name" class="form-control album-name" type="text" name="store_album" id="store_album">
+            </div>
+            <div class="col-xs-12">
+              <div class="select-wrapper" style="width: 150px; margin-top: 20px;">
+                <div class="select">
+                  <select id="store_album_active">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label class="bold" style="margin-top: 20px;">
+                2. Select designs to include:
+              </label>
+            </div>
+            <% designs.map((item)=>{ %>
+            <div class="col-sm-2 col-xs-4">
+              <div class="album-design removed imageToggle">
+                <input type="hidden" name="" id="albumId" value="<%- item._id -%>">
+                <div class="image-container">
+                  <img class="opacity" src="<%- item.designImage -%>">
+                </div>
+                <div class="add_toggle" data-id="57436862">
+                  <a class="add" data-remote="true" rel="nofollow" href="#"></a>
+                  <a class="remove" data-remote="true" rel="nofollow" href="#"></a>
+                </div>
+              </div>
+              <div class="title ellip">
+                <%- item.title -%>
+              </div>
+            </div>
+            <% }) %>
+
+
+
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-primary" id="createAlbum">Create Album</button>
+          </div>
+        </div>
+      </section>
+
+
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function getAlbumIds() {
+    var albumIds = [];
+    $('.album-design').each(function() {
+      // Check if the album-design element does not contain the 'selected' class
+      if (!$(this).hasClass('selected')) {
+        // If not selected, retrieve the album ID
+        var albumId = $(this).find('#albumId').val();
+        // Push the album ID to the array
+        albumIds.push(albumId);
+      }
+    });
+    return albumIds;
+  }
+  $('#createAlbum').click(function() {
+    var albumIds = getAlbumIds();
+    var activeId = $('#store_album_active').val();
+    var store_album = $('#store_album').val();
+
+    // Check if albumIds array is empty
+    if (albumIds.length === 0) {
+      toastr.error('Error', 'Please select at least one design');
+      return;
+    }
+    $.ajax({
+      url: '/api/add-album',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        AlbumStatus: activeId, 
+        AlbumProductIds: albumIds,
+        Albumname:store_album
+      }),
+      success: function(response) {
+        console.log(response);
+        toastr.success('Album created successfully');
+      },
+      error: function(error) {
+        console.error(error);
+        toastr.error('Failed to create album');
+      }
+    });
+
+  });
+
+
+  $('.email-edit-btn').on('click', function(e) {
+    e.preventDefault();
+    $('.edit-notice').slideDown();
+  });
+
+  $('.add_toggle').on('click', function(e) {
+    e.preventDefault();
+    $(this).parent().toggleClass('added');
+  });
+  $('.imageToggle').addClass('selected')
+  $('.imageToggle').click(function() {
+    $(this).toggleClass('selected')
+    $(this).find('img').toggleClass('opacity')
+  })
+</script>

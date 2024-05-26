@@ -1,0 +1,195 @@
+<% layout('layouts/adminLayout') -%>
+    <%-block('title','<title> Product Caregories </title>')%>
+
+
+        <section class="container">
+            <div class="row">
+                <div class="col-lg-12  bg-white py-3">
+                    <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1">Add Main
+                        Category</button>
+                    <% if(categoryMain) { %>
+                        <table id="kt_datatable_column_rendering" class="table gy-5 gs-7">
+                            <thead>
+                                <tr class="fw-semibold fs-6 text-gray-800">
+                                    <th>ID</th>
+                                    <th>Porduct Main Category</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% categoryMain.map((item,index)=>{ %>
+                                    <tr>
+                                        <input type="hidden" name="" id="updatedProductID" value="<%- item._id -%>">
+                                        <input type="hidden" name="" id="updatedProductName"
+                                            value="<%- item.productCategory -%>">
+                                        <td><%- index + 1 -%></td>
+                                        <td><%- item.productCategory -%></td>
+                                        <td class="mb-0">
+                                            <div class="btn-group mb-2 mt-0" role="group" aria-label="Basic example">
+                                                <form action="/api/delete-main-category/<%- item._id -%> "
+                                                    method="post">
+                                                    <button type="submit" class="btn p-2 btn-primary">
+                                                        <i class="bi bi-archive"></i>
+                                                    </button>
+                                                </form>
+                                                <button type="button" class="btn p-2 btn-primary" id="openUpdate">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+
+
+                            </tbody>
+                        </table>
+                        <% } else { %>
+
+                            <div class="alert alert-secondary" role="alert">
+                                A simple secondary alert—check it out!
+                            </div>
+                            <% } %>
+
+
+                </div>
+                <!-- <div class="col-lg-6  bg-white py-3">
+                    <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#subCategoryModal">Add
+                        Sub Category</button>
+                    <% if(subCategory) { %>
+                        <table id="kt_datatable_column_rendering" class="table gy-5 gs-7">
+                            <thead>
+                                <tr class="fw-semibold fs-6 text-gray-800">
+                                    <th>ID</th>
+                                    <th>Main Category</th>
+                                    <th>Category</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% subCategory.map((item,index)=>{ %>
+                                    <tr>
+                                        <input type="hidden" name="" id="updatedProductID" value="<%- item._id -%>">
+                                        <input type="hidden" name="" id="updatedProductName"
+                                            value="<%- item.productSubCategory -%>">
+                                        <td><%- index + 1 -%></td>
+                                        <td><%- item.productSubCategory -%></td>
+                                        <td><%- item.productMainCategory -%></td>
+                                        <td class="mb-0">
+                                            <div class="btn-group mb-2 mt-0" role="group" aria-label="Basic example">
+                                                <form action="/api/delete-sub-category/<%- item._id -%> "
+                                                    method="post">
+                                                    <button type="submit" class="btn p-2 btn-primary">
+                                                        <i class="bi bi-archive"></i>
+                                                    </button>
+                                                </form>
+                                                <button type="button" class="btn p-2 btn-primary" id="openUpdate">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+
+
+                            </tbody>
+                        </table>
+                        <% } else { %>
+
+                            <div class="alert alert-secondary" role="alert">
+                                A simple secondary alert—check it out!
+                            </div>
+                            <% } %>
+
+
+                </div> -->
+            </div>
+        </section>
+
+
+        <div class="modal fade" tabindex="-1" id="kt_modal_1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Add Main Category</h3>
+
+                        <!--begin::Close-->
+                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                        </div>
+                        <!--end::Close-->
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="/api/create-main-category" method="post">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-10">
+                                        <label for="exampleFormControlInput1" class="required form-label">Category
+                                            Name</label>
+                                        <input type="text" name="productCategory"
+                                            class="form-control form-control-solid" placeholder="Example input" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-10">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Product Category</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/api/create-update-main-category" method="post">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <input type="hidden" name="_id" id="updatedID">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-10">
+                                        <label for="exampleFormControlInput1" class="required form-label">Category
+                                            Name</label>
+                                        <input type="text" name="productCategory" id="updatedProductval"
+                                            class="form-control form-control-solid" placeholder="Example input" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-10">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+       
+        <script>
+            $(document).ready(function () {
+
+                $("#kt_datatable_column_rendering").DataTable();
+
+
+                $('#openUpdate').click(function () {
+                    var productID = $('#updatedProductID').val();
+                    console.log(productID)
+                    $('#updatedID').val(productID)
+                    $('#updatedProductval').val($('#updatedProductName').val())
+                    $('#exampleModal').modal('show');
+                });
+            });
+        </script>

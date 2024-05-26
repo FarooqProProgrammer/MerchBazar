@@ -1,0 +1,364 @@
+<% layout('layouts/adminLayout') -%>
+    <%-block('title','<title> Store Detail </title>')%>
+
+
+        <div class='main-wrapper'>
+            <div id='site'>
+                <div id='content'>
+                    <div class='flash x'>
+                    </div>
+                    <section class='contain m-account contain--wide-1'>
+
+                        <div class='page-head'>
+                            <h1 class='h__h1'>
+                                My Account
+                            </h1>
+                            <div class='page-head__actions'>
+
+                            </div>
+                        </div>
+                        <div class='content-table jsMAccountContent'>
+                            <div class='content-table__head jsNavCtrl'>
+                                <h2 class='h__h2--primary h--no-s h--icon'>
+                                    <span
+                                        class="teepublicon teepublicon--dark-default teepublicon-background--transparent"><svg
+                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="28"
+                                            height="28" focusable="false" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M9.89 4.53A1.959 1.959 0 0 0 8.2 5.711c-.695 1.624-1.975 4.7-2.684 6.937-.554 1.753-1.1 4.084-1.47 5.786a1.949 1.949 0 0 0 1.83 2.364l1.99.084c-.205 2.297-.205 4.25-.205 7.027 0 3.665 0 5.881.472 9.372.473 3.492 2.857 5.78 6.345 6.249 3.487.469 5.795.469 9.516.469 3.72 0 5.997 0 9.516-.47 3.519-.469 5.86-2.738 6.344-6.248.483-3.51.483-5.707.483-9.372 0-2.77 0-4.745-.209-7.027.742-.03 1.414-.059 1.993-.084a1.949 1.949 0 0 0 1.831-2.364c-.37-1.702-.916-4.033-1.47-5.786-.709-2.238-1.99-5.313-2.685-6.937a1.959 1.959 0 0 0-1.69-1.183C35.392 4.37 28.675 4 24 4s-11.392.368-14.109.53Zm2.336 16.517c3.82.132 8.235.25 11.773.25 3.458 0 7.755-.112 11.514-.24.078.19.14.397.208.618l.032.106c.363 1.18.363 1.963.363 3.223 0 1.26 0 2.016-.363 3.222l-.019.064c-.35 1.17-.577 1.926-3.17 2.085-2.639.161-5.915.161-8.706.161-2.79 0-5.937 0-8.553-.161-2.616-.162-2.987-.948-3.342-2.149-.354-1.2-.354-1.962-.354-3.222s0-2.026.354-3.223c.079-.265.158-.51.263-.734Z"
+                                                clip-rule="evenodd"></path>
+                                        </svg></span>
+                                    <span>Edit Store</span>
+                                </h2>
+
+                                <span
+                                    class="teepublicon teepublicon--dark-default teepublicon-background--transparent m-account-nav__ctrl"><svg
+                                        xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50 50" width="16" height="16"
+                                        focusable="false" aria-hidden="true">
+                                        <path
+                                            d="M10.032 6.295 28.742 25l-18.71 18.705a1.058 1.058 0 0 0 0 1.496l4.49 4.49a1.059 1.059 0 0 0 1.497 0l23.949-23.943a1.058 1.058 0 0 0 0-1.496l-4.49-4.49-.002-.001L16.019.31a1.058 1.058 0 0 0-1.496 0l-4.49 4.489a1.058 1.058 0 0 0 0 1.496Z">
+                                        </path>
+                                    </svg></span>
+                            </div>
+                            <div class='content-table__body m-account__body'>
+                                <%- include partial/sidebar -%>
+
+                                    <div class="content-table__content">
+                                        <div class="content-table__section jsAccountForm">
+                                            <div class="h__h3">Store Details</div>
+                                            <form class="edit_store" id="edit_store_2302058">
+                                                <input type="hidden" value="" id="userValue">
+                                                <div class="form__body">
+                                                    <div class="form__group">
+                                                        <div class="form__fields">
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label class="label--heavy" for="store_name">Store
+                                                                    Name</label>
+                                                                <div class="form__note">
+                                                                    Appears over the cover photo of your storefront.
+                                                                </div>
+                                                                <input class="form__control" type="text" 
+                                                                    id="storeName" value="<%- storeInfo?.storeName -%>">
+                                                            </div>
+
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label class="label--heavy" for="store_bio">Brief
+                                                                    Bio</label>
+                                                                <textarea
+                                                                    placeholder="150 characters max. Let your art do the talking!"
+                                                                    maxlength="150" class="form__control textarea"
+                                                                    value="<%- storeInfo?.BriefBio   -%>"
+                                                                    id="BriefBio"></textarea>
+                                                            </div>
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label class="label--heavy"
+                                                                    for="store_location">Location</label>
+                                                                <input placeholder="City, State, Country, Planet"
+                                                                    class="form__control" type="text" value="Pakistan"
+                                                                    id="Location"  value="<%- storeInfo?.Location   -%>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form__group">
+                                                        <div class="form__fields form__checks">
+                                                            <label class="label--heavy" for="store_settings_">Display
+                                                                Preferences</label>
+                                                            <div
+                                                                class="form__field d-flex form__field--check form__field-label--normal">
+                                                                <input type="checkbox" value="1" name="displayPrefence"
+                                                                    id="store_settings_hide_name">
+                                                                <label for="store_settings_hide_name">Hide store
+                                                                    name</label>
+                                                            </div>
+                                                            <div
+                                                                class="form__field d-flex form__field--check form__field-label--normal">
+                                                                <input type="checkbox" value="1" checked="checked"
+                                                                    name="displayPrefence"
+                                                                    id="store_settings_hide_location">
+                                                                <label for="store_settings_hide_location">Hide
+                                                                    location</label>
+                                                            </div>
+                                                            <div
+                                                                class="form__field d-flex form__field--check form__field-label--normal">
+                                                                <input type="checkbox" value="1" name="displayPrefence"
+                                                                    id="store_settings_hide_avatar">
+                                                                <label for="store_settings_hide_avatar">Hide
+                                                                    avatar</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    <div class="h__h3 text-note--space">Social Links</div>
+                                                    <div class="form__group">
+                                                        <div class="form__fields">
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label for="store_links_attributes_0_url">Custom Link
+                                                                    (ex. Your Website)</label>
+                                                                <input class="form__control"
+                                                                    placeholder="http://www.example.com/" type="text"
+                                                                    value="http://desedin.pk" id="yourWebsiteLink">
+                                                            </div>
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label
+                                                                    for="store_links_attributes_1_url">DeviantArt</label>
+                                                                <input class="form__control"
+                                                                    placeholder="http://www.teepublic.deviantart.com/"
+                                                                    type="url" id="DeviantArt" value="<%- storeInfo?.DeviantArt -%>">
+                                                            </div>
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label
+                                                                    for="store_links_attributes_2_url">Facebook</label>
+                                                                <input class="form__control"
+                                                                    placeholder="https://www.facebook.com/teepublicdotcom"
+                                                                    type="text" value="http://facebook.com/desedin.pk"
+                                                                    id="Facebook">
+                                                            </div>
+                                                            <input autocomplete="off" type="hidden" value="406678"
+                                                                name="store[links_attributes][2][id]"
+                                                                id="store_links_attributes_2_id">
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label
+                                                                    for="store_links_attributes_3_url">Instagram</label>
+                                                                <input class="form__control"
+                                                                    placeholder="https://www.instagram.com/teepublic/"
+                                                                    type="text" value="http://instagram.com/desedin.pk"
+                                                                    id="Instagram">
+                                                            </div>
+                                                            <input autocomplete="off" type="hidden" value="406679"
+                                                                name="store[links_attributes][3][id]"
+                                                                id="store_links_attributes_3_id">
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label for="store_links_attributes_4_url">TikTok</label>
+                                                                <input class="form__control"
+                                                                    placeholder="https://www.tiktok.com/@teepublic"
+                                                                    type="url" id="TikTok" value="<%- storeInfo?.TikTok -%>">
+                                                            </div>
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label for="store_links_attributes_5_url">Tumblr</label>
+                                                                <input class="form__control"
+                                                                    placeholder="http://www.teepublic.tumblr.com/"
+                                                                    type="url" id="Tumblr" value="<%- storeInfo?.Tumblr -%>">
+                                                            </div>
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label for="store_links_attributes_6_url">Twitch</label>
+                                                                <input class="form__control"
+                                                                    placeholder="https://www.twitch.tv/teepublic"
+                                                                    type="url" id="Twitch" value="<%- storeInfo?.Twitch -%>">
+                                                            </div>
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label
+                                                                    for="store_links_attributes_7_url">Twitter</label>
+                                                                <input class="form__control"
+                                                                    placeholder="https://www.twitter.com/TeePublic"
+                                                                    type="url" id="Twitter"  value="<%- storeInfo?.Twitter -%>">
+                                                            </div>
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label
+                                                                    for="store_links_attributes_8_url">YouTube</label>
+                                                                <input class="form__control"
+                                                                    placeholder="https://www.youtube.com/channel/UCezxZy_kqLseEAD9XIzDUxw"
+                                                                    type="url" value="http://youtube.com/channel/com"
+                                                                    id="YouTube" value="<%- storeInfo?.YouTube -%>">
+                                                            </div>
+                                                            <div class="form__field form__field--space-lg-2">
+                                                                <label
+                                                                    for="store_links_attributes_8_url">Pinterest</label>
+                                                                <input class="form__control"
+                                                                    placeholder="https://www.pinterest.com/" type="url"
+                                                                    value="https://www.pinterest.com/54625"
+                                                                    id="Pinterest">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="jsDialogComponentWrapper"
+                                                        data-controller="containers--dialog-component">
+                                                        <div class="c-dialog__button">
+                                                            <button id="saveData"
+                                                                class="jsDialogSwitch btn btn--large btn--full"
+                                                                data-action=""
+                                                                data-containers--dialog-component-target="switch"
+                                                                data-options-content=".jsConfirmDialog"
+                                                                data-options-padding="heavy" data-options-size="small"
+                                                                data-options-title="Are you sure you want to change your store URL?"
+                                                                type="button">
+                                                                Save All Changes
+                                                            </button>
+                                                        </div>
+                                                        <div class="c-dialog inactive"
+                                                            data-containers--dialog-component-target="body"
+                                                            data-controller="containers--dialog-container">
+                                                            <div class="c-dialog__container c-dialog__container--standard c-dialog__container--small"
+                                                                data-containers--dialog-container-target="contentContainer">
+                                                                <div class="c-dialog__header">
+                                                                    <div class="h__h3 h--no-s c-dialog__header-item">Are
+                                                                        you sure you want to change your store URL?
+                                                                    </div>
+                                                                    <a aria-label="Close pop-up dialog"
+                                                                        data-containers--dialog-container-target="exitElement"
+                                                                        data-action="click->containers--dialog-container#close"
+                                                                        class="link c-dialog__header-item jsDialogClose link--1 link--default link--strong">
+                                                                        <span class="link__content">
+                                                                            <span
+                                                                                class="teepublicon teepublicon--grey-light teepublicon-background--transparent"><svg
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    viewBox="0 0 50 50" width="16"
+                                                                                    height="16" focusable="false"
+                                                                                    aria-hidden="true">
+                                                                                    <path
+                                                                                        d="M.31 43.705a1.058 1.058 0 0 0 0 1.496l4.489 4.49a1.058 1.058 0 0 0 1.496 0L25 30.984 43.705 49.69a1.058 1.058 0 0 0 1.496 0l4.49-4.489a1.058 1.058 0 0 0 0-1.496L30.984 25 49.69 6.295a1.058 1.058 0 0 0 0-1.496L45.201.309a1.058 1.058 0 0 0-1.496 0L25 19.016 6.295.31A1.058 1.058 0 0 0 4.8.31L.309 4.799a1.058 1.058 0 0 0 0 1.496L19.016 25 .31 43.705Z">
+                                                                                    </path>
+                                                                                </svg></span>
+
+                                                                        </span>
+
+                                                                    </a>
+                                                                </div>
+                                                                <div class="c-dialog__content jsDialogContent"
+                                                                    data-containers--dialog-container-target="content">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="jsConfirmDialog hidden">
+                                                        <strong>You may only change it once.</strong>
+                                                        Your old URL will not be available to use for existing or new
+                                                        accounts.
+                                                        <div class="alert-box--spicy alert-box--narrowest">
+                                                            <strong>
+                                                                You will NOT be able to reverse this change.
+                                                            </strong>
+                                                            Enter your password to proceed.
+                                                        </div>
+                                                        <div class="form__field form__field--space-lg-2">
+                                                            <label for="password">Password</label>
+                                                            <input type="password" name="confirm_password"
+                                                                id="confirm_password" value=""
+                                                                placeholder="Enter your password" class="form__control">
+                                                        </div>
+                                                        <input type="submit" name="commit" value="Update URL"
+                                                            class="btn btn--large btn--full">
+                                                        <div class="form__section">
+                                                            <strong>
+                                                                <a class="link--center jsDialogClose"
+                                                                    href="javascript:void(0);">
+                                                                    Cancel
+                                                                </a>
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $('.email-edit-btn').on('click', function (e) {
+                e.preventDefault();
+                console.log($('.edit-notice').slideDown());
+            });
+
+            $(document).ready(function () {
+                $('#saveData').on('click', function () {
+
+
+                    var storeName = $('#storeName').val();
+                    var BriefBio = $('#BriefBio').val();
+                    var Location = $('#Location').val();
+                    var displayPrefence = $('input[name="displayPrefence"]').val();
+                    var SalesNotification = $('input[name="SalesNotification"]').val();
+                    var SalesNotification = $('input[name="SalesNotification"]').val();
+                    var yourWebsiteLink = $('#yourWebsiteLink').val();
+                    var DeviantArt = $('#DeviantArt').val();
+                    var Facebook = $('#Facebook').val();
+                    var Instagram = $('#Instagram').val();
+                    var TikTok = $('#TikTok').val();
+                    var Tumblr = $('#Tumblr').val();
+                    var Twitch = $('#Twitch').val();
+                    var Twitter = $('#Twitter').val();
+                    var YouTube = $('#YouTube').val();
+                    var Pinterest = $('#Pinterest').val();
+
+               
+
+                    var username = Cookies.get('user');
+                    var user = JSON.parse(username.slice(2));
+                    console.log(user._id)
+                    $('#userValue').val(user._id);
+
+
+
+
+
+                    $.ajax({
+                        url: '/api/create-store-info', 
+                        method: 'POST',
+                        data: {
+                            storeName:storeName,
+                            BriefBio:BriefBio,
+                            userid:user._id,
+                            Location:Location,
+                            displayPrefence:displayPrefence,
+                            SalesNotification:SalesNotification,
+                            yourWebsiteLink:yourWebsiteLink,
+                            DeviantArt:DeviantArt,
+                            Facebook:Facebook ,
+                            Instagram:Instagram ,
+                            TikTok:TikTok,
+                            Tumblr:Tumblr,
+                            Twitch:Twitch ,
+                            Twitter:Twitter,
+                            YouTube:YouTube,
+                            Pinterest:Pinterest,
+
+                        },
+                        success: function (response) {
+                    
+                            console.log(response);
+                            toastr.success('Success', 'Your Store Values Updated Sucess');
+                            window.location.reload()
+                     
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle error response
+                            console.error(error);
+                        }
+                    });
+
+
+
+
+
+                })
+            })
+        </script>

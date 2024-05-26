@@ -1,0 +1,103 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Product Preview </title>')%>
+
+
+
+<style>
+  .productPreview {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #000;
+  }
+
+  .smallText p span {
+    font-size: 13px !important;
+  }
+</style>
+
+
+
+
+
+<section class="card container py-5">
+  <div class="row ">
+    <div class="col-lg-12">
+      <div class="productPreview rounded-2 shadow">
+        <img src="<%- originalproduct.designImage -%>" class="img-fluid rounded-2" alt="" srcset="">
+      </div>
+    </div>
+    <div class="col-lg-4 mt-3">
+      <div class="mb-10">
+        <label class="required form-label">Title</label>
+        <p><%- originalproduct.title %></p>
+      </div>
+    </div>
+    <div class="col-lg-4 mt-3">
+      <div class="mb-10">
+        <label class="required form-label">Main Tag</label>
+        <p><%- originalproduct.mainTag %></p>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="mb-10">
+        <label class="required form-label">Design Price</label>
+        <p><%- originalproduct.designPrice %></p>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="mb-10">
+        <label class="required form-label">Supporting Tag</label>
+        <p><%- originalproduct.supportingTags %></p>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="mb-10">
+        <label class="required form-label">Product Base Price</label>
+        <p><%- originalproduct.productId.pdocutBasePrice %></p>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="mb-10">
+        <label class="required form-label">Product Category</label>
+        <p><%- originalproduct.productId.category %></p>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="mb-10">
+        <label class="required form-label">Product Sku</label>
+        <p><%- originalproduct.productId.productSku %></p>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="mb-10">
+        <label class="required form-label">Product Brand</label>
+        <p><%- originalproduct.productId.productBrand %></p>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="mb-10">
+        <label class="required form-label">Product Brand</label>
+        <p><%- originalproduct.productId.productAvialability !== '' && 'Avialable' %></p>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="mb-10">
+        <label class="required form-label">Product Description</label>
+        <p><%- originalproduct.description %></p>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="mb-10 smallText">
+        <label class="required form-label">Product Additional Information</label>
+        <p class="fw-thin"><%- originalproduct.productId.AdditionalInformation %></p>
+      </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="mb-10 smallText">
+          <label class="required form-label">Product Specification Review</label>
+          <p class="fw-thin"><%- originalproduct.productId.SpecificationReview %></p>
+        </div>
+      </div>
+
+  </div>
+</section>

@@ -1,0 +1,142 @@
+<% layout('layouts/adminLayout') -%>
+    <%-block('title','<title> Market Artist </title>')%>
+
+
+
+        <section class="market artist">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 mb-5 mb-lg-0">
+                        <div class="sidebar mt-5 pe-lg-5">
+                            <ul class="sidebar-list mb-4">
+                                <li><a href="marketplace">Shop by Product</a></li>
+                                <li><a href="marketplace-design">Shop by Design</a></li>
+                                <li class="active"><a href="marketplace-artist">Shop by Artist</a></li>
+                            </ul>
+                            <div class="dropdown">
+                                <button class="btn text-start w-100 border-0 rounded-0 dropdown-toggle" type="button">
+                                    Categories
+                                </button>
+                                <ul class="dropdown-menu border-0 ps-4">
+                                    <% CategoryData.forEach((item,index)=>{ %>
+                                        <li><a class="dropdown-item" href="#"><%- item.productCategory -%></a></li>
+                                    <% }) %>
+                                </ul>
+                            </div>
+                            <hr>
+                            <form action="" class="filter-form">
+                                <div class="dropdown">
+                                    <button class="btn text-start w-100 border-0 rounded-0 dropdown-toggle"
+                                        type="button">
+                                        price
+                                    </button>
+                                    <ul class="dropdown-menu border-0 ps-4">
+                                        <li class="dropdown-item"><input type="checkbox" class="me-2" name="price"> $
+                                        </li>
+                                        <li class="dropdown-item"><input type="checkbox" class="me-2" name="price"> $$
+                                        </li>
+                                        <li class="dropdown-item"><input type="checkbox" class="me-2" name="price"> $$$
+                                        </li>
+                                    </ul>
+                                </div>
+                                <hr>
+                                <div class="dropdown">
+                                    <button class="btn text-start w-100 border-0 rounded-0 dropdown-toggle"
+                                        type="button">
+                                        Art Work Medium
+                                    </button>
+                                    <ul class="dropdown-menu border-0 ps-4">
+                                        <li class="dropdown-item"><input type="radio" class="me-2" name="price"> All
+                                            Medium</li>
+                                        <li class="dropdown-item"><input type="radio" class="me-2" name="price"> Digital
+                                            Art</li>
+                                        <li class="dropdown-item"><input type="radio" class="me-2" name="price"> Drawing
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 after">
+                        <div class="row">
+                            <div class="col-12">
+                                <form action="/marketplace-artist" class="search-form" method="GET">
+                                    <div class="row g-0">
+                                        <div class="col-10">
+                                            <input type="text" class="form-control" placeholder="Search" name="search">
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit" class="my-btn text-center p-0"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                                
+
+                                <div class="d-flex mt-4 w-100 align-items-center justify-content-between">
+                                    <p class="mb-0">Showing 09 of 420 results</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <% artist.map((item)=>{  %>    
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <div class="profile-box shadow">
+                                        <div class="banner-image">
+                                            <p>BANNER</p>
+                                        </div>
+                                        <div class="info text-center">
+                                            <a href="#">
+                                                <div class="image">
+                                                    <img src="<%- item.artistLogo -%>" alt="" class="img-fluid">
+                                                </div>
+                                            </a>
+                                            <div class="text">
+                                                <h5><a href="/marketplace?artist=<%- item.userId._id -%>" ><%- item.name -%></a></h5>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                                    tempor
+                                                </p>
+                                                <div class="d-flex mt-4 align-items-center justify-content-between">
+                                                    <ul
+                                                        class="mb-0 social-icon-list list-unstyled justify-content-center justify-content-lg-start d-flex flex-wrap gap-1">
+                                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                                        <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                                        <li><a href="#"><i class="fab fa-tiktok"></i></a></li>
+                                                    </ul>
+                                                    <a href="#"><i class="fas fa-heart"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <% }) %>
+
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination flex-wrap justify-content-center rounded-0">
+                                        <% for (let i = 1; i <= totalPages; i++) { %>
+                                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                                <a class="page-link" href="/marketplace-artist?page=<%= i %>"><%= i %></a>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <script>
+            $(document).ready(function () {
+                $('.dropdown .dropdown-toggle').on('click', function (e) {
+                    $(this).parent().find('.dropdown-menu').slideToggle();
+                });
+            });
+        </script>

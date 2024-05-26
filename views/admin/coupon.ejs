@@ -1,0 +1,206 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Add New Coupn </title>')%>
+
+
+<div class="container bg-white py-3">
+  <div class="row">
+    <div class="col-lg-12">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_1">Add New
+        Coupon</button>
+    </div>
+    <div class="col-lg-12">
+      <div class="table-responsive">
+        <table id="kt_datatable_vertical_scroll" class="table table-striped table-row-bordered gy-5 gs-7">
+          <thead>
+            <tr class="fw-semibold fs-6 text-gray-800">
+              <th class="pe-7">ID</th>
+              <th>Coupn Name</th>
+              <th>Coupn Discount</th>
+              <th>Coupn Expiry</th>
+              <th>Actions</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <% coupon.forEach((item,index)=>{  %>
+            <tr>
+              <td><%- index + 1 -%></td>
+              <td><%- item.couponName -%></td>
+              <td><%- item.discount -%></td>
+              <td><%- '10 Days' -%></td>
+              <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a href="/api/delete-coupons/<%- item._id -%>" type="button" class="btn btn-icon btn-primary">
+                    <i class="fa-solid fa-trash"></i>
+                  </a>
+                  <button type="button"  class="btn updatedData btn-icon btn-primary ">
+                    <input type="hidden" value="<%- item.couponName -%>" id="couponNameForUpdate">
+                    <input type="hidden" value="<%- item.discount -%>" id="discountForUpdate">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+
+            <% })  %>
+
+
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="kt_modal_2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Coupon</h3>
+
+        <!--begin::Close-->
+        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+          <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+        </div>
+        <!--end::Close-->
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="mb-10">
+              <label for="couponName" class="required form-label">Coupon Name</label>
+              <input type="text" class="form-control form-control-solid" placeholder="Add Coupon Name" id="couponNameUpdated" />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="mb-10">
+              <label for="couponDiscount" class="required form-label">Coupon Discount</label>
+              <input type="text" class="form-control form-control-solid" placeholder="Add Coupon Discount" id="couponDiscountUpdated" />
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <button class="btn btn-primary" id="AddCopoun">Add Coupon</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $("#kt_datatable_vertical_scroll").DataTable({
+    "scrollY": "500px",
+    "scrollCollapse": true,
+    "paging": false,
+    "dom": "<'table-responsive'tr>"
+  });
+
+ $(document).on('click', '.updatedData', function() {
+  $('#kt_modal_2').modal('show');
+  var couponNameUpdated = $(this).find('#couponNameForUpdate').val();
+  var couponDiscountUpdated = $(this).find('#discountForUpdate').val();
+
+  console.log(couponNameUpdated);
+  console.log(couponDiscountUpdated);
+
+  $('#couponNameUpdated').val(couponNameUpdated);
+  $('#couponDiscountUpdated').val(couponDiscountUpdated);
+});
+
+
+</script>
+
+<div class="modal fade" tabindex="-1" id="kt_modal_1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Coupon</h3>
+
+        <!--begin::Close-->
+        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+          <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+        </div>
+        <!--end::Close-->
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="mb-10">
+              <label for="couponName" class="required form-label">Coupon Name</label>
+              <input type="text" class="form-control form-control-solid" placeholder="Add Coupon Name" id="couponName" />
+              <p id="errorName"></p>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="mb-10">
+              <label for="couponDiscount" class="required form-label">Coupon Discount</label>
+              <input type="text" class="form-control form-control-solid" placeholder="Add Coupon Discount" id="couponDiscount" />
+              <div id="errorDiscount"></div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <button class="btn btn-primary" id="AddCopounData">Add Coupon</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#AddCopounData').click(function() {
+      var couponName = $('#couponName').val();
+      var couponDiscount = $('#couponDiscount').val();
+
+      var data = {
+        couponName: couponName,
+        discount: couponDiscount
+      };
+
+
+      if(couponName == '') { 
+        $('#couponName').addClass('is-invalid');
+        $('#errorName').text('PLEASE ADD COUPON NAME');
+        $('#errorName').addClass('text-danger');
+        return
+      }else { 
+        $('#couponName').removeClass('is-invalid');
+        $('#errorName').empty();
+      }
+
+      
+      if(couponDiscount == '') { 
+        $('#couponDiscount').addClass('is-invalid');
+        $('#errorDiscount').text('PLEASE ADD Discount NAME');
+        $('#errorDiscount').addClass('text-danger');
+        return
+      }else { 
+        $('#couponDiscount').removeClass('is-invalid');
+        $('#errorDiscount').empty();
+      }
+
+    
+
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/coupons',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(response) {
+          console.log(response);
+          window.location.reload();
+        },
+        error: function(xhr, status, error) {
+          console.error('Error adding coupon:', error);
+
+        }
+      });
+
+    })
+  })
+</script>

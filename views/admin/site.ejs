@@ -1,0 +1,71 @@
+<% layout('layouts/adminLayout') -%>
+    <%- block('title','<title>Site</title>')%>
+        <div class="container bg-white">
+            <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#kt_tab_pane_1">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#kt_tab_pane_2">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#kt_tab_pane_3">Market placeholder</a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane py-4 fade show active" id="kt_tab_pane_1" role="tabpanel">
+                    <form action="/api/home-site" method="post">
+                        <input type="hidden" name="homeId" value="homepage">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-10">
+                                    <label for="exampleFormControlInput1" class="required form-label">Title</label>
+                                    <input type="text" class="form-control form-control-solid"
+                                        placeholder="Example input" name="TitleTag" value="<%- homeSite && homeSite.TitleTag -%>" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-10">
+                                    <label for="exampleFormControlInput1" class="required form-label">Meta
+                                        Description</label>
+                                    <input type="text" class="form-control form-control-solid"
+                                        placeholder="Example input" name="MetaDescription"  value="<%- homeSite && homeSite.MetaDescription -%>"  />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-10">
+                                    <label for="exampleFormControlInput1" class="required form-label">Meta
+                                        Keywords</label>
+                                        <input type="text" class="form-control form-control-solid" placeholder="Example input" name="Metakeywords" value="<%- (homeSite && typeof homeSite.MetaDescription === 'string') ? homeSite.MetaDescription.split(',').join(', ') : '' %>" id="Metakeywords" />
+
+                                </div>
+                            </div>
+                              <div class="col-lg-6">
+                                <div class="mb-10">
+                                    <label for="exampleFormControlInput1" class="required form-label">Canonical Tag</label>
+                                    <input type="text" class="form-control form-control-solid"
+                                        placeholder="Example input" name="canonical" id="canonical" value="<%- homeSite && homeSite.canonical -%>" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <button class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
+                    ...
+                </div>
+                <div class="tab-pane fade" id="kt_tab_pane_3" role="tabpanel">
+                    ...
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var inputElem = document.querySelector('#Metakeywords')
+            var tagify = new Tagify(inputElem, {
+                whitelist: ['foo', 'bar', 'and baz', 0, 1, 2]
+            })
+        </script>

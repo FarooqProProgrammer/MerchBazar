@@ -1,0 +1,174 @@
+<% layout('layouts/adminLayout') -%>
+<%-block('title','<title> Signup Page </title>')%>
+
+
+<section class="login">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto col-lg-6">
+                <form action="" class="login-form">
+                    <h1>Sign Up</h1>
+                    <div class="mb-4">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="registration_first_name" class="form-control">
+                        <p id="nameError" style="position:absolute;color:red;"></p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="name">Last Name</label>
+                        <input type="text" name="name" id="registration_last_name" class="form-control">
+                        <p id="lastNameError" style="position:absolute;color:red;"></p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="registration_email" class="form-control">
+                        <p id="registration_Error" style="position:absolute;color:red;"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Countries</label>
+                        <select class="form__control" aria-label="Default select example" id="registration_country_id">
+                            <% countryData.map((item)=>{ %>
+                                <option value="<%- item.countryName -%>"><%- item.countryName -%></option>
+                                <% }) %>
+                          </select>
+                          <p id="countryError" style="position:absolute;color:red;"></p>
+
+                        </div>
+                    <div class="mb-4 password">
+                        <label for="password">Password</label>
+                        <div class="position-relative">
+                            <input type="password" name="password" id="registration_password" class="form-control">
+                            <i class="fa-regular fa-eye"></i>
+                        </div>
+                        <p id="passwordError" style="position:absolute;color:red;"></p>
+                    </div>
+                    <div class="mb-3 password">
+                        <label for="con_password">Confirm password</label>
+                        <div class="position-relative">
+                            <input type="password" name="con_password" id="registration_password_confirmation" class="form-control">
+                            <i class="fa-regular fa-eye"></i>
+                        </div>
+                        <p id="password_confirmationError" style="position:absolute;color:red;"></p>
+
+                    </div>
+                    <div class="d-flex mb-3 align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="checkbox" name="remember-me" id="remember-me">
+                            <label for="remember-me" class="remember mb-0">I agree to <a href="#" style="color: var(--primary-color);">Terms of services</a> and <a href="#" style="color: var(--primary-color);">Privacy policy</a></label>
+                        </div>
+                    </div>
+                    <button type="submit" id="create_account" class="my-btn w-100 text-center bg-primary">Sign Up   </button>
+                    <div class="or">
+                        or
+                    </div>
+                    <a href="#" class="my-btn bg-primary text-center w-100"><i class="fa-brands fa-google"></i> Continue with Google</a>
+                    <p class="signup">Already have an account? <a href="login.php">Sign in</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+  $(document).ready(function() {
+  $('.password i').on('click', function() {
+    $(this).toggleClass('fa-eye-slash fa-eye');
+    var type = $(this).parent().find('input').attr('type') === 'password' ? 'text' : 'password';
+    $(this).parent().find('input').closest('input').attr('type', type); 
+  });
+
+  $('#create_account').click(function(e) {
+    e.preventDefault();
+
+    console.log('Muhammad Farooq');
+
+    var firstName = $('#registration_first_name').val();
+    if (firstName === '') {
+      $('#nameError').text('First name cannot be empty');
+      return;
+    } else {
+      $('#nameError').text('');
+    }
+
+    var lastName = $('#registration_last_name').val();
+    if (lastName === '') {
+      $('#lastNameError').text('Last name cannot be empty');
+      return;
+    } else {
+      $('#lastNameError').text('');
+    }
+
+    var email = $('#registration_email').val();
+    if (!isValidEmailAddress(email)) {
+      $('#registration_Error').text('Invalid email address');
+      return;
+    } else {
+      $('#registration_Error').text('');
+    }
+
+    var country = $('#registration_country_id').val();
+    if (country === '') {
+      $('#countryError').text('Country cannot be empty');
+      return;
+    } else {
+      $('#countryError').text('');
+    }
+
+    var password = $('#registration_password').val();
+    var passwordConfirmation = $('#registration_password_confirmation').val();
+    var offSiteMarketing = $('#registration_settings_off_site_marketing').prop('checked') ? 1 : 0;
+
+    if (password === '') {
+      $('#passwordError').text('Please Add Your Password');
+      return;
+    } else {
+      $('#passwordError').text('');
+    }
+
+    if (passwordConfirmation === '') {
+      $('#password_confirmationError').text('Please Add Your Confirm Password');
+      return;
+    } else {
+      $('#password_confirmationError').text('');
+    }
+
+    console.log(firstName)
+    console.log(lastName)
+    console.log(country)
+    console.log(email)
+    console.log(password)
+
+    $.ajax({
+      url: '/api/register',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        country: country,
+        password: password,
+        registration: {
+          settings: {
+            off_site_marketing: offSiteMarketing
+          }
+        }
+      }),
+      success: function(response) {
+        toastr.success('Registration Success', 'Please Login');
+        window.location.href = '/login';
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error('Error:', textStatus, errorThrown);
+      }
+    });
+  });
+
+  function isValidEmailAddress(emailAddress) {
+    var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(emailAddress);
+  }
+});
+
+
+</script>
