@@ -46,6 +46,30 @@ route.post('/add-mockup', async(req,res)=>{
     }
 
 });
+route.post('/update-mockup/:id', async (req, res) => {
+    try {
+        const { productName, productSku, productBrand, productAvialability, category, pdocutBasePrice, productFrontImage, productBackImage, productColors, AdditionalInformation, SpecificationReview } = req.body;
+        const updatedProduct = await ProductMockup.findByIdAndUpdate(req.params.id, {
+            productName,
+            pdocutBasePrice,
+            productColors,
+            productFrontImage,
+            productBackImage,
+            AdditionalInformation,
+            SpecificationReview,
+            category,
+            productSku,
+            productBrand,
+            productAvialability
+        }, { new: true });
+
+        res.json(updatedProduct);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 
 route.get('/get-mouckup',async function(req,res){
     try { 
@@ -57,6 +81,18 @@ route.get('/get-mouckup',async function(req,res){
     }
 })
 
+route.get('/get-mockup/:id', async function(req, res) {
+    try {
+        const mockId = req.params.id
+        const mock = await ProductMockup.findById(mockId)
+        if (!mock) {
+            return res.status(404).send({ message: 'Product not found' })
+        }
+        res.send(mock)
+    } catch (error) {
+        res.status(500).send(error)
+    }
+})
 
 route.post('/delete-mockup/:productId', async (req, res) => {
     try {
