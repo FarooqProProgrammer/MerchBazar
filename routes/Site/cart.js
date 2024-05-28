@@ -103,8 +103,8 @@ route.get('/cart', async function (req, res) {
             }
         })
         const updatedCarts = allCarts.map(cart => {
-            const designPrice = +cart.product.designPrice;
-            const basePrice = +cart.product.productId.pdocutBasePrice;
+            const designPrice = +cart.product?.designPrice;
+            const basePrice = +cart.product?.productId?.pdocutBasePrice;
             const totalPrice = (designPrice + basePrice) * cart.quantity;
             return { ...cart.toObject(), totalPrice };
           });

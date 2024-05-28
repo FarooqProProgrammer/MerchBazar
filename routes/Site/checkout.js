@@ -31,6 +31,7 @@ const removeApiPrefix = (req, res, next) => {
 router.post('/checkout',async (req, res) => {
     try {
         const userId = req.cookies.user._id;
+        console.log(userId,req.body)
         const allCarts = await Cart.find({ user: userId }).populate('user').populate({
             path: 'product',
             populate: {
@@ -49,8 +50,10 @@ router.post('/checkout',async (req, res) => {
 
        
         // If validation passes, proceed to save the checkout data
-        const { userName, lastName, companyName, address, country, regionState, city, zipCode, email, phoneNumber, paymentMethod, orderNotes } = req.body;
-        const newCheckout = new Checkout({ userName, lastName, companyName, address, country, regionState, city, zipCode, email, phoneNumber, orderNotes, paymentMethod });
+        const { userName, lastName, companyName, address, country, regionState, city, zipCode, email, phoneNumber, paymentMethod, orderNotes ,
+        full_name,bank_name,account_no,amount,image
+        } = req.body;
+        const newCheckout = new Checkout({ userName, lastName, companyName, address, country, regionState, city, zipCode, email, phoneNumber, orderNotes, paymentMethod ,full_name,bank_name,account_no,amount,image});
         await newCheckout.save();
         
         // After successfully saving the checkout data, render the checkout page

@@ -53,6 +53,7 @@ const authSchema = mongoose.Schema(
 );
 
 
+    
 authSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();

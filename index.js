@@ -25,6 +25,7 @@ var app = express();
 
 
 
+
 // app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -101,7 +102,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/Seller/fonts', express.static(path.join(__dirname, 'assets', 'Seller', 'fonts')));
 app.use(favicon(__dirname + '/public/frontend/images/logo.png'));
-
+// http://localhost:3100/uploads/1713282251072.png
 
 app.use(flash());
 

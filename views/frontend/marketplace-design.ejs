@@ -71,7 +71,9 @@
           <% for (let i=0; i < ProductData.length; i++) { %>
           <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
             <div class="product-box">
-              <a href="#">
+              
+          <a href='/marketplace-design/<%- ProductData[i]?._id %>'>
+
                 <div class="image">
                   <img src="<%- `${ProductData[i].designImage}`  %>" alt="" class="img-fluid">
                 </div>

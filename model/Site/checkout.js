@@ -40,6 +40,11 @@ const checkoutSchema = new mongoose.Schema({
         required: true
     },
     orderNotes: String,
+    full_name: String,
+    bank_name: String,
+    image:String, 
+    account_no: Number,
+    amount: Number
     // cartProductIDs: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Cart' // Assuming you have a Cart model

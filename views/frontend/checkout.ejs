@@ -123,26 +123,32 @@
                     </div>
                     <div class="col-lg-12">
                       <div class="form-group">
-                        <label for="card_name">Name on card</label>
-                        <input type="text" name="card_name" id="card_name" class="form-control">
+                        <label for="full_name">Full Name</label>
+                        <input type="text" name="full_name" id="full_name" class="form-control">
                       </div>
                     </div>
                     <div class="col-lg-12">
                       <div class="form-group">
-                        <label for="card_number">Card Number</label>
-                        <input type="number" name="card_number" id="card_number" class="form-control">
+                        <label for="bank_name">Bank Name</label>
+                        <input type="text" name="bank_name" id="bank_name" class="form-control">
                       </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                       <div class="form-group">
-                        <label for="expire_date">Expire Date</label>
-                        <input type="text" placeholder="DD/YY" name="expire_date" id="expire_date" class="form-control">
+                        <label for="account_no">Account No</label>
+                        <input type="number" placeholder="Account No" name="account_no" id="account_no" class="form-control">
                       </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                       <div class="form-group">
-                        <label for="cvc">CVC</label>
-                        <input type="number" name="cvc" id="cvc" class="form-control">
+                        <label for="amount">Amount</label>
+                        <input type="number" name="amount" id="amount" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label for="receipt">Receipt</label>
+                        <input type="file" name="receipt" id="receipt" accept="image/png, image/jpeg" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -212,8 +218,11 @@
 
 <script>
   $(document).ready(function() {
+    console.log("==========")
     $('.checkout-form').submit(function(e) {
       e.preventDefault(); // Prevent the default form submission
+
+   
 
 
 
@@ -313,14 +322,39 @@
             $('#email').removeClass('is-invalid');
             $('#emailError').text(''); 
         }
-
-
-
+        var formData = $(this).serialize();
+        
       // Serialize form data
-      var formData = $(this).serialize();
 
         console.log(formData)
+        var fileInput = document.getElementById('receipt');
+    var file = fileInput.files[0];
+    
+    var formData2 = new FormData();
+        formData2.append("file",file)
 
+console.log(formData2,"=============")
+        $.ajax({
+          url: '/api/upload',
+      type: 'POST',
+      data: formData2,
+      processData: false,
+      contentType: false,
+        success: function(response) {
+          // Handle successful response
+          console.log(response);
+          console.log('response');
+          formData.image=response
+        // formData.image=response
+          
+        },
+        error: function(xhr, status, error) {
+          // Handle errors
+          console.log(xhr.responseText);
+          // Optionally, display an error message to the user
+        }
+      });   
+        
       // Make AJAX request
       $.ajax({
         type: 'POST',
@@ -330,16 +364,14 @@
           // Handle successful response
           console.log(response);
           console.log('response');
-          alert('data Updated Success')
-      
-
+          alert('data Updated Success')     
         },
         error: function(xhr, status, error) {
           // Handle errors
           console.error(xhr.responseText);
           // Optionally, display an error message to the user
         }
-      });
+      });    
     });
   });
 </script>
