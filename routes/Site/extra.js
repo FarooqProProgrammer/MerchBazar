@@ -7,6 +7,7 @@ const designModel = require('../../model/Site/CheckDesign');
 const Coupon = require('../../model/Site/coupon');
 const designUpdate = require('../../model/Pages/designModelSchema');
 const DesignAlbum = require('../../model/Site/albumModel');
+const { getContactInfo } = require('../../controller/Contact/ContactController');
 const route = express.Router();
 
 
@@ -326,5 +327,8 @@ route.get('/get-album/:id', async (req, res) => {
 });
 
 
+
+// GET CONTACT
+route.get('/get-contact',getContactInfo)
 
 module.exports = route
