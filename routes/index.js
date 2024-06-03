@@ -180,6 +180,34 @@ function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
+router.get('/marketplace-artist-v2', async function (req, res) {
+
+  const userId = req.cookies.user._id;
+  const StoreProductData = await StoreProduct.find().populate('userId');
+
+  const updatedStordData = StoreProductData.filter((item) => item.userId._id == userId);
+
+  
+  const updateDesign = updatedStordData?.map(item => {
+    return { title: item.title };
+  });
+  
+  for (const item of updateDesign) {
+
+    const design = await desigModel.find({ title:item.title });
+
+    // Now you have the design associated with the current StoreProductData item
+    console.log(design);
+    break
+}
+
+
+  console.log(updatedStordData)
+
+
+  res.render('frontend/marketplace-artist-v2', { updatedStordData })
+})
+
 
 router.get('/marketplace-design', async function (req, res, next) {
   try {
